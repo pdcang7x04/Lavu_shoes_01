@@ -7,6 +7,7 @@ import Onboard from '../page/onboar/screen/Onboard';
 import Login from '../page/Login/Login';
 import Register from '../page/Login/Register';
 import RecoveryPassword from '../page/Login/RecoveryPassword';
+import Home from '../page/home/screen/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,8 @@ const UserNavigation = () => {
       <Stack.Screen name={mainstack.login} component={Login}/>
       <Stack.Screen name={mainstack.register} component={Register}/>
       <Stack.Screen name={mainstack.recoveryPassword} component={RecoveryPassword}/>
+      <Stack.Screen name={mainstack.home} component={Home}/>
+
     </Stack.Navigator>
   )
 }

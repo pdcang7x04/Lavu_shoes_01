@@ -25,6 +25,7 @@ const Login = (props) => {
       // Get the user's ID token
       const userInfo = await GoogleSignin.signIn();
       console.log('user: ', userInfo.data.user);
+      navigation.navigate(mainstack.home)
 
       console.log('User signed in with Google!');
     } catch (error) {

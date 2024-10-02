@@ -7,4 +7,5 @@ export const mainstack = {
     register: 'register',
     recoveryPassword: 'recovery_password',
     main_navigation: 'mainNavigation',
+    home: "home"
 }
