@@ -1,49 +1,53 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native'
 import React, { useState } from 'react'
-import { t } from '../../styles/font'
-import { colors } from '../../styles/colors'
 import { mainstack } from '../../navigation/mainstack'
+import { colors } from '../../styles/colors'
+import { t } from '../../styles/font'
 
-const RecoveryPassword = (props) => {
-  const {navigation} = props
 
-  const [Email, setEmail] = useState('')
+
+
+const Password_authentication = (props) => {
+    const { navigation } = props;
+
+    const [Password, setPassword] = useState('')
+   
   return (
-    <View style={styles.container}>
+    <View style ={styles.container}>
       <Image
         source={require('../../images/icon_back.png')}
         style={styles.iconBack}
       />
 
-      <Text style={styles.textHello}>Recovery Password</Text>
-      <Text style={styles.contentHello}>Please Enter Your Email Address To Recieve a Verification Code</Text>
 
-      <View style={styles.viewInput}>
-        <Text style={styles.title}>Email Address</Text>
+       <Text style={styles.textHello}>Password authentication</Text>
+       <Text style={styles.contentHello}>Enter 4-digits code we sent you on your phone number</Text>
+
+
+       <View style={styles.viewInput}>
+        
         <View style={styles.viewTextInput}>
           <TextInput
-            value={Email}
-            onChangeText={val => setEmail(val)}
-            placeholder='aaaaa@gmail.com'
+            value={Password}
+            onChangeText={val => setPassword(val)}
+            placeholder='4444'
             style={styles.textInput}
             keyboardType='email-address'
             autoCapitalize='none'
           />
         </View>
       </View>
-
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={() => navigation.navigate(mainstack.passwordauthentication)}
+        onPress={() => navigation.navigate(mainstack.setupnewpassword)}
       >
         <Text style={[styles.textButton, { color: colors.white }]}>Continue</Text>
       </TouchableOpacity>
-
     </View>
   )
 }
 
-export default RecoveryPassword
+export default Password_authentication
 
 const styles = StyleSheet.create({
   container: {
@@ -81,13 +85,6 @@ const styles = StyleSheet.create({
   viewInput: {
     width: '100%',
     marginTop: 30,
-  },
-  title: {
-    fontFamily: t.Roboto_Bold,
-    fontWeight: '500',
-    fontSize: 16,
-    color: colors.black1,
-    alignSelf: 'flex-start',
   },
   viewTextInput: {
     flexDirection: 'row',
@@ -146,4 +143,5 @@ const styles = StyleSheet.create({
   color: {
     color: colors.orange1,
   }
+    
 })
