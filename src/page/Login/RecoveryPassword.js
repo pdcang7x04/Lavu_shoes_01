@@ -34,7 +34,7 @@ const RecoveryPassword = (props) => {
 
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={''}
+        onPress={() => navigation.navigate(mainstack.passwordauthentication)}
       >
         <Text style={[styles.textButton, { color: colors.white }]}>Continue</Text>
       </TouchableOpacity>
