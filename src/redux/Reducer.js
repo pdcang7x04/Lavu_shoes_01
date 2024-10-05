@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { builderRegister } from "./User/ExtraReducerUser";
 
 const appSlice = createSlice({
     name: "Lavu",
@@ -7,8 +8,9 @@ const appSlice = createSlice({
         user: null
     },
     reducers: {},
-    // extraReducers: (builder) => {
-    // },
+    extraReducers: (builder) => {
+        builderRegister(builder);
+    },
 
 })
 

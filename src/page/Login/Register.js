@@ -2,11 +2,39 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'reac
 import React, { useState } from 'react'
 import { t } from '../../styles/font'
 import { colors } from '../../styles/colors'
+import { validateEmail, validatePassword, validateUsername } from '../../middlewares/Validate'
+import { register } from '../../redux/User/CallAPIUser'
+import { useDispatch, useSelector } from 'react-redux'
+
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
 
 const Register = () => {
 
-  const [Email, setEmail] = useState('')
-  const [Password, setPassword] = useState('')
+  const dispatch = useDispatch();
+  const appState = useAppSelector((state) => state.authen);
+
+  const [Username, setUsername] = useState('Phạm Đình Cang')
+  const [Email, setEmail] = useState('cnkhn123@gmail.com')
+  const [Password, setPassword] = useState('Cang@123')
+
+  //đăng ký 
+  const handleRegister = async () => {
+    validateUsername(Username)
+    validateEmail(Email)
+    validatePassword(Password)
+
+    try {
+      const body = {
+        username: Username,
+        email: Email,
+        password: Password
+      }
+      dispatch(register(body))
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <View style={styles.container}>
       <Image
@@ -21,8 +49,8 @@ const Register = () => {
         <Text style={styles.title}>Your Name</Text>
         <View style={styles.viewTextInput}>
           <TextInput
-            value={Email}
-            onChangeText={val => setEmail(val)}
+            value={Username}
+            onChangeText={val => setUsername(val)}
             placeholder='Nguyễn Văn A'
             style={styles.textInput}
           />
@@ -66,7 +94,7 @@ const Register = () => {
 
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={''}
+        onPress={() => handleRegister()}
       >
         <Text style={[styles.textButton, { color: colors.white }]}>Sign Up</Text>
       </TouchableOpacity>
