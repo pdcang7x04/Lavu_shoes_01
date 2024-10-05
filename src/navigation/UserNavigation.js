@@ -22,6 +22,10 @@ const UserNavigation = () => {
       <Stack.Screen name={mainstack.login} component={Login}/>
       <Stack.Screen name={mainstack.register} component={Register}/>
       <Stack.Screen name={mainstack.recoveryPassword} component={RecoveryPassword}/>
+      <Stack.Screen name={mainstack.passwordauthentication} component={Password_authentication}/>
+      <Stack.Screen name={mainstack.setupnewpassword} component={Setup_New_Password}/>
+      <Stack.Screen name={mainstack.changpassword} component={Chang_Password}/>
+      <Stack.Screen name ={mainstack.shippingaddress} component={Shipping_Address}/>
       <Stack.Screen name={mainstack.home} component={Home}/>
 
     </Stack.Navigator>
