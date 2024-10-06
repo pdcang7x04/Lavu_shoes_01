@@ -7,7 +7,8 @@ import Onboard from '../page/onboar/screen/Onboard';
 import Login from '../page/Login/Login';
 import Register from '../page/Login/Register';
 import RecoveryPassword from '../page/Login/RecoveryPassword';
-import Home from '../page/home/screen/Home';
+import Password_authentication from '../page/Login/Password_authentication';
+import Setup_New_Password from '../page/Login/Setup_New_Password';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,9 +25,6 @@ const UserNavigation = () => {
       <Stack.Screen name={mainstack.recoveryPassword} component={RecoveryPassword}/>
       <Stack.Screen name={mainstack.passwordauthentication} component={Password_authentication}/>
       <Stack.Screen name={mainstack.setupnewpassword} component={Setup_New_Password}/>
-      <Stack.Screen name={mainstack.changpassword} component={Chang_Password}/>
-      <Stack.Screen name ={mainstack.shippingaddress} component={Shipping_Address}/>
-      <Stack.Screen name={mainstack.home} component={Home}/>
 
     </Stack.Navigator>
   )

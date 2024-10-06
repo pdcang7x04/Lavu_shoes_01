@@ -1,13 +1,33 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ToastAndroid } from 'react-native'
 import { mainstack } from '../../navigation/mainstack'
 import { colors } from '../../styles/colors'
 import { t } from '../../styles/font'
 import React, { useState } from 'react'
+import AxiosInstance from '../../helper/AxiosInstance'
+import { validateEmail, validatePassword } from '../../middlewares/Validate'
 
 const Setup_New_Password = (props) => {
-    const { navigation } = props;
-    const [NewPassword, setNewPassword] = useState('')
-    const [RepeatPassword, setRepeatPassword] = useState('')
+    const { navigation, route } = props;
+    const {params} = route
+    const [NewPassword, setNewPassword] = useState('Cang@123')
+    const [RepeatPassword, setRepeatPassword] = useState('Cang@123')
+    // console.log(params.email)
+
+    
+
+    const setUpNewPassword = async () => {
+      validatePassword(NewPassword)
+      if(NewPassword !== RepeatPassword){
+        ToastAndroid.show("Passwords do not match", ToastAndroid.SHORT)
+        return
+      }
+
+      const response = await AxiosInstance().put(`/users/forgotPassword/${params.email}`, {password: NewPassword});
+      console.log('res: ', response.data);
+      if (response.status) {
+        // navigation.navigate(mainstack.setupnewpassword)
+      }
+    }
   return (
     <View style={styles.container}>
      <Image
@@ -59,7 +79,7 @@ const Setup_New_Password = (props) => {
       </View>
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={() => navigation.navigate(mainstack.changpassword)}
+        onPress={() => setUpNewPassword()}
       >
         <Text style={[styles.textButton, { color: colors.white }]}>Save</Text>
       </TouchableOpacity>

@@ -3,14 +3,34 @@ import React, { useState } from 'react'
 import { mainstack } from '../../navigation/mainstack'
 import { colors } from '../../styles/colors'
 import { t } from '../../styles/font'
+import AxiosInstance from '../../helper/AxiosInstance'
+import { useDispatch, useSelector } from 'react-redux'
 
-
-
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
 
 const Password_authentication = (props) => {
-    const { navigation } = props;
+    const { navigation, route } = props;
+    const {params} = route
+
+    const dispatch = useDispatch();
+    const appState = useAppSelector((state) => state.lavu);  
 
     const [Password, setPassword] = useState('')
+    console.log(params.email)
+
+    const data = {
+      _id: appState.otp._id,
+      otp: Password
+    }
+
+    const verifyOTP = async () => {
+      const response = await AxiosInstance().post(`/users/verifyOTP`, data);
+      console.log('res: ', response.data);
+      if (response.status) {
+        navigation.navigate(mainstack.setupnewpassword, {email: params.email})
+      }
+    }
    
   return (
     <View style ={styles.container}>
@@ -32,14 +52,14 @@ const Password_authentication = (props) => {
             onChangeText={val => setPassword(val)}
             placeholder='4444'
             style={styles.textInput}
-            keyboardType='email-address'
+            keyboardType='phone-pad'
             autoCapitalize='none'
           />
         </View>
       </View>
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={() => navigation.navigate(mainstack.setupnewpassword)}
+        onPress={() => verifyOTP()}
       >
         <Text style={[styles.textButton, { color: colors.white }]}>Continue</Text>
       </TouchableOpacity>

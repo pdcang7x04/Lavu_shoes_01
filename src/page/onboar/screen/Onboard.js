@@ -20,6 +20,7 @@ const Onboard = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            
             <FlatList
                 data={slide}
                 keyExtractor={item => item.id}

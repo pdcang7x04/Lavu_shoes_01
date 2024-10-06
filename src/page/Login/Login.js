@@ -4,19 +4,31 @@ import { t } from '../../styles/font';
 import { colors } from '../../styles/colors';
 import { mainstack } from '../../navigation/mainstack';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, signInWithGoogle } from '../../redux/User/CallAPIUser';
+import { validateEmail, validatePassword } from '../../middlewares/Validate';
+
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
 
 const Login = (props) => {
   const { navigation } = props;
 
-  const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const appState = useAppSelector((state) => state.lavu);
 
+  const [Email, setEmail] = useState('nhocrok@gmail.com')
+  const [Password, setPassword] = useState('Cang@123')
+  const [SecureTextEntry, setSecureTextEntry] = useState(true)
+
+// SIGN IN WITH GOOGLE
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: '422139788573-cj47q1k6gvqk03r6h0qgd9cvea0264gd.apps.googleusercontent.com',
     });
   }, []);
 
+  
   async function onGoogleButtonPress() {
     try {
       // Check if your device supports Google Play
@@ -25,17 +37,45 @@ const Login = (props) => {
       // Get the user's ID token
       const userInfo = await GoogleSignin.signIn();
       console.log('user: ', userInfo.data.user);
-      navigation.navigate(mainstack.home)
-
-      console.log('User signed in with Google!');
+      const body = {
+        username: userInfo.data.user.name,
+        email: userInfo.data.user.email,
+        image: userInfo.data.user.photo
+      }
+      dispatch(signInWithGoogle(body))
     } catch (error) {
       console.log('error:', error.message);
     }
   }
 
+  // ĐĂNG NHẬP
+  const handleLogin = async () => {
+    validateEmail(Email)
+    validatePassword(Password)
+
+    try {
+      const body = {
+        email: Email,
+        password: Password
+      }
+      dispatch(login(body))
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const hidePassword = () => {
+    if(SecureTextEntry == true){
+      setSecureTextEntry(false)
+    }else{
+      setSecureTextEntry(true)
+    }
+  }
+
+
   return (
     <View style={styles.container}>
-      <Image source={require('../../images/icon_back.png')} style={styles.iconBack} />
 
       <Text style={styles.textHello}>Hello Again!</Text>
       <Text style={styles.contentHello}>Welcome Back You’ve Been Missed!</Text>
@@ -62,9 +102,9 @@ const Login = (props) => {
             onChangeText={val => setPassword(val)}
             style={styles.textInput}
             autoCapitalize='none'
-            secureTextEntry={true}
+            secureTextEntry={SecureTextEntry}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={hidePassword}>
             <Image
               source={require('../../images/icon_close_eye.png')}
               style={styles.iconTextInput}
@@ -82,9 +122,7 @@ const Login = (props) => {
 
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={() => {
-          // Handle email/password login here
-        }}
+        onPress={handleLogin}
       >
         <Text style={[styles.textButton, { color: colors.white }]}>Sign In</Text>
       </TouchableOpacity>
@@ -133,7 +171,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: colors.black1,
     lineHeight: 36,
-    marginTop: 32,
+    marginTop: 76,
   },
   contentHello: {
     fontFamily: t.Roboto_Bold,

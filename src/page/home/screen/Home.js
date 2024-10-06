@@ -3,9 +3,9 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <ScrollView>
-        
-    </ScrollView>
+    <View style={{alignItems: 'center', justifyContent: 'center', height:"100%"}}>
+        <Text>Home</Text>
+    </View>
   )
 }
 
