@@ -11,5 +11,6 @@ export const mainstack = {
     passwordauthentication:"passwordauthentication",
     setupnewpassword:"setupnewpassword",
     changpassword:"changpassword",
-    shippingaddress:"shippingaddress"
+    shippingaddress:"shippingaddress",
+    profile:"profile"
 }
