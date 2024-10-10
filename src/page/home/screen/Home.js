@@ -1,11 +1,13 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { mainstack } from '../../../navigation/mainstack'
 
-const Home = () => {
+const Home = (props) => {
+  const {navigation} = props
   return (
-    <ScrollView>
-        
-    </ScrollView>
+    <View style={{alignItems: 'center', justifyContent: 'center', height:"100%"}}>
+        <Text onPress={() => navigation.navigate(mainstack.shippingaddress)}>Home</Text>
+    </View>
   )
 }
 

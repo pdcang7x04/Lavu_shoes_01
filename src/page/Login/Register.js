@@ -1,18 +1,94 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { t } from '../../styles/font'
 import { colors } from '../../styles/colors'
+import { validateEmail, validatePassword, validateUsername } from '../../middlewares/Validate'
+import { register, signInWithGoogle } from '../../redux/User/CallAPIUser'
+import { useDispatch, useSelector } from 'react-redux'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { mainstack } from '../../navigation/mainstack'
 
-const Register = () => {
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
 
-  const [Email, setEmail] = useState('')
-  const [Password, setPassword] = useState('')
+const Register = (props) => {
+  const {navigation} = props
+
+  const dispatch = useDispatch();
+  const appState = useAppSelector((state) => state.lavu);
+
+  const [Username, setUsername] = useState('Phạm Đình Cang')
+  const [Email, setEmail] = useState('cnkhn123@gmail.com')
+  const [Password, setPassword] = useState('Cang@123')
+  const [SecureTextEntry, setSecureTextEntry] = useState(true)
+
+// SIGN IN WITH GOOGLE
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '422139788573-cj47q1k6gvqk03r6h0qgd9cvea0264gd.apps.googleusercontent.com',
+    });
+  }, []);
+
+  async function onGoogleButtonPress() {
+    try {
+      // Check if your device supports Google Play
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+
+      // Get the user's ID token
+      const userInfo = await GoogleSignin.signIn();
+      console.log('user: ', userInfo.data.user);
+
+
+      const body = {
+        username: userInfo.data.user.name,
+        email: userInfo.data.user.email,
+        image: userInfo.data.user.photo
+      }
+      dispatch(signInWithGoogle(body))
+    } catch (error) {
+      console.log('error:', error.message);
+    }
+  }
+
+
+  //đăng ký 
+  const handleRegister = async () => {
+    validateUsername(Username)
+    validateEmail(Email)
+    validatePassword(Password)
+
+    try {
+      const body = {
+        username: Username,
+        email: Email,
+        password: Password
+      }
+      dispatch(register(body))
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const hidePassword = () => {
+    if(SecureTextEntry == true){
+      setSecureTextEntry(false)
+    }else{
+      setSecureTextEntry(true)
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../../images/icon_back.png')}
-        style={styles.iconBack}
-      />
+      <TouchableOpacity 
+        style={{alignSelf: 'flex-start'}}
+        onPress={() => navigation.goBack()}  
+      >
+        <Image
+          source={require('../../images/icon_back.png')}
+          style={styles.iconBack}
+        />
+      </TouchableOpacity>
 
       <Text style={styles.textHello}>Create Account</Text>
       <Text style={styles.contentHello}>Let’s Create Account Together</Text>
@@ -21,8 +97,8 @@ const Register = () => {
         <Text style={styles.title}>Your Name</Text>
         <View style={styles.viewTextInput}>
           <TextInput
-            value={Email}
-            onChangeText={val => setEmail(val)}
+            value={Username}
+            onChangeText={val => setUsername(val)}
             placeholder='Nguyễn Văn A'
             style={styles.textInput}
           />
@@ -51,9 +127,9 @@ const Register = () => {
             onChangeText={val => setPassword(val)}
             style={styles.textInput}
             autoCapitalize='none'
-            secureTextEntry={true}
+            secureTextEntry={SecureTextEntry}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={hidePassword}>
             <Image
               source={require('../../images/icon_close_eye.png')}
               style={styles.iconTextInput}
@@ -62,18 +138,16 @@ const Register = () => {
         </View>
       </View>
 
-      <Text style={styles.textForgot}>Recovery Password</Text>
-
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={''}
+        onPress={() => handleRegister()}
       >
         <Text style={[styles.textButton, { color: colors.white }]}>Sign Up</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.viewButtonSignIn}
-        onPress={''}
+        onPress={() => onGoogleButtonPress()}
       >
         <Image
           source={require('../../images/logo_gg.png')}
@@ -84,7 +158,7 @@ const Register = () => {
       <View style={{ flex: 1 }} />
       <Text style={styles.textBottom}>
         Already have an account? {' '}
-        <Text style={styles.color}>Sign In</Text>
+        <Text style={styles.color} onPress={() => navigation.navigate(mainstack.login)}>Sign In</Text>
       </Text>
     </View>
   )

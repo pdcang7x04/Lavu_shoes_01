@@ -3,11 +3,31 @@ import React, { useState } from 'react'
 import { t } from '../../styles/font'
 import { colors } from '../../styles/colors'
 import { mainstack } from '../../navigation/mainstack'
+import AxiosInstance from '../../helper/AxiosInstance'
+import { useDispatch, useSelector } from 'react-redux'
+import { validateEmail } from '../../middlewares/Validate'
+import { sendOTPVerificationEmail } from '../../redux/User/CallAPIUser'
+
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
 
 const RecoveryPassword = (props) => {
-  const {navigation} = props
+  const { navigation } = props
 
-  const [Email, setEmail] = useState('')
+  const dispatch = useDispatch();
+  const appState = useAppSelector((state) => state.lavu);
+
+  const [Email, setEmail] = useState('nhocrok@gmail.com')
+
+  const sendOTP = () => {
+    try {
+      validateEmail(Email)
+      dispatch(sendOTPVerificationEmail({email: Email}))
+      navigation.navigate(mainstack.passwordauthentication, {email: Email})
+    } catch (error) {
+      console.log('error:', error.message);
+    }
+  }
   return (
     <View style={styles.container}>
       <Image
@@ -34,7 +54,7 @@ const RecoveryPassword = (props) => {
 
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={() => navigation.navigate(mainstack.passwordauthentication)}
+        onPress={() => sendOTP()}
       >
         <Text style={[styles.textButton, { color: colors.white }]}>Continue</Text>
       </TouchableOpacity>
