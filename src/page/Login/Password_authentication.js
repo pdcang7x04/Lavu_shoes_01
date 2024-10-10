@@ -19,6 +19,8 @@ const Password_authentication = (props) => {
     const [Password, setPassword] = useState('')
     console.log(params.email)
 
+    // console.log(appState.otp._id)
+
     const data = {
       _id: appState.otp._id,
       otp: Password

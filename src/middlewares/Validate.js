@@ -39,7 +39,7 @@ export const validatePassword = (password) => {
     return true;
 }
 
-function isEmail(email) {
+const isEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
 }

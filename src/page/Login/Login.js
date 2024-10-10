@@ -18,7 +18,7 @@ const Login = (props) => {
   const appState = useAppSelector((state) => state.lavu);
 
   const [Email, setEmail] = useState('nhocrok@gmail.com')
-  const [Password, setPassword] = useState('Cang@123')
+  const [Password, setPassword] = useState('Cang@123456789')
   const [SecureTextEntry, setSecureTextEntry] = useState(true)
 
 // SIGN IN WITH GOOGLE
