@@ -19,10 +19,9 @@ const Password_authentication = (props) => {
     const [Password, setPassword] = useState('')
     console.log(params.email)
 
-    // console.log(appState.otp._id)
 
     const data = {
-      _id: appState.otp._id,
+      _id: appState.otp._id.toString(),
       otp: Password
     }
 
@@ -36,10 +35,12 @@ const Password_authentication = (props) => {
    
   return (
     <View style ={styles.container}>
+      <TouchableOpacity style={styles.iconBack} onPress={() => navigation.goBack()}>
       <Image
         source={require('../../images/icon_back.png')}
         style={styles.iconBack}
       />
+      </TouchableOpacity>
 
 
        <Text style={styles.textHello}>Password authentication</Text>

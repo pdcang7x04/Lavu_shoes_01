@@ -18,8 +18,8 @@ const Register = (props) => {
   const appState = useAppSelector((state) => state.lavu);
 
   const [Username, setUsername] = useState('Phạm Đình Cang')
-  const [Email, setEmail] = useState('cnkhn123@gmail.com')
-  const [Password, setPassword] = useState('Cang@123')
+  const [Email, setEmail] = useState('nhocrok@gmail.com')
+  const [Password, setPassword] = useState('Cang@123456789')
   const [SecureTextEntry, setSecureTextEntry] = useState(true)
 
 // SIGN IN WITH GOOGLE

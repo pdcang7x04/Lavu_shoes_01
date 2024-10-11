@@ -30,10 +30,12 @@ const RecoveryPassword = (props) => {
   }
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.iconBack} onPress={() => navigation.goBack()}>
       <Image
         source={require('../../images/icon_back.png')}
         style={styles.iconBack}
       />
+      </TouchableOpacity>
 
       <Text style={styles.textHello}>Recovery Password</Text>
       <Text style={styles.contentHello}>Please Enter Your Email Address To Recieve a Verification Code</Text>

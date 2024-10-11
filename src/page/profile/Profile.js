@@ -5,18 +5,31 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header';
 import InputView from '../../components/InputView';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Profile = () => {
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
+
+const Profile = (props) => {
+  const {navigation} = props
   const userName = 'User Name';
+
+  const dispatch = useDispatch();
+  const appState = useAppSelector((state) => state.lavu);
+
+  const [Username, setUsername] = useState(appState.user.username)
+  const [Email, setEmail] = useState(appState.user.email)
+
   return (
     <View>
       <ScrollView style={{height: '100%'}}>
         <View height={'100%'} marginT-40 spread>
           <KeyboardAvoidingView>
             <Header
+            action_ic_left={() => navigation.goBack()}
               customStyle={{marginTop: 8}}
               paddingH-20
               title={'Profile'}
@@ -24,29 +37,36 @@ const Profile = () => {
             <View centerH>
               <View center>
                 <Image
-                  source={require('../../images/avt.png')}
+                  source={{uri: appState.user.image}}
                   width={90}
                   height={90}
+                  borderRadius={45}
                 />
-                <View style={{marginTop: -20}}>
+                <TouchableOpacity style={{marginTop: -20}}>
                   <Image source={require('../../images/camera.png')} />
-                </View>
+                </TouchableOpacity>
               </View>
-              <Text style={styles.textUserName}>{userName}</Text>
+              <Text style={styles.textUserName}>{appState.user.username}</Text>
             </View>
             <View paddingH-20 marginT-32>
               <View marginT-16 gap-12>
                 <Text style={styles.textDecription}>Full Name</Text>
-                <InputView />
+                <InputView 
+                  value={Username}
+                  onChangeText={value => setUsername(value)}
+                />
               </View>
               <View marginT-16 gap-12>
                 <Text style={styles.textDecription}>Email Address</Text>
-                <InputView />
+                <InputView 
+                  value={Email}
+                  onChangeText={value => setEmail(value)}
+                />
               </View>
-              <View marginT-16 gap-12>
+              {/* <View marginT-16 gap-12>
                 <Text style={styles.textDecription}>Password</Text>
                 <InputView security={true} />
-              </View>
+              </View> */}
             </View>
           </KeyboardAvoidingView>
         </View>
