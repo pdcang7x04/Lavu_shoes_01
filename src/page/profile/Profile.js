@@ -80,16 +80,12 @@ const Profile = (props) => {
                   onChangeText={value => setEmail(value)}
                 />
               </View>
-              {/* <View marginT-16 gap-12>
-                <Text style={styles.textDecription}>Password</Text>
-                <InputView security={true} />
-              </View> */}
             </View>
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
       <View absB width={'100%'} padding-20>
-        <TouchableOpacity onPress={handleSave}>
+        <TouchableOpacity onPress={handleSave} style={{marginBottom: 60}}>
           <Card center paddingV-16 backgroundColor="#F15E2B" borderRadius={999}>
             <Text
               style={{

@@ -17,6 +17,8 @@ const Password_authentication = (props) => {
     const appState = useAppSelector((state) => state.lavu);  
 
     const [Password, setPassword] = useState('')
+    const [SecureTextEntry, setSecureTextEntry] = useState(true)
+
     console.log(params.email)
 
 
@@ -30,6 +32,14 @@ const Password_authentication = (props) => {
       console.log('res: ', response.data);
       if (response.status) {
         navigation.navigate(mainstack.setupnewpassword, {email: params.email})
+      }
+    }
+
+    const hidePassword = () => {
+      if(SecureTextEntry == true){
+        setSecureTextEntry(false)
+      }else{
+        setSecureTextEntry(true)
       }
     }
    
@@ -53,11 +63,18 @@ const Password_authentication = (props) => {
           <TextInput
             value={Password}
             onChangeText={val => setPassword(val)}
-            placeholder='4444'
+            placeholder='8888'
             style={styles.textInput}
-            keyboardType='phone-pad'
-            autoCapitalize='none'
+            keyboardType='number-pad'
+            
+            secureTextEntry={SecureTextEntry}
           />
+          <TouchableOpacity onPress={hidePassword}>
+            <Image
+              source={require('../../images/icon_close_eye.png')}
+              style={styles.iconTextInput}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <TouchableOpacity
@@ -73,6 +90,12 @@ const Password_authentication = (props) => {
 export default Password_authentication
 
 const styles = StyleSheet.create({
+  iconTextInput: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+    resizeMode: 'contain'
+  },
   container: {
     width: '100%',
     height: '100%',

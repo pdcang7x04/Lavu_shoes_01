@@ -11,9 +11,24 @@ const Setup_New_Password = (props) => {
   const { params } = route
   const [NewPassword, setNewPassword] = useState('Cang@123')
   const [RepeatPassword, setRepeatPassword] = useState('Cang@123')
-  // console.log(params.email)
+  const [SecureTextEntryNew, setSecureTextEntryNew] = useState(true);
+  const [SecureTextEntryRepeat, setSecureTextEntryRepeat] = useState(true);
 
+  const hideNewPassword = () => {
+    if(SecureTextEntryNew == true){
+      setSecureTextEntryNew(false)
+    }else{
+      setSecureTextEntryNew(true)
+    }
+  }
 
+  const hideRepeatPassword = () => {
+    if(SecureTextEntryRepeat == true){
+      setSecureTextEntryRepeat(false)
+    }else{
+      setSecureTextEntryRepeat(true)
+    }
+  }
 
   const setUpNewPassword = async () => {
     validatePassword(NewPassword)
@@ -50,9 +65,9 @@ const Setup_New_Password = (props) => {
             onChangeText={val => setNewPassword(val)}
             style={styles.textInput}
             autoCapitalize='none'
-            secureTextEntry={true}
+            secureTextEntry={SecureTextEntryNew}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={hideNewPassword}>
             <Image
               source={require('../../images/icon_close_eye.png')}
               style={styles.iconTextInput}
@@ -68,9 +83,9 @@ const Setup_New_Password = (props) => {
             onChangeText={val => setRepeatPassword(val)}
             style={styles.textInput}
             autoCapitalize='none'
-            secureTextEntry={true}
+            secureTextEntry={SecureTextEntryRepeat}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={hideRepeatPassword}>
             <Image
               source={require('../../images/icon_close_eye.png')}
               style={styles.iconTextInput}

@@ -13,5 +13,8 @@ export const mainstack = {
     changpassword:"changpassword",
     shippingaddress:"shippingaddress",
     accountAndSetting: "accountandsetting",
-    profile:"profile"
+    profile:"profile",
+    favorite: "favorite",
+    bestSeller: "best_seller",
+    bottomnavigation: "bottom_navigation"
 }
