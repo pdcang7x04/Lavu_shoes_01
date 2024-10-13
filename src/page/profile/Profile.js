@@ -3,12 +3,14 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
+  ToastAndroid,
   TouchableOpacity,
 } from 'react-native';
 import React, { useState } from 'react';
 import Header from '../../components/Header';
 import InputView from '../../components/InputView';
 import { useDispatch, useSelector } from 'react-redux';
+import AxiosInstance from '../../helper/AxiosInstance';
 
 const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
@@ -22,6 +24,21 @@ const Profile = (props) => {
 
   const [Username, setUsername] = useState(appState.user.username)
   const [Email, setEmail] = useState(appState.user.email)
+
+  const data = {
+    username: Username,
+    email: Email,
+    image: appState.user.image
+  }
+
+  const handleSave = async () => {
+    const response = await AxiosInstance().put(`/users/updateUser/${appState.user._id}`, data);
+    console.log('res: ', response.data);
+    if (response.status) {
+      
+      ToastAndroid.show("success", ToastAndroid.SHORT)
+    }
+  }
 
   return (
     <View>
@@ -72,7 +89,7 @@ const Profile = (props) => {
         </View>
       </ScrollView>
       <View absB width={'100%'} padding-20>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleSave}>
           <Card center paddingV-16 backgroundColor="#F15E2B" borderRadius={999}>
             <Text
               style={{
