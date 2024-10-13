@@ -43,8 +43,6 @@ const Favourite = () => {
       </View>
       <View style={styles.sectionContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.sectionTitle}>Popular Shoes</Text>
-          <Text style={styles.seeAllText}>See all</Text>
         </View>
         <FlatList
           data={popularShoes}
@@ -63,7 +61,7 @@ export default Favourite
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f8f9fb',
         padding: 30,
       },
       header: {
@@ -100,31 +98,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
       },
-      sectionTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#000',
-        fontFamily: t.Roboto_Bold,
-      },
-      seeAllText: {
-        fontSize: 16,
-        color: colors.orange1,
-      },
+
       shoeList: {
         paddingVertical: 10,
       },
       shoeCard: {
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#FFFFFF',
         borderRadius: 10,
         padding: 10,
         marginRight: 15,
         alignItems: 'center',
         width: 157,
         height:201,
-        shadowColor: '#000',
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.1,
-        shadowRadius: 4,
         elevation: 2,
         margin:10
          // Thêm cho Android
@@ -160,10 +147,6 @@ const styles = StyleSheet.create({
         width: 34,
         height: 35,
         marginLeft: 50,
-      },
-      addButtonText: {
-        color: '#fff',
-        fontSize: 20,
       },
      
 

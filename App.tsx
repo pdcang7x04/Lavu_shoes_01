@@ -20,9 +20,9 @@ const App = () => {
           backgroundColor="transparent"
         />
         {/* <AppNavigation /> */}
-        {/* <Home/> */}
+        <Home/>
         {/* <Favourite/> */}
-        <Best_Seller/>
+        {/* <Best_Seller/> */}
       </SafeAreaView>
     {/* <AccountSetting/> */}
 

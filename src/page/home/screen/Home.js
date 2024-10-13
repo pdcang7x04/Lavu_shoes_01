@@ -46,9 +46,8 @@ const Home = props => {
   const renderShoeItem2 = ({item}) => (
     <View
       style={{
-        backgroundColor: '#f9f9f9',
-        flexDirection: 'row',
-       
+        backgroundColor: '#FFFFFF',
+        flexDirection: 'row', 
         justifyContent: 'space-between',
         alignItems: 'center',
         width: 350,
@@ -91,7 +90,7 @@ const Home = props => {
         <TextInput
           style={styles.searchInput}
           placeholder="Looking for shoes"
-          placeholderTextColor="#999"
+          placeholderTextColor="#707B81"
         />
       </View>
 
@@ -126,7 +125,7 @@ const Home = props => {
           <Text style={styles.seeAllText}>See all</Text>
         </View>
         <FlatList
-          style={{width: '100%'}}
+          style={{width: '100%', backgroundColor:'#FFFFFF'}}
           data={newArrivals}
           renderItem={renderShoeItem2}
           keyExtractor={item => item.id}
@@ -144,7 +143,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fb',
     padding: 30,
   },
   header: {
@@ -170,48 +169,54 @@ const styles = StyleSheet.create({
   storeLabel: {
     fontSize: 12,
     fontWeight: '100',
-    color: '#555',
+    color: '#707B81',
     fontFamily: t.Roboto_Bold,
   },
   storeLocation: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#1A2530',
     fontFamily: t.Roboto_Bold,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#ccc',
+    borderColor: '#FFFFFF',
     borderWidth: 1,
     borderRadius: 25,
     paddingHorizontal: 10,
     marginBottom: 20,
+    backgroundColor:'#FFFFFF'
   },
   searchIcon: {
     width: 32,
     height: 32,
     marginRight: 10,
+    
   },
   searchInput: {
     flex: 1,
     height: 44,
     fontSize: 16,
     fontWeight: 'bold',
+    
   },
   sectionContainer: {
     marginBottom: 20,
+  
   },
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
+
+
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#1A2530',
     fontFamily: t.Roboto_Bold,
   },
   seeAllText: {
@@ -222,14 +227,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   shoeCard: {
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     padding: 10,
     marginRight: 15,
     alignItems: 'center',
     width: 157,
     height:201,
-    shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -267,10 +271,7 @@ const styles = StyleSheet.create({
     height: 35,
     marginLeft: 50,
   },
-  addButtonText: {
-    color: '#fff',
-    fontSize: 20,
-  },
+
   brandButton: {
     alignItems: 'center',
     marginRight: 15,
@@ -282,10 +283,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.grey1,
     marginBottom: 5,
-  },
-  brandName: {
-    fontSize: 12,
-    textAlign: 'center',
-    color: '#000',
   },
 });

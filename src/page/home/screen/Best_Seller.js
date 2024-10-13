@@ -68,7 +68,7 @@ export default Best_Seller
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f8f9fb',
         padding: 30,
       },
       header: {
@@ -107,12 +107,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
       },
-      sectionTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#000',
-        fontFamily: t.Roboto_Bold,
-      },
+      // sectionTitle: {
+      //   fontSize: 18,
+      //   fontWeight: 'bold',
+      //   color: 'black',
+      //   fontFamily: t.Roboto_Bold,
+      // },
       seeAllText: {
         fontSize: 16,
         color: colors.orange1,
@@ -121,14 +121,13 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
       },
       shoeCard: {
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#FFFFFF',
         borderRadius: 10,
         padding: 10,
         marginRight: 15,
         alignItems: 'center',
         width: 159,
         height:220,
-        shadowColor: '#000',
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.1,
         shadowRadius: 4,
@@ -169,9 +168,6 @@ const styles = StyleSheet.create({
         height: 35,
         marginLeft: 50,
       },
-      addButtonText: {
-        color: '#fff',
-        fontSize: 20,
-      },
+    
 
 })
