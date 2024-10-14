@@ -19,10 +19,10 @@ const RecoveryPassword = (props) => {
 
   const [Email, setEmail] = useState('nhocrok@gmail.com')
 
-  const sendOTP = () => {
+  const sendOTP = async () => {
     try {
       validateEmail(Email)
-      dispatch(sendOTPVerificationEmail({email: Email}))
+      await dispatch(sendOTPVerificationEmail({email: Email}))
       navigation.navigate(mainstack.passwordauthentication, {email: Email})
     } catch (error) {
       console.log('error:', error.message);
