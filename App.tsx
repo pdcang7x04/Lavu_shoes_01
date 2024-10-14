@@ -21,12 +21,8 @@ const App = () => {
           barStyle="dark-content"
           backgroundColor="transparent"
         />
-        {/* <AppNavigation /> */}
-        {/* <Home/> */}
-
-       {/* <Search/> */}
-        <Favourite/>
-        {/* <Best_Seller/> */}
+        <AppNavigation />
+    
       </SafeAreaView>
     {/* <AccountSetting/> */}
 
