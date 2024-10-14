@@ -9,6 +9,8 @@ import AccountSetting from './src/page/Account&Setting/AccountSetting';
 import Home from './src/page/home/screen/Home';
 import Favourite from './src/page/home/screen/Favourite';
 import Best_Seller from './src/page/home/screen/Best_Seller';
+import Search from './src/page/Search/Search';
+
 
 const App = () => {
   return (
@@ -20,7 +22,8 @@ const App = () => {
           backgroundColor="transparent"
         />
         {/* <AppNavigation /> */}
-        <Home/>
+        {/* <Home/> */}
+       <Search/>
         {/* <Favourite/> */}
         {/* <Best_Seller/> */}
       </SafeAreaView>
