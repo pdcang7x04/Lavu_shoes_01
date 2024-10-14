@@ -23,8 +23,9 @@ const App = () => {
         />
         {/* <AppNavigation /> */}
         {/* <Home/> */}
-       <Search/>
-        {/* <Favourite/> */}
+
+       {/* <Search/> */}
+        <Favourite/>
         {/* <Best_Seller/> */}
       </SafeAreaView>
     {/* <AccountSetting/> */}
