@@ -22,12 +22,7 @@ const App = () => {
           barStyle="dark-content"
           backgroundColor="transparent"
         />
-        {/* <AppNavigation /> */}
-        {/* <Cart /> */}
-        {/* <ItemCart /> */}
-        {/* <Notifications /> */}
-        {/* <Orderhistory /> */}
-        <NotiNP />
+        <AppNavigation />
       </SafeAreaView>
     {/* <AccountSetting/> */}
 
