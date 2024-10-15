@@ -17,10 +17,12 @@ const BestSellerItem = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.addButton,
-        { position: 'absolute', bottom: 35, right: 30 },
+        { position: 'absolute', bottom:1, left:120 },
       ]}
     >
-      <Image source={require('../../../images/add.png')} />
+      <Image source={require('../../../images/add.png')} 
+      style = {styles.addButton}
+      />
     </TouchableOpacity>
   </View>
 );
@@ -67,9 +69,9 @@ const styles = StyleSheet.create({
     fontFamily: t.Roboto_Bold,
   },
   addButton: {
-    width: 34,
-    height: 35,
-    marginLeft: 50,
+    width: 50,
+    height: 50,
+   
   },
 });
 

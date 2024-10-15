@@ -50,7 +50,7 @@ const Home = (props) => {
           placeholderTextColor="#707B81"
         />
       </View>
-
+    <View style={{width:340,height:60}}>
       <FlatList
         data={brands}
         renderItem={BrandItem}
@@ -59,8 +59,9 @@ const Home = (props) => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.brandList}
       />
+      </View>
 
-      <View style={styles.sectionContainer}>
+     <View style={styles.flatlistProduct}>
         <View style={styles.titleContainer}>
           <Text style={styles.sectionTitle}>Popular Shoes</Text>
           <Text style={styles.seeAllText}>See all</Text>
@@ -73,7 +74,8 @@ const Home = (props) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.shoeList}
         />
-      </View>
+        </View>
+     
 
       <View style={[styles.sectionContainer, { width: '100%' }]}>
         <View style={styles.titleContainer}>
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8f9fb',
     padding: 30,
-    marginTop:10,
+
     },
     header: {
     flexDirection: 'row',
@@ -144,7 +146,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 10,
     marginBottom: 20,
-    backgroundColor:'#FFFFFF'
+    backgroundColor:'#FFFFFF',
+    marginTop:10,
     },
     searchIcon: {
     width: 32,
@@ -159,22 +162,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     
     },
-    sectionContainer: {
-      marginBottom: 20,
-      
-      },
+    
       titleContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: 10,
       
+      
+      },
+      flatlistProduct:{
+        marginTop:30,
       },
       sectionTitle: {
       fontSize: 18,
       fontWeight: 'bold',
       color: '#1A2530',
       fontFamily: t.Roboto_Bold,
+      marginTop:10,
       },
       seeAllText: {
       fontSize: 16,

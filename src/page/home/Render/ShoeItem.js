@@ -14,10 +14,12 @@ const ShoeItem = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.addButton,
-        { position: 'absolute', bottom: 35, right: 30 },
+        { position: 'absolute', bottom: 1, left:120 },
       ]}
     >
-      <Image source={require('../../../images/add.png')} />
+      <Image source={require('../../../images/add.png')}
+      style={styles.addButton}
+      />
     </TouchableOpacity>
   </View>
 );
@@ -59,9 +61,9 @@ const styles = StyleSheet.create({
     color: '#000000', // Thay màu theo nhu cầu
   },
   addButton: {
-    width: 34,
-    height: 35,
-    marginLeft: 50,
+    width: 40,
+    height: 40,
+  
   },
 });
 
