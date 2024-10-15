@@ -17,10 +17,10 @@ const MainNavigation = () => {
       screenOptions={{headerShown: false}}
     >
       <Stack.Screen name={mainstack.home} component={Home}/>
-      <Stack.Screen name={mainstack.changpassword} component={Chang_Password}/>
+      {/* <Stack.Screen name={mainstack.changpassword} component={Chang_Password}/>
       <Stack.Screen name ={mainstack.shippingaddress} component={Shipping_Address}/>
       <Stack.Screen name ={mainstack.accountAndSetting} component={AccountSetting}/>
-      <Stack.Screen name ={mainstack.profile} component={Profile}/>
+      <Stack.Screen name ={mainstack.profile} component={Profile}/> */}
 
 
     </Stack.Navigator>
