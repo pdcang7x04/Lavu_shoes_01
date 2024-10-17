@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   TextBestSeller: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#FFA500', // Thay màu theo nhu cầu
     marginBottom: 5,

@@ -95,7 +95,7 @@ const Home = (props) => {
           placeholderTextColor="#707B81"
         />
       </View>
-
+    <View style={{width:340,height:60}}>
       <FlatList
         data={DataBrand}
         renderItem={({ item }) => <BrandItem item={item} />}
@@ -104,8 +104,9 @@ const Home = (props) => {
         showsHorizontalScrollIndicator={false}
       // contentContainerStyle={styles.brandList}
       />
+      </View>
 
-      <View style={styles.sectionContainer}>
+     <View style={styles.flatlistProduct}>
         <View style={styles.titleContainer}>
           <Text style={styles.sectionTitle}>Popular Shoes</Text>
           <Text style={styles.seeAllText}>See all</Text>
@@ -118,7 +119,8 @@ const Home = (props) => {
           showsHorizontalScrollIndicator={false}
           // contentContainerStyle={styles.shoeList}
         />
-      </View>
+        </View>
+     
 
       <View style={[styles.sectionContainer, { width: '100%' }]}>
         <View style={styles.titleContainer}>
@@ -144,9 +146,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8f9fb',
     padding: 30,
+
+
+    },
+    header: {
+
     marginTop: 10,
   },
   header: {
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -186,9 +194,16 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 10,
     marginBottom: 20,
+
+    backgroundColor:'#FFFFFF',
+    marginTop:10,
+    },
+    searchIcon: {
+
     backgroundColor: '#FFFFFF'
   },
   searchIcon: {
+
     width: 32,
     height: 32,
     marginRight: 10,
@@ -199,6 +214,35 @@ const styles = StyleSheet.create({
     height: 44,
     fontSize: 16,
     fontWeight: 'bold',
+
+    
+    },
+    
+      titleContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      
+      
+      },
+      flatlistProduct:{
+        marginTop:30,
+      },
+      sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#1A2530',
+      fontFamily: t.Roboto_Bold,
+      marginTop:10,
+      },
+      seeAllText: {
+      fontSize: 16,
+      color: colors.orange1,
+      },
+      shoeList: {
+      paddingVertical: 10,
+      },
+
 
   },
   sectionContainer: {
@@ -225,4 +269,5 @@ const styles = StyleSheet.create({
   shoeList: {
     paddingVertical: 10,
   },
+
 });
