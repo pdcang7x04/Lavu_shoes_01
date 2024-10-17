@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -16,9 +16,54 @@ import ShoeItem from '../Render/ShoeItem';
 import ShoeItem2 from '../Render/ShoeItem2';
 import { brands } from '../component/Item_brand';
 import { newArrivals, popularShoes } from '../component/Item_products';
+import { getBrand } from '../../../redux/brand/BrandAPI';
+import AxiosInstance from '../../../helper/AxiosInstance';
+
+const useAppDispatcher = () => useDispatch()
+const useAppSelector = useSelector
 
 const Home = (props) => {
   const { navigation } = props;
+  const [DataBrand, setDataBrand] = useState([])
+  const [DataProduct, setDataProduct] = useState([])
+
+  const dispatch = useDispatch()
+  const appState = useAppSelector((state) => state.lavu)
+
+  const fetchGetBrand = async () => {
+    try {
+      const response = await AxiosInstance().get('/brands/getBrand');
+      if (response.status) {
+        fetchGetProduct(response?.data[0]._id)
+        return await setDataBrand(response.data)
+        
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fetchGetProduct = async (brandId) => {
+    try {
+      const response = await AxiosInstance().get(`/products/getProductByBrand/${brandId}`);
+      
+      if (response.status) {
+        setDataProduct(response.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  useEffect( () => {
+    fetchGetBrand()
+    
+    }, [])
+  
+
+
+
 
   return (
     <View style={styles.container}>
@@ -52,12 +97,12 @@ const Home = (props) => {
       </View>
     <View style={{width:340,height:60}}>
       <FlatList
-        data={brands}
-        renderItem={BrandItem}
-        keyExtractor={(item) => item.id}
+        data={DataBrand}
+        renderItem={({ item }) => <BrandItem item={item} />}
+        keyExtractor={(item) => item._id}
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.brandList}
+      // contentContainerStyle={styles.brandList}
       />
       </View>
 
@@ -67,12 +112,12 @@ const Home = (props) => {
           <Text style={styles.seeAllText}>See all</Text>
         </View>
         <FlatList
-          data={popularShoes}
-          renderItem={ShoeItem}
-          keyExtractor={(item) => item.id}
+          data={DataProduct.slice(0, 2)}
+          renderItem={({item}) => <ShoeItem item={item}/>}
+          keyExtractor={(item) => item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.shoeList}
+          // contentContainerStyle={styles.shoeList}
         />
         </View>
      
@@ -84,12 +129,9 @@ const Home = (props) => {
         </View>
         <FlatList
           style={{ width: '100%', backgroundColor: '#FFFFFF' }}
-          data={newArrivals}
+          data={DataProduct.slice(0, 1)}
           renderItem={ShoeItem2}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.shoeList}
+          keyExtractor={(item) => item._id}
         />
       </View>
     </View>
@@ -105,40 +147,46 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fb',
     padding: 30,
 
+
     },
     header: {
+
+    marginTop: 10,
+  },
+  header: {
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
-    },
-    iconContainer: {
+  },
+  iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    },
-    icon: {
+  },
+  icon: {
     width: 44,
     height: 44,
     marginRight: 10,
-    },
-    icon_menu: {
+  },
+  icon_menu: {
     width: 28.5,
     height: 24,
     marginRight: 10,
-    },
-    storeLabel: {
+  },
+  storeLabel: {
     fontSize: 12,
     fontWeight: '100',
     color: '#707B81',
     fontFamily: t.Roboto_Bold,
-    },
-    storeLocation: {
+  },
+  storeLocation: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#1A2530',
     fontFamily: t.Roboto_Bold,
-    },
-    searchContainer: {
+  },
+  searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: '#FFFFFF',
@@ -146,20 +194,27 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 10,
     marginBottom: 20,
+
     backgroundColor:'#FFFFFF',
     marginTop:10,
     },
     searchIcon: {
+
+    backgroundColor: '#FFFFFF'
+  },
+  searchIcon: {
+
     width: 32,
     height: 32,
     marginRight: 10,
-    
-    },
-    searchInput: {
+
+  },
+  searchInput: {
     flex: 1,
     height: 44,
     fontSize: 16,
     fontWeight: 'bold',
+
     
     },
     
@@ -187,4 +242,32 @@ const styles = StyleSheet.create({
       shoeList: {
       paddingVertical: 10,
       },
+
+
+  },
+  sectionContainer: {
+    marginBottom: 20,
+
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1A2530',
+    fontFamily: t.Roboto_Bold,
+  },
+  seeAllText: {
+    fontSize: 16,
+    color: colors.orange1,
+  },
+  shoeList: {
+    paddingVertical: 10,
+  },
+
 });

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { builderLogin, builderRegister, builderSendOTPVerificationEmail, builderSignInWithGoogle } from "./User/ExtraReducerUser";
+import { builderGetBrand } from "./brand/ExtraReducerBrand";
 
 const appSlice = createSlice({
     name: "Lavu",
@@ -14,6 +15,7 @@ const appSlice = createSlice({
         builderSignInWithGoogle(builder)
         builderLogin(builder)
         builderSendOTPVerificationEmail(builder)
+        builderGetBrand(builder)
     },
 
 })
