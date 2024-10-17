@@ -14,6 +14,12 @@ import Search from './src/page/Search/Search';
 
 
 
+import Cart from './src/page/Cart/Cart';
+import ItemCart from './src/page/Cart/ItemCart';
+import Notifications from './src/page/notification/Notifications';
+import Orderhistory from './src/page/orderhistory/Orderhistory';
+import NotiNP from './src/page/notificationNP/NotiNP';
+
 const App = () => {
   return (
     <Provider store={store}>
