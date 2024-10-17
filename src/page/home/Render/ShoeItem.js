@@ -3,24 +3,43 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const ShoeItem = ({ item }) => (
-  <View style={[styles.shoeCard, { position: 'relative' }]}>
-    <Image source={item.image} style={styles.shoeImage} />
-    <View style={{ textAlign: 'left', width: '100%' }}>
-      <Text style={styles.TextBestSeller}>BEST SELLER</Text>
-      <Text style={styles.shoeName}>{item.name}</Text>
-      <Text style={styles.shoePrice}>{item.price}</Text>
+const ShoeItem = (props) => {
+  const {item} = props
+  console.log(item)
+
+  const statusProduct = () => {
+    if(item.status == 1){
+      return "NEW"
+    }else
+    if(item.status == 2){
+      return "BEST SELLER"
+    }else
+    if(item.status == 3){
+      return "POPULAR"
+    }else
+    if(item.status == 4){
+      return "LIMITED"
+    }
+  }
+  return (
+    <View style={[styles.shoeCard, { position: 'relative' }]}>
+      <Image source={{uri: item.image[0]}} style={styles.shoeImage} />
+      <View style={{ textAlign: 'left', width: '100%' }}>
+        <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
+        <Text style={styles.shoeName}>{item.name}</Text>
+        <Text style={styles.shoePrice}>{item.price}</Text>
+      </View>
+      <TouchableOpacity
+        style={[
+          styles.addButton,
+          { position: 'absolute', bottom: 35, right: 30 },
+        ]}
+      >
+        <Image source={require('../../../images/add.png')} />
+      </TouchableOpacity>
     </View>
-    <TouchableOpacity
-      style={[
-        styles.addButton,
-        { position: 'absolute', bottom: 35, right: 30 },
-      ]}
-    >
-      <Image source={require('../../../images/add.png')} />
-    </TouchableOpacity>
-  </View>
-);
+  )
+};
 
 const styles = StyleSheet.create({
   shoeCard: {

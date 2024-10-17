@@ -3,11 +3,15 @@
 import React from 'react';
 import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 
-const BrandItem = ({ item }) => (
-  <TouchableOpacity style={styles.brandButton}>
-    <Image source={item.image} style={styles.brandImage} />
-  </TouchableOpacity>
-);
+const BrandItem = (props) => {
+  const {item} = props
+  console.log(item)
+  return (
+    <TouchableOpacity style={styles.brandButton}>
+      <Image source={{uri: item.image}} style={styles.brandImage} />
+    </TouchableOpacity>
+  )
+};
 
 const styles = StyleSheet.create({
   brandButton: {
