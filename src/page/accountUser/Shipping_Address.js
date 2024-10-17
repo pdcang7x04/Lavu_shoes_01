@@ -1,75 +1,102 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import { mainstack } from '../../navigation/mainstack'
 import { colors } from '../../styles/colors'
 import { t } from '../../styles/font'
-import AxiosInstance from '../../helper/AxiosInstance'
 import { useDispatch, useSelector } from 'react-redux'
+import { validate_phone, validateUsername } from '../../middlewares/Validate'
+import AxiosInstance from '../../helper/AxiosInstance'
 
 const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
 
-const Password_authentication = (props) => {
-    const { navigation, route } = props;
-    const {params} = route
 
-    const dispatch = useDispatch();
-    const appState = useAppSelector((state) => state.lavu);  
+const Shipping_Address = (props) => {
+  const { navigation } = props;
+  const [Address, setAddress] = useState("quận 2")
+  const [Phone, setPhone] = useState("0123456789")
 
-    const [Password, setPassword] = useState('')
-    console.log(params.email)
+  const dispatch = useDispatch();
+  const appState = useAppSelector((state) => state.lavu);
+  console.log(appState.user._id)
 
-    // console.log(appState.otp._id)
+  const updateShippingAddress = async () => {
+    validateUsername(Address)
+    validate_phone(Phone)
 
-    const data = {
-      _id: appState.otp._id,
-      otp: Password
-    }
 
-    const verifyOTP = async () => {
-      const response = await AxiosInstance().post(`/users/verifyOTP`, data);
+    try {
+      const data = {
+        address: Address,
+        phone: Phone
+      }
+      const response = await AxiosInstance().put(`/users/updateShippingAddress/${appState.user._id}`, data);
       console.log('res: ', response.data);
       if (response.status) {
-        navigation.navigate(mainstack.setupnewpassword, {email: params.email})
+        navigation.navigate(mainstack.home)
       }
+    } catch (error) {
+      console.log(error)
     }
-   
+  }
+
   return (
-    <View style ={styles.container}>
+    <View style={styles.container}>
       <Image
         source={require('../../images/icon_back.png')}
         style={styles.iconBack}
       />
 
 
-       <Text style={styles.textHello}>Password authentication</Text>
-       <Text style={styles.contentHello}>Enter 4-digits code we sent you on your phone number</Text>
+      <Text style={styles.textHello}>Shipping Address</Text>
+      <Text style={styles.contentHello}>Please set the location you want to send to</Text>
 
-
-       <View style={styles.viewInput}>
-        
+      <View style={styles.viewInput}>
+        <Text style={styles.title}> Address</Text>
         <View style={styles.viewTextInput}>
           <TextInput
-            value={Password}
-            onChangeText={val => setPassword(val)}
-            placeholder='4444'
+            value={Address}
+            onChangeText={val => setAddress(val)}
             style={styles.textInput}
-            keyboardType='phone-pad'
             autoCapitalize='none'
           />
+          <TouchableOpacity>
+            <Image
+              source={require('../../images/icon_close_eye.png')}
+              style={styles.iconTextInput}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.viewInput}>
+        <Text style={styles.title}> Phone</Text>
+        <View style={styles.viewTextInput}>
+          <TextInput
+            value={Phone}
+            onChangeText={val => setPhone(val)}
+            style={styles.textInput}
+            autoCapitalize='none'
+          />
+          <TouchableOpacity>
+            <Image
+              source={require('../../images/icon_close_eye.png')}
+              style={styles.iconTextInput}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={() => verifyOTP()}
+        onPress={updateShippingAddress}
       >
-        <Text style={[styles.textButton, { color: colors.white }]}>Continue</Text>
+        <Text style={[styles.textButton, { color: colors.white }]}>Save</Text>
       </TouchableOpacity>
     </View>
   )
 }
 
-export default Password_authentication
+export default Shipping_Address
 
 const styles = StyleSheet.create({
   container: {
@@ -85,6 +112,13 @@ const styles = StyleSheet.create({
     height: 44,
     alignSelf: 'flex-start',
     marginTop: 8
+  },
+  title: {
+    fontFamily: t.Roboto_Bold,
+    fontWeight: '500',
+    fontSize: 16,
+    color: colors.black1,
+    alignSelf: 'flex-start',
   },
   textHello: {
     fontFamily: t.Roboto_Bold,
@@ -165,5 +199,5 @@ const styles = StyleSheet.create({
   color: {
     color: colors.orange1,
   }
-    
+
 })
