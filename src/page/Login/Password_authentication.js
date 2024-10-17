@@ -17,12 +17,13 @@ const Password_authentication = (props) => {
     const appState = useAppSelector((state) => state.lavu);  
 
     const [Password, setPassword] = useState('')
+    const [SecureTextEntry, setSecureTextEntry] = useState(true)
+
     console.log(params.email)
 
-    // console.log(appState.otp._id)
 
     const data = {
-      _id: appState.otp._id,
+      _id: appState.otp._id.toString(),
       otp: Password
     }
 
@@ -33,13 +34,23 @@ const Password_authentication = (props) => {
         navigation.navigate(mainstack.setupnewpassword, {email: params.email})
       }
     }
+
+    const hidePassword = () => {
+      if(SecureTextEntry == true){
+        setSecureTextEntry(false)
+      }else{
+        setSecureTextEntry(true)
+      }
+    }
    
   return (
     <View style ={styles.container}>
+      <TouchableOpacity style={styles.iconBack} onPress={() => navigation.goBack()}>
       <Image
         source={require('../../images/icon_back.png')}
         style={styles.iconBack}
       />
+      </TouchableOpacity>
 
 
        <Text style={styles.textHello}>Password authentication</Text>
@@ -52,11 +63,18 @@ const Password_authentication = (props) => {
           <TextInput
             value={Password}
             onChangeText={val => setPassword(val)}
-            placeholder='4444'
+            placeholder='8888'
             style={styles.textInput}
-            keyboardType='phone-pad'
-            autoCapitalize='none'
+            keyboardType='number-pad'
+            
+            secureTextEntry={SecureTextEntry}
           />
+          <TouchableOpacity onPress={hidePassword}>
+            <Image
+              source={require('../../images/icon_close_eye.png')}
+              style={styles.iconTextInput}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <TouchableOpacity
@@ -72,6 +90,12 @@ const Password_authentication = (props) => {
 export default Password_authentication
 
 const styles = StyleSheet.create({
+  iconTextInput: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+    resizeMode: 'contain'
+  },
   container: {
     width: '100%',
     height: '100%',

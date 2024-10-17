@@ -33,7 +33,7 @@ const Shipping_Address = (props) => {
       const response = await AxiosInstance().put(`/users/updateShippingAddress/${appState.user._id}`, data);
       console.log('res: ', response.data);
       if (response.status) {
-        navigation.navigate(mainstack.home)
+        navigation.goBack()
       }
     } catch (error) {
       console.log(error)
@@ -42,10 +42,12 @@ const Shipping_Address = (props) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../../images/icon_back.png')}
-        style={styles.iconBack}
-      />
+      <TouchableOpacity style={{alignSelf: 'flex-start'}} onPress={() => navigation.goBack()}>
+        <Image
+          source={require('../../images/icon_back.png')}
+          style={styles.iconBack}
+        />
+      </TouchableOpacity>
 
 
       <Text style={styles.textHello}>Shipping Address</Text>

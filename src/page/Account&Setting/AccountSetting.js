@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import {Card, View, Text, Switch} from 'react-native-ui-lib';
 import Header from '../../components/Header';
-import {useNavigation} from '@react-navigation/native';
+import { mainstack } from '../../navigation/mainstack';
+import { useDispatch, useSelector } from 'react-redux';
 
 const notificationIcon = require('../../images/notifications.png');
 const shippingIcon = require('../../images/shopping.png');
@@ -17,8 +18,15 @@ const passwordIcon = require('../../images/icon.png');
 const logoutIcon = require('../../images/logout.webp');
 const ArrowIcon = require('../../images/Arrow.png');
 
-const AccountSetting = () => {
-  const navigation = useNavigation();
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
+
+
+const AccountSetting = (props) => {
+  const {navigation} = props
+
+  const dispatch = useDispatch();
+  const appState = useAppSelector((state) => state.lavu);
 
   const [faceIdEnabled, setFaceIdEnabled] = useState(false);
   const [pushNotificationsEnabled, setPushNotificationsEnabled] =
@@ -26,16 +34,17 @@ const AccountSetting = () => {
   const [locationServicesEnabled, setLocationServicesEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
 
+  
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View height={'100%'} marginT-40 spread>
           <KeyboardAvoidingView>
-            <Header
-              customStyle={{marginTop: 8}}
-              paddingH-20
-              title={'Account & Settings'}
-            />
+            <Header 
+              action_ic_left={() => navigation.goBack()}
+              customStyle={{ marginTop: 8 }} 
+              paddingH-20 title={'Account & Settings'} />
 
             <View paddingH-15 marginT-20>
               <View style={styles.section}>
@@ -51,7 +60,7 @@ const AccountSetting = () => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(mainstack.shippingaddress)}>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={shippingIcon} style={styles.icon} />
@@ -71,7 +80,7 @@ const AccountSetting = () => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(mainstack.changpassword)}>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={passwordIcon} style={styles.icon} />
@@ -81,7 +90,7 @@ const AccountSetting = () => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} >
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={logoutIcon} style={styles.icon} />

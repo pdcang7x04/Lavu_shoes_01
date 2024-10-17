@@ -37,7 +37,7 @@ const Chang_Password = (props) => {
         const response = await AxiosInstance().put(`/users/changePassword/${appState.user.email}`, data);
       console.log('res: ', response.data);
       if (response.status) {
-        navigation.navigate(mainstack.home)
+        navigation.goBack()
       }
       } catch (error) {
         console.log(error)
@@ -45,10 +45,12 @@ const Chang_Password = (props) => {
     }
   return (
     <View style ={styles.container}>
+      <TouchableOpacity style={{alignSelf: 'flex-start'}} onPress={() => navigation.goBack()}>
       <Image
         source={require('../../images/icon_back.png')}
         style={styles.iconBack}
       />
+      </TouchableOpacity>
 
 
        <Text style={styles.textHello}>Change Password</Text>
