@@ -34,17 +34,18 @@ const Home = (props) => {
     try {
       const response = await AxiosInstance().get('/brands/getBrand');
       if (response.status) {
-        setDataBrand(response.data)
+        fetchGetProduct(response?.data[0]._id)
+        return await setDataBrand(response.data)
+        
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  const fetchGetProduct = async () => {
+  const fetchGetProduct = async (brandId) => {
     try {
-      console.log()
-      const response = await AxiosInstance().get(`/products/getProductByBrand/${DataBrand[0]}?limit=2`);
+      const response = await AxiosInstance().get(`/products/getProductByBrand/${brandId}`);
       
       if (response.status) {
         setDataProduct(response.data)
@@ -54,10 +55,14 @@ const Home = (props) => {
     }
   }
 
-  useEffect(() => {
+
+  useEffect( () => {
     fetchGetBrand()
-    fetchGetProduct()
-  }, [])
+    
+    }, [])
+  
+
+
 
 
   return (
@@ -106,7 +111,7 @@ const Home = (props) => {
           <Text style={styles.seeAllText}>See all</Text>
         </View>
         <FlatList
-          data={DataProduct}
+          data={DataProduct.slice(0, 2)}
           renderItem={({item}) => <ShoeItem item={item}/>}
           keyExtractor={(item) => item._id}
           horizontal
@@ -122,12 +127,9 @@ const Home = (props) => {
         </View>
         <FlatList
           style={{ width: '100%', backgroundColor: '#FFFFFF' }}
-          data={newArrivals}
+          data={DataProduct.slice(0, 1)}
           renderItem={ShoeItem2}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.shoeList}
+          keyExtractor={(item) => item._id}
         />
       </View>
     </View>

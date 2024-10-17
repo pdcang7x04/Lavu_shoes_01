@@ -3,16 +3,25 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 
-const ShoeItem2 = ({ item }) => (
+const ShoeItem2 = (props) => {
+  const {item} = props
+  console.log("item: ", item)
+
+  const statusProduct = () => {
+    if(item.status == 4){
+      return "LIMITED"
+    }
+  }
+  return(
   <View style={styles.container}>
     <View style={{ flex: 1 }}>
-      <Text style={styles.TextBestSeller}>Best Choice</Text>
+      <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
       <Text style={styles.shoeName}>{item.name}</Text>
       <Text style={styles.shoePrice}>{item.price}</Text>
     </View>
-    <Image source={item.image} style={styles.shoeImage} />
+    <Image source={{uri: item.image[0]}} style={styles.shoeImage} />
   </View>
-);
+)};
 
 const styles = StyleSheet.create({
   container: {
