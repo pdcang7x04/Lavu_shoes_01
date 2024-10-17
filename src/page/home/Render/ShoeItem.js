@@ -27,19 +27,9 @@ const ShoeItem = (props) => {
       <View style={{ textAlign: 'left', width: '100%' }}>
         <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
         <Text style={styles.shoeName}>{item.name}</Text>
-        <Text style={styles.shoePrice}>{item.price}</Text>
+        <Text style={styles.shoePrice}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</Text>
       </View>
       <TouchableOpacity
-        style={[
-          styles.addButton,
-          { position: 'absolute', bottom: 35, right: 30 },
-        ]}
-      >
-        <Image source={require('../../../images/add.png')} />
-      </TouchableOpacity>
-    </View>
-
-    <TouchableOpacity
       style={[
         styles.addButton,
         { position: 'absolute', bottom: 1, left:120 },
@@ -49,10 +39,10 @@ const ShoeItem = (props) => {
       style={styles.addButton}
       />
     </TouchableOpacity>
-  </View>
+    </View>
+
 );
 
-  )
 };
 
 

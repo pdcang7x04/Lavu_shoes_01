@@ -16,5 +16,9 @@ export const mainstack = {
     profile:"profile",
     favorite: "favorite",
     bestSeller: "best_seller",
-    bottomnavigation: "bottom_navigation"
+    bottomnavigation: "bottom_navigation",
+    cart: "cart",
+    orderHistory: "orderHistory",
+    search: "search",
+    notification: "notification",
 }

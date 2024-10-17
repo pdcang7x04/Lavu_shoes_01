@@ -1,9 +1,16 @@
 import { StyleSheet, Text, View,Image,TextInput } from 'react-native'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import {colors} from '../../styles/colors';
 import {t} from '../../styles/font';
 
 const Search = () => {
+  const textInputRef = useRef(null); // Tạo tham chiếu cho TextInput
+
+  useEffect(() => {
+    if (textInputRef.current) {
+      textInputRef.current.focus(); // Gọi focus khi component được mount
+    }
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -25,12 +32,13 @@ const Search = () => {
           style={styles.searchIcon}
         />
         <TextInput
+        ref={textInputRef}
           style={styles.searchInput}
           placeholder="Looking for shoes"
           placeholderTextColor="#707B81"
         />
       </View>
-        <Text style={styles.storeLocation}>Shoes</Text>
+        {/* <Text style={styles.storeLocation}>Shoes</Text> */}
     </View>
   )
 }

@@ -5,14 +5,41 @@ import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { t } from '../../../styles/font';
 
-const BestSellerItem = ({ item }) => (
+const BestSellerItem = (props) => {
+  const {item} = props
+
+  const statusProduct = () => {
+    if(item.status == 1){
+      return "NEW"
+    }else
+    if(item.status == 2){
+      return "BEST SELLER"
+    }else
+    if(item.status == 3){
+      return "POPULAR"
+    }else
+    if(item.status == 4){
+      return "LIMITED"
+    }
+  }
+
+  const catetory = () => {
+    if(item.category.name === 'Nam'){
+      return "Giày Nam"
+    }
+    if(item.category.name === 'Nữ'){
+      return "Giày Nữ"
+    }
+  
+  }
+  return(
   <View style={[styles.shoeCard, { position: 'relative' }]}>
-    <Image source={item.image} style={styles.shoeImage} />
+    <Image source={{uri: item.image[0]}} style={styles.shoeImage} />
     <View style={{ textAlign: 'left', width: '100%' }}>
-      <Text style={styles.TextBestSeller}>BEST SELLER</Text>
-      <Text style={styles.textCategory}>{item.category}</Text>
+      <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
       <Text style={styles.shoeName}>{item.name}</Text>
-      <Text style={styles.shoePrice}>{item.price}</Text>
+      <Text style={styles.textCategory}>{catetory()}</Text>
+      <Text style={styles.shoePrice}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</Text>
     </View>
     <TouchableOpacity
       style={[
@@ -25,7 +52,7 @@ const BestSellerItem = ({ item }) => (
       />
     </TouchableOpacity>
   </View>
-);
+)};
 
 const styles = StyleSheet.create({
   shoeCard: {
