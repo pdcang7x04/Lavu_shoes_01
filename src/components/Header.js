@@ -54,7 +54,6 @@ export default Header;
 
 const styles = StyleSheet.create({
   textBig: {
-    textAlign: 'center',
     color: '#1A2530',
     fontSize: 16,
     fontFamily: 'Roboto',

@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Card, View, Text, Switch } from 'react-native-ui-lib';
+import React, {useState} from 'react';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import {Card, View, Text, Switch} from 'react-native-ui-lib';
 import Header from '../../components/Header';
+import {useNavigation} from '@react-navigation/native';
 
 const notificationIcon = require('../../images/notifications.png');
 const shippingIcon = require('../../images/shopping.png');
@@ -11,8 +18,11 @@ const logoutIcon = require('../../images/logout.webp');
 const ArrowIcon = require('../../images/Arrow.png');
 
 const AccountSetting = () => {
+  const navigation = useNavigation();
+
   const [faceIdEnabled, setFaceIdEnabled] = useState(false);
-  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(true);
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] =
+    useState(true);
   const [locationServicesEnabled, setLocationServicesEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
 
@@ -21,7 +31,11 @@ const AccountSetting = () => {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View height={'100%'} marginT-40 spread>
           <KeyboardAvoidingView>
-            <Header customStyle={{ marginTop: 8 }} paddingH-20 title={'Account & Settings'} />
+            <Header
+              customStyle={{marginTop: 8}}
+              paddingH-20
+              title={'Account & Settings'}
+            />
 
             <View paddingH-15 marginT-20>
               <View style={styles.section}>
@@ -83,22 +97,34 @@ const AccountSetting = () => {
 
                 <View style={styles.item}>
                   <Text style={styles.itemText}>Enable Face ID For Log In</Text>
-                  <Switch value={faceIdEnabled} onValueChange={setFaceIdEnabled} />
+                  <Switch
+                    value={faceIdEnabled}
+                    onValueChange={setFaceIdEnabled}
+                  />
                 </View>
 
                 <View style={styles.item}>
                   <Text style={styles.itemText}>Enable Push Notifications</Text>
-                  <Switch value={pushNotificationsEnabled} onValueChange={setPushNotificationsEnabled} />
+                  <Switch
+                    value={pushNotificationsEnabled}
+                    onValueChange={setPushNotificationsEnabled}
+                  />
                 </View>
 
                 <View style={styles.item}>
                   <Text style={styles.itemText}>Enable Location Services</Text>
-                  <Switch value={locationServicesEnabled} onValueChange={setLocationServicesEnabled} />
+                  <Switch
+                    value={locationServicesEnabled}
+                    onValueChange={setLocationServicesEnabled}
+                  />
                 </View>
 
                 <View style={styles.item}>
                   <Text style={styles.itemText}>Dark Mode</Text>
-                  <Switch value={darkModeEnabled} onValueChange={setDarkModeEnabled} />
+                  <Switch
+                    value={darkModeEnabled}
+                    onValueChange={setDarkModeEnabled}
+                  />
                 </View>
               </View>
             </View>
