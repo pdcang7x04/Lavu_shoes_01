@@ -7,12 +7,13 @@ const Button = ({
   onPress = () => {},
   customStyle = {},
   customTextStyle = {},
+  backgroundColor,
   ...props
 }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <Card
-        backgroundColor="#F15E2B"
+        backgroundColor={backgroundColor || '#F15E2B'}
         center
         paddingV-16
         paddingH-32
