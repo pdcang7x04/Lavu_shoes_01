@@ -2,9 +2,12 @@
 
 import React from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { mainstack } from '../../../navigation/mainstack';
+import { useNavigation } from '@react-navigation/native';
 
 const ShoeItem = (props) => {
   const {item} = props
+  const navigation = useNavigation()
   console.log(item)
 
   const statusProduct = () => {
@@ -22,7 +25,10 @@ const ShoeItem = (props) => {
     }
   }
   return (
-    <View style={[styles.shoeCard, { position: 'relative' }]}>
+    <TouchableOpacity 
+      style={[styles.shoeCard, { position: 'relative' }]}
+      onPress={() => navigation.navigate(mainstack.productDetai, {product: item})}  
+    >
       <Image source={{uri: item.image[0]}} style={styles.shoeImage} />
       <View style={{ textAlign: 'left', width: '100%' }}>
         <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
@@ -39,7 +45,7 @@ const ShoeItem = (props) => {
       style={styles.addButton}
       />
     </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
 
 );
 
