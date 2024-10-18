@@ -38,7 +38,7 @@ const ShoeItem = (props) => {
       <TouchableOpacity
       style={[
         styles.addButton,
-        { position: 'absolute', bottom: 1, left:120 },
+        { position: 'absolute', bottom: 0, left:119 },
       ]}
     >
       <Image source={require('../../../images/add.png')}
@@ -55,7 +55,7 @@ const ShoeItem = (props) => {
 const styles = StyleSheet.create({
   shoeCard: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 10,
     marginRight: 15,
     alignItems: 'center',
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   shoeImage: {
-    width: 200,
-    height: 100,
+    width: 157,
+    height: 101,
     borderRadius: 10,
     marginBottom: 5,
   },
@@ -85,8 +85,9 @@ const styles = StyleSheet.create({
     color: '#000000', // Thay màu theo nhu cầu
   },
   shoePrice: {
+    marginTop:12,
     fontSize: 12,
-    color: '#000000', // Thay màu theo nhu cầu
+    color: '#1A2530', // Thay màu theo nhu cầu
   },
   addButton: {
     width: 40,

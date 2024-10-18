@@ -81,12 +81,14 @@ const Home = (props) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconContainer}>
+          
           <TouchableOpacity onPress={() => navigation.navigate(mainstack.accountAndSetting)}>
             <Image
               source={require('../../../images/icon_menu.png')}
               style={styles.icon_menu}
             />
           </TouchableOpacity>
+         
           <View style={{ alignItems: 'center', marginLeft: 80 }}>
             <Text style={styles.storeLabel}>Store location</Text>
             <Text style={styles.storeLocation}>Mondolibug, Sylhet</Text>
@@ -112,14 +114,14 @@ const Home = (props) => {
           onFocus={() => navigation.navigate(mainstack.search)}
         />
       </View>
-      <View style={{ width: 340, height: 60 }}>
+      <View style={{ width: "100%", height: 'auto' }}>
         <FlatList
           data={DataBrand}
           renderItem={({ item }) => <BrandItem item={item} handleBrand={handleBrand} />}
           keyExtractor={(item) => item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
-        // contentContainerStyle={styles.brandList}
+        contentContainerStyle={styles.brandList}
         />
       </View>
 
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8f9fb',
     padding: 30,
-
+    marginTop:10,
 
   },
   header: {
@@ -287,6 +289,10 @@ const styles = StyleSheet.create({
   },
   shoeList: {
     paddingVertical: 10,
+  },
+  brandList: {
+    paddingVertical: 10,
+    paddingRight: 30,
   },
 
 });

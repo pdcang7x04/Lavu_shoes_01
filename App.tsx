@@ -32,7 +32,6 @@ const App = () => {
         />
 
         <AppNavigation />
-   
       </SafeAreaView>
 
     </Provider>

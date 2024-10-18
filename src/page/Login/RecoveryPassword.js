@@ -17,7 +17,7 @@ const RecoveryPassword = (props) => {
   const dispatch = useDispatch();
   const appState = useAppSelector((state) => state.lavu);
 
-  const [Email, setEmail] = useState('nhocrok@gmail.com')
+  const [Email, setEmail] = useState('')
 
   const sendOTP = async () => {
     try {
