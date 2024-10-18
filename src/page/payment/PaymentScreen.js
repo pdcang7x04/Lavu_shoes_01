@@ -13,7 +13,7 @@ const PaymentScreen = () => {
       </Button>
       <CustomDialog
         visible={visbleDialog}
-        // bottom dialog 
+        // bottom dialog
         onDismiss={() => setvisbleDialog(false)}>
         <Card center paddingV-40 paddingH-63>
           <View paddingH-25>

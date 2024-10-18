@@ -118,17 +118,23 @@ const Checkout = () => {
       <CustomDialog
         visible={visibleDialog}
         onDismiss={() => setVisibleDialog(false)}>
-        <Card center paddingV-40 paddingH-63>
+        <Card center paddingV-40 paddingH-40 style={styles.dialogCard}>
           <View paddingH-25>
             <Image
               source={require('../../images/icon_payment_done.png')}
-              size={134}
+              style={styles.paymentIcon}
             />
-            <Text marginT-24>Your Payment Is Successful</Text>
+            <Text marginT-24 style={styles.successText}>
+              Your Payment Is Successful
+            </Text>
           </View>
           <TouchableOpacity marginT-30 onPress={() => setVisibleDialog(false)}>
-            <Card backgroundColor="#F15E2B" borderRadius={999}>
-              <Text text70 center white>
+            <Card
+              backgroundColor="#F15E2B"
+              borderRadius={999}
+              paddingV-15
+              paddingH-50>
+              <Text text60 center white style={styles.buttonText}>
                 Back To Shopping
               </Text>
             </Card>
@@ -178,7 +184,7 @@ const styles = StyleSheet.create({
   paymentDetailsContainer: {
     flex: 1,
     marginLeft: 10,
-    justifyContent: 'center', // Center align text vertically
+    justifyContent: 'center', 
   },
   cardInfoRow: {
     flexDirection: 'row',
@@ -188,7 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#1A2530',
     fontWeight: 'bold',
-    marginTop: 5, // Optional: Adjust margin to create space between lines
+    marginTop: 5,
   },
   textContainer: {
     flex: 1,
@@ -245,5 +251,8 @@ const styles = StyleSheet.create({
   paymentButton: {
     height: 50,
     borderRadius: 25,
+  },
+  paymentIcon: {
+    left: 20,
   },
 });

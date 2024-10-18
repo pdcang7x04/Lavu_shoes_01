@@ -14,7 +14,7 @@ const CustomDialog = ({
   customHeader,
   children,
   isDisable,
-  title,
+  title = null,
   titleStyle = {},
   ...props
 }) => {
