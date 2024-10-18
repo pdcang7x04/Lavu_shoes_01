@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Card, View, Text, Switch } from 'react-native-ui-lib';
+import React, {useState} from 'react';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import {Card, View, Text, Switch} from 'react-native-ui-lib';
 import Header from '../../components/Header';
-import { mainstack } from '../../navigation/mainstack';
-import { useDispatch, useSelector } from 'react-redux';
+import {mainstack} from '../../navigation/mainstack';
+import {useDispatch, useSelector} from 'react-redux';
 
 const notificationIcon = require('../../images/notifications.png');
 const shippingIcon = require('../../images/shopping.png');
@@ -15,29 +21,29 @@ const ArrowIcon = require('../../images/Arrow.png');
 const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
 
-
-const AccountSetting = (props) => {
-  const {navigation} = props
+const AccountSetting = props => {
+  const {navigation} = props;
 
   const dispatch = useDispatch();
-  const appState = useAppSelector((state) => state.lavu);
+  const appState = useAppSelector(state => state.lavu);
 
   const [faceIdEnabled, setFaceIdEnabled] = useState(false);
-  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(true);
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] =
+    useState(true);
   const [locationServicesEnabled, setLocationServicesEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
-
-  
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View height={'100%'} marginT-40 spread>
           <KeyboardAvoidingView>
-            <Header 
+            <Header
               action_ic_left={() => navigation.goBack()}
-              customStyle={{ marginTop: 8 }} 
-              paddingH-20 title={'Account & Settings'} />
+              customStyle={{marginTop: 8}}
+              paddingH-20
+              title={'Account & Settings'}
+            />
 
             <View paddingH-15 marginT-20>
               <View style={styles.section}>
@@ -53,7 +59,11 @@ const AccountSetting = (props) => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(mainstack.shippingaddress)}>
+                <TouchableOpacity
+                  style={styles.item}
+                  onPress={() =>
+                    navigation.navigate(mainstack.shippingaddress)
+                  }>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={shippingIcon} style={styles.icon} />
@@ -73,7 +83,9 @@ const AccountSetting = (props) => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(mainstack.changpassword)}>
+                <TouchableOpacity
+                  style={styles.item}
+                  onPress={() => navigation.navigate(mainstack.changpassword)}>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={passwordIcon} style={styles.icon} />
@@ -83,7 +95,7 @@ const AccountSetting = (props) => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item} >
+                <TouchableOpacity style={styles.item}>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={logoutIcon} style={styles.icon} />
@@ -99,29 +111,45 @@ const AccountSetting = (props) => {
 
                 <View style={styles.item}>
                   <Text style={styles.itemText}>Enable Face ID For Log In</Text>
-                  <Switch value={faceIdEnabled} onValueChange={setFaceIdEnabled} />
+                  <Switch
+                    value={faceIdEnabled}
+                    onValueChange={setFaceIdEnabled}
+                  />
                 </View>
 
                 <View style={styles.item}>
                   <Text style={styles.itemText}>Enable Push Notifications</Text>
-                  <Switch value={pushNotificationsEnabled} onValueChange={setPushNotificationsEnabled} />
+                  <Switch
+                    value={pushNotificationsEnabled}
+                    onValueChange={setPushNotificationsEnabled}
+                  />
                 </View>
 
                 <View style={styles.item}>
                   <Text style={styles.itemText}>Enable Location Services</Text>
-                  <Switch value={locationServicesEnabled} onValueChange={setLocationServicesEnabled} />
+                  <Switch
+                    value={locationServicesEnabled}
+                    onValueChange={setLocationServicesEnabled}
+                  />
                 </View>
 
                 <View style={styles.item}>
                   <Text style={styles.itemText}>Dark Mode</Text>
-                  <Switch value={darkModeEnabled} onValueChange={setDarkModeEnabled} />
+                  <Switch
+                    value={darkModeEnabled}
+                    onValueChange={setDarkModeEnabled}
+                  />
                 </View>
               </View>
             </View>
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
-
+<TouchableOpacity style={styles.item} onPress={() => {
+                  navigation.navigate('BestSellerScreen');
+                }}>
+                  <Text style={styles.itemText}>PaymentScreen</Text>
+                </TouchableOpacity>
       <View style={styles.bottomContainer}>
         <TouchableOpacity>
           <Card center paddingV-16 backgroundColor="#F15E2B" borderRadius={999}>
@@ -136,7 +164,7 @@ const AccountSetting = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white', // Overall background color
+    backgroundColor: 'white',
   },
   scrollViewContent: {
     paddingBottom: 100,
