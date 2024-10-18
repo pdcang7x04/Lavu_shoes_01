@@ -19,6 +19,7 @@ import ItemCart from './src/page/Cart/ItemCart';
 import Notifications from './src/page/notification/Notifications';
 import Orderhistory from './src/page/orderhistory/Orderhistory';
 import NotiNP from './src/page/notificationNP/NotiNP';
+import Detail from './src/page/detail/Detail';
 
 const App = () => {
   return (

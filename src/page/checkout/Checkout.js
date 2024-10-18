@@ -9,16 +9,70 @@ import {
 import {StyleSheet, Linking} from 'react-native';
 import React, {useState} from 'react';
 import CustomDialog from '../../components/CustomDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import AxiosInstance from '../../helper/AxiosInstance';
+import { mainstack } from '../../navigation/mainstack';
+import { clearCart } from '../../redux/Reducer';
 
-const Checkout = () => {
+const useAppDispatcher = () => useDispatch()
+const useAppSelector = useSelector
+
+const Checkout = (props) => {
+  const {navigation, route} = props
+  const {total} = route?.params
+
+  const dispatch = useDispatch()
+  const appState = useAppSelector((state) => state.lavu)
+
   const [visibleDialog, setVisibleDialog] = useState(false);
-  const handleAddressClick = () => {
-    const address = 'Newhall St 36, London, 12908 - UK';
+  const [PaymentMethod, setPaymentMethod] = useState('MoMo')
+
+  
+  const handleAddressClick = (props) => {
+    const {navigation} = props
+    const address = appState.user?.address;
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       address,
     )}`;
     Linking.openURL(url);
   };
+
+  const handleOrder = async () => {
+    try {
+      const orders = {
+        user: appState.user.email,
+        paymentmethod: PaymentMethod,
+        totalAmount: total.totalCost,
+        paymentStatus: paymentStatus(),
+        product: appState.cart.map((item) => {
+          return{
+            product_id: item._id,
+            quantity: item.quantity,
+            color: item.color.name,
+            size: item.size
+          }
+        })
+      }
+      const response = await AxiosInstance().post('/orders/createOder', orders);
+      if (response.status) {
+        dispatch(clearCart())
+        setVisibleDialog(true)
+
+      }
+    } catch (error) {
+      
+    }
+  }
+  console.log(appState.cart.map(item => item._id))
+
+  const paymentStatus = () => {
+    if(PaymentMethod == "Thanh toán khi nhận hàng"){
+      return 1
+    }
+    if(PaymentMethod == "MoMo"){
+      return 2
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -37,7 +91,7 @@ const Checkout = () => {
         <View style={styles.infoRow}>
           <Image source={require('../../images/icon_mail.png')} />
           <View style={styles.textContainer}>
-            <Text style={styles.textField}>rumenhussen@gmail.com</Text>
+            <Text style={styles.textField}>{appState.user.email}</Text>
             <Text style={styles.label}>Email</Text>
           </View>
           <TouchableOpacity>
@@ -50,7 +104,7 @@ const Checkout = () => {
         <View style={styles.infoRow}>
           <Image source={require('../../images/icon_phone.png')} />
           <View style={styles.textContainer}>
-            <Text style={styles.textField}>+88-692-764-269</Text>
+            <Text style={styles.textField}>{appState.user.phone == null ? appState.user.phone : "Hãy cập nhật phương thức liên lạc của bạn"}</Text>
             <Text style={styles.label}>Phone</Text>
           </View>
           <TouchableOpacity>
@@ -66,7 +120,7 @@ const Checkout = () => {
         <TouchableOpacity onPress={handleAddressClick}>
           <View style={styles.infoRow}>
             <Text style={styles.addressText}>
-              Newhall St 36, London, 12908 - UK
+            {appState.user.address == null ? appState.user.address : "Hãy cập nhật vị trí của bạn"}
             </Text>
             <Image source={require('../../images/icon_down.png')} />
           </View>
@@ -96,21 +150,21 @@ const Checkout = () => {
       <View style={styles.section}>
         <View style={styles.rowBetween}>
           <Text style={styles.textCost}>Subtotal</Text>
-          <Text style={styles.textCost}>$1250.00</Text>
+          <Text style={styles.textCost}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total.subtotal)}</Text>
         </View>
         <View style={styles.rowBetween}>
           <Text style={styles.textCost}>Shipping</Text>
-          <Text style={styles.textCost}>$40.90</Text>
+          <Text style={styles.textCost}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total.shipping)}</Text>
         </View>
         <View style={styles.rowBetween}>
           <Text style={styles.textTotal}>Total Cost</Text>
-          <Text style={styles.textTotal}>$1690.99</Text>
+          <Text style={styles.textTotal}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total.totalCost)}</Text>
         </View>
       </View>
       <Button
         backgroundColor="#F15E2B"
         borderRadius={10}
-        onPress={() => setVisibleDialog(true)}
+        onPress={() => handleOrder()}
         marginT-20
         label="Payment"
         style={styles.paymentButton}
@@ -128,7 +182,10 @@ const Checkout = () => {
               Your Payment Is Successful
             </Text>
           </View>
-          <TouchableOpacity marginT-30 onPress={() => setVisibleDialog(false)}>
+          <TouchableOpacity marginT-30 onPress={() => {
+            setVisibleDialog(false)
+            navigation.navigate(mainstack.home)
+          }}>
             <Card
               backgroundColor="#F15E2B"
               borderRadius={999}

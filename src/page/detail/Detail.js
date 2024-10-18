@@ -3,54 +3,65 @@ import {FlatList, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
+import { mainstack } from '../../navigation/mainstack';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItemToCart } from '../../redux/Reducer';
 
-const Detail = ({route}) => {
-  const {item} = route?.params || {
-    item: {
-      isBestSale: true,
-      name: 'Nike Air Jordan',
-      price: 967.8,
-      decription:
-        'Air Jordan is an American brand of basketball shoes athletic, casual, and style clothing produced by Nike....',
-    },
-  };
+const useAppDispatcher = () => useDispatch()
+const useAppSelector = useSelector
 
-  const option_color = [
-    {image: require('../../images/icon_shoes1.png'), value: 0},
-    {image: require('../../images/icon_shoes2.png'), value: 1},
-    {image: require('../../images/icon_shoes.png'), value: 2},
-  ];
+const Detail = (props) => {
+  const {navigation, route} = props
+  const {product} = route.params
 
-  const option_size = [
-    {size: '38', value: 38},
-    {size: '39', value: 39},
-    {size: '40', value: 40},
-    {size: '41', value: 41},
-    {size: '42', value: 42},
-    {size: '43', value: 43},
-  ];
+  const dispatch = useDispatch()
+  const appState = useAppSelector((state) => state.lavu)
 
-  const [select_color, setselect_color] = useState(0);
+  const [select_color, setselect_color] = useState(product?.color[0]);
 
-  const [select_size, setselect_size] = useState(option_size[0].value);
+  const [select_size, setselect_size] = useState(product?.size[0]);
+
+  const statusProduct = () => {
+    if(product?.status == 1){
+      return "NEW"
+    }else
+    if(product?.status == 2){
+      return "BEST SELLER"
+    }else
+    if(product?.status == 3){
+      return "POPULAR"
+    }else
+    if(product?.status == 4){
+      return "LIMITED"
+    }
+  }
+  
+  const handleAddToCart = () => {
+    const data = {
+      ...product, ...{
+        color: select_color,
+        size: select_size,
+        quantity: 1
+      }
+    }
+    dispatch(addItemToCart(data))
+
+  }
+
   return (
     <View height={'100%'} paddingT-30 paddingH-20 spread>
       <View>
         <Header
-          title={item?.title || "Men's Shoes"}
+          title={product?.category?.name || "Men's Shoes"}
           render_ic_right={
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate(mainstack.cart)}>
               <Image source={require('../../images/icon_shopping_cart.png')} />
             </TouchableOpacity>
           }
         />
         <View paddingV-32 paddingH-32>
           <Image
-            source={
-              item?.image
-                ? {uri: item?.image}
-                : require('../../images/img_shoes_big.png')
-            }
+            source={{uri: select_color !== null ? select_color.image : product?.image[0]}}
             width={'100%'}
             height={234}
           />
@@ -58,23 +69,23 @@ const Detail = ({route}) => {
 
         <View>
           <View>
-            {item?.isBestSale && (
-              <Text style={styles.text_best_sale}>BEST SELLER</Text>
-            )}
+            
+              <Text style={styles.text_best_sale}>{statusProduct()}</Text>
+            
             <Text marginT-6 style={styles.text_name_product}>
-              {item?.name}
+              {product?.name}
             </Text>
             <Text marginT-12 style={styles.text_price}>
-              ${item?.price}
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product?.price)}
             </Text>
             <Text marginT-8 style={styles.text_decription}>
-              {item?.decription}
+              {product?.description}
             </Text>
           </View>
           <View marginT-16>
             <Text style={styles.text_option}>Gallery</Text>
             <FlatList
-              data={option_color}
+              data={product.color}
               horizontal
               style={styles.flatlist}
               keyExtractor={(item, index) => index.toString()}
@@ -83,11 +94,12 @@ const Detail = ({route}) => {
                   <TouchableOpacity
                     marginR-16
                     onPress={() => {
-                      setselect_color(index);
+                      setselect_color(item);
                     }}>
-                    <Card borderRadius={16}>
-                      <Image source={item?.image} />
-                    </Card>
+                    {/* <Card borderRadius={16}> */}
+                      <Image source={{uri: item?.image}} 
+                      style={{width: 50, height: 50}}/>
+                    {/* </Card> */}
                   </TouchableOpacity>
                 );
               }}
@@ -96,8 +108,9 @@ const Detail = ({route}) => {
           <View>
             <Text style={styles.text_option}>Size</Text>
             <FlatList
-              data={option_size}
+              data={product?.size}
               horizontal
+              showsHorizontalScrollIndicator={false}
               style={styles.flatlist}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
@@ -105,18 +118,18 @@ const Detail = ({route}) => {
                   <TouchableOpacity
                     marginR-13
                     onPress={() => {
-                      setselect_size(item?.value);
+                      setselect_size(item);
                     }}>
                     <Card
                       borderRadius={999}
                       padding-13
                       backgroundColor={
-                        select_size === item?.value ? '#F15E2B' : '#F8F9FA'
+                        select_size === item ? '#F15E2B' : '#F8F9FA'
                       }>
                       <Text
-                        color={select_size === item?.value ? '#fff' : '#707B81'}
+                        color={select_size === item ? '#fff' : '#707B81'}
                         style={styles.text_size}>
-                        {item?.size}
+                        {item}
                       </Text>
                     </Card>
                   </TouchableOpacity>
@@ -136,9 +149,9 @@ const Detail = ({route}) => {
         paddingH-20>
         <View>
           <Text style={styles.text_title_price}>Price</Text>
-          <Text style={styles.text_price}>${item?.price || '849.69'}</Text>
+          <Text style={styles.text_price}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product?.price)}</Text>
         </View>
-        <Button title="Add to cart" onPress={null} />
+        <Button title="Add to cart" onPress={handleAddToCart} />
       </View>
     </View>
   );

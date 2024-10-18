@@ -21,4 +21,6 @@ export const mainstack = {
     orderHistory: "orderHistory",
     search: "search",
     notification: "notification",
+    productDetai: "product_detail",
+    checkout: "checkout",
 }
