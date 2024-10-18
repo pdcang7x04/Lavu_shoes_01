@@ -7,6 +7,8 @@ import Favourite from '../page/home/screen/Favourite';
 import Profile from '../page/profile/Profile';
 import AccountSetting from '../page/Account&Setting/AccountSetting';
 import Best_Seller from '../page/home/screen/Best_Seller';
+import Cart from '../page/Cart/Cart';
+import NotiNP from '../page/notificationNP/NotiNP';
 
 const Tab = createBottomTabNavigator();
 
@@ -83,7 +85,7 @@ const BottomNavigation = () => {
                 }}
 
             />
-            <Tab.Screen name={mainstack.accountAndSetting} component={AccountSetting}
+            <Tab.Screen name={mainstack.cart} component={Cart}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
@@ -101,7 +103,7 @@ const BottomNavigation = () => {
                     )
                 }}
             />
-            <Tab.Screen name={mainstack.bestSeller} component={Best_Seller}
+            <Tab.Screen name={mainstack.notification} component={NotiNP}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>

@@ -4,9 +4,11 @@ import React from 'react';
 import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 
 const BrandItem = (props) => {
-  const {item} = props
+  const {item, handleBrand} = props
+
+  
   return (
-    <TouchableOpacity style={styles.brandButton}>
+    <TouchableOpacity style={styles.brandButton} onPress={() => handleBrand(item._id)}>
       <Image source={{uri: item.image}} style={styles.brandImage} />
     </TouchableOpacity>
   )

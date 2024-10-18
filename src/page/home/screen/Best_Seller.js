@@ -1,21 +1,48 @@
 // src/screens/Best_Seller.js
 
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { colors } from '../../../styles/colors';
 import { t } from '../../../styles/font';
 import { favouriteShoes } from '../component/Item_BestSeller';
 import BestSellerItem from '../Render/BestSellerItem';
+import AxiosInstance from '../../../helper/AxiosInstance';
 
-const Best_Seller = () => {
+const Best_Seller = (props) => {
+  const { navigation, route } = props;
+  const { brandId } = route.params;
+
+  console.log('brand ', brandId)
+
+  const [DataProduct, setDataProduct] = useState([])
+
+  const fetchGetProduct = async (brandId) => {
+    try {
+      const response = await AxiosInstance().get(`/products/getProductByBrand/${brandId}`);
+
+      if (response.status) {
+        setDataProduct(response.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchGetProduct(brandId)
+  }, [brandId])
+  console.log("product: ", DataProduct)
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../../images/icon_back.png')}
             style={styles.icon_menu}
           />
+          </TouchableOpacity>
           <View style={{ alignItems: 'center', marginLeft: 80 }}>
             <Text style={styles.Favourite}>Best Sellers</Text>
           </View>
@@ -25,9 +52,9 @@ const Best_Seller = () => {
       </View>
       <View style={styles.sectionContainer}>
         <FlatList
-          data={favouriteShoes}
+          data={DataProduct}
           renderItem={({ item }) => <BestSellerItem item={item} />}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
           numColumns={2}
           contentContainerStyle={styles.shoeList}
         />

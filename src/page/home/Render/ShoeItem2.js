@@ -17,7 +17,7 @@ const ShoeItem2 = (props) => {
     <View style={{ flex: 1 }}>
       <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
       <Text style={styles.shoeName}>{item.name}</Text>
-      <Text style={styles.shoePrice}>{item.price}</Text>
+      <Text style={styles.shoePrice}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</Text>
     </View>
     <Image source={{uri: item.image[0]}} style={styles.shoeImage} />
   </View>

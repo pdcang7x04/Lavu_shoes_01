@@ -1,9 +1,35 @@
 import { StyleSheet, Text, View ,Image,FlatList,TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {colors} from '../../styles/colors';
 import {t} from '../../styles/font';
 import ItemCart from './ItemCart';
-const Cart = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import { mainstack } from '../../navigation/mainstack';
+
+const useAppDispatcher = () => useDispatch()
+const useAppSelector = useSelector
+
+const Cart = (props) => {
+  const {navigation} = props
+  
+  const dispatch = useDispatch()
+  const appState = useAppSelector((state) => state.lavu)
+
+  const [Subtotal, setSubtotal] = useState(0);
+  const [Shipping, setShipping] = useState(30000)
+  const [TotalCost, setTotalCost] = useState(0)
+
+
+  useEffect(() => {
+    let tamtinh = 0;
+    for(let i = 0; i < appState.cart.length; i++) {
+      tamtinh += (appState.cart[i].price * appState.cart[i].quantity);
+    }
+    setSubtotal(tamtinh);
+    setTotalCost(tamtinh + Shipping)
+  }, [appState.cart])
+
+  
   return (
     <View style={styles.container}>
     <View style={styles.header}>
@@ -22,16 +48,24 @@ const Cart = () => {
         />
       </View>
       <FlatList
-        data={cartItems}
+        data={appState.cart}
         renderItem={({item})=> <ItemCart data={item}/>}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
       />
        <View style={styles.summary}>
-        <Text style={styles.summaryText}>{`Subtotal: `}</Text>
-        <Text style={styles.summaryText}>{`Shipping: `}</Text>
-        <Text style={styles.totalText}>{`Total Cost: `}</Text>
+        <Text style={styles.summaryText}>Subtotal: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Subtotal)}</Text>
+        <Text style={styles.summaryText}>Shipping: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Shipping)}</Text>
+        <Text style={styles.totalText}>Total Cost: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(TotalCost)}</Text>
       </View>
-      <TouchableOpacity style={styles.checkoutButton} activeOpacity={0.8}>
+      <TouchableOpacity style={styles.checkoutButton} activeOpacity={0.8} 
+        onPress={() => navigation.navigate(mainstack.checkout, {
+          total: {
+            subtotal: Subtotal,
+            shipping: Shipping,
+            totalCost: TotalCost,
+          }
+        })}
+      >
         <Text style={styles.checkoutText}>Checkout</Text>
       </TouchableOpacity>
 
@@ -108,8 +142,3 @@ const styles = StyleSheet.create({
     
 })
 
-const cartItems = [
-    { id: '1', name: 'Nike Club Max', price: 64.95, size: 'L', quantity: 1, image: require('../../images/image.png') },
-    { id: '2', name: 'Nike Air Max 200', price: 64.95, size: 'XL', quantity: 1, image: require('../../images/image.png') },
-    { id: '3', name: 'Nike Air Max', price: 64.95, size: 'XXL', quantity: 1, image: require('../../images/image.png') },
-  ];
