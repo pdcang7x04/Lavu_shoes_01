@@ -8,6 +8,7 @@ const Button = ({
   customStyle = {},
   customTextStyle = {},
   backgroundColor,
+  textColor,
   ...props
 }) => {
   return (
@@ -20,7 +21,7 @@ const Button = ({
         borderRadius={999}
         style={customStyle}
         {...props}>
-        <Text style={[styles.text_button, styles.text_button]}>{title}</Text>
+        <Text style={[styles.text_button, styles.text_button, {color: textColor}]}>{title}</Text>
       </Card>
     </TouchableOpacity>
   );
@@ -29,6 +30,9 @@ const Button = ({
 export default Button;
 
 const styles = StyleSheet.create({
+  buttonText: {
+    color: 'white',
+  },
   text_button: {
     color: 'white',
     fontSize: 18,

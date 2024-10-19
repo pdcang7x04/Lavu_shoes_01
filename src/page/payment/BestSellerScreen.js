@@ -18,9 +18,9 @@ const BestSellerScreen = () => {
     {name: 'Unisex', value: 2},
   ];
   const SizeDefault = [
-    {name: 'US 4.4', value: 0},
+    {name: 'UK 4.4', value: 0},
     {name: 'US 5.5', value: 1},
-    {name: 'US 6.5', value: 2},
+    {name: 'UK 6.5', value: 2},
     {name: 'EU 11.5', value: 3},
   ];
   const [isVisibleDialog, setIsVisibleDialog] = useState(false);
@@ -46,17 +46,19 @@ const BestSellerScreen = () => {
       <TouchableOpacity onPress={() => setIsVisibleDialog(true)}>
         <Text>BestSellerScreen</Text>
       </TouchableOpacity>
-      <Dialog bottom visible={isVisibleDialog} onDismiss={handleDismiss}>
+      <Dialog width="100%" bottom visible={isVisibleDialog} onDismiss={handleDismiss}>
         <View style={styles.dialog}>
           <View style={styles.dialog1}>
             <View style={styles.dialog2} />
           </View>
           <View style={styles.header}>
-            <Text>Filter</Text>
-            <Text>Reset</Text>
+            <Text style={styles.title}>Filters</Text>
+            <TouchableOpacity onPress={handleReset}>
+              <Text style={styles.textReset}>RESET</Text>
+            </TouchableOpacity>
           </View>
-          <View>
-            <Text>Gender</Text>
+          <View style={styles.sectionFilter}>
+            <Text style={styles.labelFilter}>Gender</Text>
             <View style={styles.buttonGroup}>
               <FlatList
                 data={GenderDefault}
@@ -64,10 +66,14 @@ const BestSellerScreen = () => {
                 showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
                   <Button
+                    style={styles.button}
                     title={item.name}
                     backgroundColor={
                       selectGender === item.value ? '#F15E2B' : '#D9D9D9'
                     }
+                    textColor={
+                        selectGender === item.value ? 'white' : 'black' // Màu chữ khi được chọn và không được chọn
+                      }
                     onPress={() => {
                       handleGender(item.value);
                     }}
@@ -76,30 +82,48 @@ const BestSellerScreen = () => {
               />
             </View>
           </View>
-          <View>
-            <Text>Size</Text>
-            <View>
+
+          <View style={styles.sectionFilter}>
+            <Text style={styles.labelFilter}>Size</Text>
+            <View style={styles.buttonGroup}>
               <FlatList
                 data={SizeDefault}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
                   <Button
+                    style={styles.button}
                     title={item.name}
                     backgroundColor={
                       selectSize === item.value ? '#F15E2B' : '#D9D9D9'
                     }
+                    textColor={
+                        selectSize === item.value ? 'white' : 'black' }
                     onPress={() => handleSize(item.value)}
                   />
                 )}
               />
             </View>
           </View>
-          <View>
-            <Text>Price</Text>
 
+          <View style={styles.sectionFilter}>
+            <Text style={styles.labelFilter}>Price</Text>
+            <View style={styles.priceContainer}>
+              <View style={styles.priceBox}>
+                <Text style={styles.priceText}>${price.min}</Text>
+              </View>
+              <Text style={styles.dash}> - </Text>
+              <View style={styles.priceBox}>
+                <Text style={styles.priceText}>${price.max}</Text>
+              </View>
+            </View>
+            <Button
+              style={styles.apply}
+              textColor={'white'}
+              title="Apply"
+              onPress={handleDismiss}
+            />
           </View>
-          <Button onPress={handleDismiss} />
         </View>
       </Dialog>
     </View>
@@ -109,6 +133,9 @@ const BestSellerScreen = () => {
 export default BestSellerScreen;
 
 const styles = StyleSheet.create({
+    dialogcontainer: {
+        width: '100%',
+    },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -116,11 +143,15 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
+    position: 'relative',
   },
   dialog: {
-    padding: 16,
+    width: '100%',
+    marginHorizontal: 0,
+    padding: 20,
     backgroundColor: 'white',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
@@ -140,5 +171,76 @@ const styles = StyleSheet.create({
     height: 4,
     borderRadius: 4,
   },
-  buttonGroup: {},
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    left: '42%',
+    marginTop: 15,
+    color: '#1A2530',
+  },
+  textReset: {
+    position: 'absolute',
+    right: 0,
+    color: '#707B81',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  sectionFilter: {
+    marginBottom: 20,
+  },
+  labelFilter: {
+    marginBottom: 10,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  button: {
+    textColor: 'white',
+    paddingVertical: 6,
+    paddingHorizontal: 19,
+    fontSize: 14,
+    height: 40,
+    marginHorizontal: 5,
+    borderRadius: 20,
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  price: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  priceBox: {
+    backgroundColor: '#D9D9D9',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  priceText: {
+    color: 'black',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  dash: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  apply: {
+    backgroundColor: '#F15E2B',
+    borderRadius: 24,
+    justifyContent: 'center',
+    marginTop: 20,
+  },
 });
