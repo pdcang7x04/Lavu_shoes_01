@@ -10,6 +10,7 @@ import {Card, View, Text, Switch} from 'react-native-ui-lib';
 import Header from '../../components/Header';
 import {mainstack} from '../../navigation/mainstack';
 import {useDispatch, useSelector} from 'react-redux';
+import { logout } from '../../redux/Reducer';
 
 const notificationIcon = require('../../images/notifications.png');
 const shippingIcon = require('../../images/shopping.png');
@@ -95,7 +96,7 @@ const AccountSetting = props => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} onPress={() => dispatch(logout())}>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={logoutIcon} style={styles.icon} />

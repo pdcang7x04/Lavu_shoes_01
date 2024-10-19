@@ -52,12 +52,14 @@ const Detail = (props) => {
     <View height={'100%'} paddingT-30 paddingH-20 spread>
       <View>
         <Header
-          title={product?.category?.name || "Men's Shoes"}
+          title={ "Giày " + product?.category?.name|| "Men's Shoes"}
           render_ic_right={
             <TouchableOpacity onPress={() => navigation.navigate(mainstack.cart)}>
               <Image source={require('../../images/icon_shopping_cart.png')} />
             </TouchableOpacity>
           }
+          ic_left={require('../../images/icon_back.png')}
+          action_ic_left={() => navigation.goBack()}
         />
         <View paddingV-32 paddingH-32>
           <Image

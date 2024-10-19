@@ -85,7 +85,7 @@ const BottomNavigation = () => {
                 }}
 
             />
-            <Tab.Screen name={mainstack.cart} component={Cart}
+            {/* <Tab.Screen name={mainstack.cart} component={Cart}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
@@ -102,7 +102,7 @@ const BottomNavigation = () => {
                         <CustomTabBarButton {...props} />
                     )
                 }}
-            />
+            /> */}
             <Tab.Screen name={mainstack.notification} component={NotiNP}
                 options={{
                     tabBarIcon: ({ focused }) => (

@@ -9,7 +9,7 @@ const NotiNP = () => {
     <View style={styles.header}>
         <View style={styles.iconContainer}>
           <Image
-            source={require('../../images/icon_back.png')}
+            source={{}}
             style={styles.icon_menu}
           />
           <View style={{alignItems: 'center', marginLeft: 80}}>

@@ -7,12 +7,13 @@ import {
   Image,
 } from 'react-native-ui-lib';
 import {StyleSheet, Linking} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CustomDialog from '../../components/CustomDialog';
 import { useDispatch, useSelector } from 'react-redux';
 import AxiosInstance from '../../helper/AxiosInstance';
 import { mainstack } from '../../navigation/mainstack';
 import { clearCart } from '../../redux/Reducer';
+import Toast from 'react-native-toast-message';
 
 const useAppDispatcher = () => useDispatch()
 const useAppSelector = useSelector
@@ -26,6 +27,8 @@ const Checkout = (props) => {
 
   const [visibleDialog, setVisibleDialog] = useState(false);
   const [PaymentMethod, setPaymentMethod] = useState('MoMo')
+  const [Phone, setPhone] = useState(appState.user.phone)
+  const [Address, setAddress] = useState(appState.user.address)
 
   
   const handleAddressClick = (props) => {
@@ -36,9 +39,37 @@ const Checkout = (props) => {
     )}`;
     Linking.openURL(url);
   };
+  console.log("user: " , appState.user)
+
+  useEffect(() => {
+    setPhone(appState.user.phone)
+    setAddress(appState.user.address)
+  }, [appState.user])
+  
 
   const handleOrder = async () => {
     try {
+      if(appState.user.phone == " "){
+        return Toast.show({
+          text1: "Hãy cập nhật phương thức liên lạc của bạn",
+          position: "top",
+          type: "error"
+        })
+      }
+      if(appState.user.address == " "){
+        return Toast.show({
+          text1: "Hãy cập nhật vị trí của bạn của bạn",
+          position: "top",
+          type: "error"
+        })
+      }
+      if(appState.cart.length == 0){
+        return Toast.show({
+          text1: "Hãy chọn sản phẩm mà bạn mong muốn",
+          position: "top",
+          type: "error"
+        })
+      }
       const orders = {
         user: appState.user.email,
         paymentmethod: PaymentMethod,
@@ -60,7 +91,7 @@ const Checkout = (props) => {
 
       }
     } catch (error) {
-      
+      console.log(error)
     }
   }
   console.log(appState.cart.map(item => item._id))
@@ -77,14 +108,19 @@ const Checkout = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../images/icon_back.png')}
             style={styles.iconBack}
           />
         </TouchableOpacity>
         <Text style={styles.headerText}>Checkout</Text>
-        <View style={styles.headerTextContainer} />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={{}}
+            style={styles.iconBack}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Contact Information</Text>
@@ -104,10 +140,10 @@ const Checkout = (props) => {
         <View style={styles.infoRow}>
           <Image source={require('../../images/icon_phone.png')} />
           <View style={styles.textContainer}>
-            <Text style={styles.textField}>{appState.user.phone == null ? appState.user.phone : "Hãy cập nhật phương thức liên lạc của bạn"}</Text>
+            <Text style={styles.textField}>{Phone != " " ? Phone : "Hãy cập nhật phương thức liên lạc của bạn"}</Text>
             <Text style={styles.label}>Phone</Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate(mainstack.shippingaddress)}>
             <Image
               source={require('../../images/icon_edit.png')}
               style={styles.editIcon}
@@ -120,7 +156,7 @@ const Checkout = (props) => {
         <TouchableOpacity onPress={handleAddressClick}>
           <View style={styles.infoRow}>
             <Text style={styles.addressText}>
-            {appState.user.address == null ? appState.user.address : "Hãy cập nhật vị trí của bạn"}
+            {Address != " " ? Address : "Hãy cập nhật vị trí của bạn"}
             </Text>
             <Image source={require('../../images/icon_down.png')} />
           </View>
@@ -215,8 +251,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
+    marginTop: 10
   },
-  headerTextContainer: {},
+  headerTextContainer: {
+    width: 24,
+    height: 24,
+  },
   iconBack: {
     width: 50,
     height: 24,

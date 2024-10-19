@@ -4,11 +4,21 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { mainstack } from '../../../navigation/mainstack';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import Toast from 'react-native-toast-message';
+import { insertfavorite, updateProductFavorite } from '../../../redux/Reducer';
+import AxiosInstance from '../../../helper/AxiosInstance';
+
+const useAppDispatcher = () => useDispatch()
+const useAppSelector = useSelector
+
 
 const ShoeItem = (props) => {
   const {item} = props
   const navigation = useNavigation()
-  console.log(item)
+  
+  const dispatch = useDispatch()
+  const appState = useAppSelector((state) => state.lavu)
 
   const statusProduct = () => {
     if(item.status == 1){
@@ -22,6 +32,17 @@ const ShoeItem = (props) => {
     }else
     if(item.status == 4){
       return "LIMITED"
+    }
+  }
+
+  const fetchInsertfavorite = async () => {
+    try {
+      const response = await AxiosInstance().post(`/favorites/insert/${appState.user.email}`, {product_id: item._id});
+      if(response.status){
+        dispatch(updateProductFavorite(response.data))
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
   return (
@@ -40,6 +61,7 @@ const ShoeItem = (props) => {
         styles.addButton,
         { position: 'absolute', bottom: 0, left:119 },
       ]}
+      onPress={() => fetchInsertfavorite()}
     >
       <Image source={require('../../../images/add.png')}
       style={styles.addButton}

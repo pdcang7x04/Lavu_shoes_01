@@ -12,6 +12,8 @@ const ShoeItem2 = (props) => {
       return "LIMITED"
     }
   }
+
+  
   return(
   <View style={styles.container}>
     <View style={{ flex: 1 }}>

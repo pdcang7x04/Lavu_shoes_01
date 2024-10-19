@@ -12,7 +12,7 @@ const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
 
 const Register = (props) => {
-  const {navigation} = props
+  const { navigation } = props
 
   const dispatch = useDispatch();
   const appState = useAppSelector((state) => state.lavu);
@@ -22,7 +22,7 @@ const Register = (props) => {
   const [Password, setPassword] = useState('Cang@123456789')
   const [SecureTextEntry, setSecureTextEntry] = useState(true)
 
-// SIGN IN WITH GOOGLE
+  // SIGN IN WITH GOOGLE
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: '422139788573-cj47q1k6gvqk03r6h0qgd9cvea0264gd.apps.googleusercontent.com',
@@ -53,115 +53,123 @@ const Register = (props) => {
 
   //đăng ký 
   const handleRegister = async () => {
-    validateUsername(Username)
-    validateEmail(Email)
-    validatePassword(Password)
+
 
     try {
-      const body = {
-        username: Username,
-        email: Email,
-        password: Password
-      }
+      if (!validateUsername(Username)) {
+        return
+      } else
+      if (!validateEmail(Email)) {
+          return
+      } else
+      if (!validatePassword(Password)) {
+        return
+      } else{
+        const body = {
+          username: Username,
+          email: Email,
+          password: Password
+        }
       dispatch(register(body))
+    }
 
     } catch (error) {
-      console.log(error)
-    }
+    console.log(error)
   }
+}
 
-  const hidePassword = () => {
-    if(SecureTextEntry == true){
-      setSecureTextEntry(false)
-    }else{
-      setSecureTextEntry(true)
-    }
+const hidePassword = () => {
+  if (SecureTextEntry == true) {
+    setSecureTextEntry(false)
+  } else {
+    setSecureTextEntry(true)
   }
+}
 
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity 
-        style={{alignSelf: 'flex-start'}}
-        onPress={() => navigation.goBack()}  
-      >
-        <Image
-          source={require('../../images/icon_back.png')}
-          style={styles.iconBack}
+return (
+  <View style={styles.container}>
+    <TouchableOpacity
+      style={{ alignSelf: 'flex-start' }}
+      onPress={() => navigation.goBack()}
+    >
+      <Image
+        source={require('../../images/icon_back.png')}
+        style={styles.iconBack}
+      />
+    </TouchableOpacity>
+
+    <Text style={styles.textHello}>Create Account</Text>
+    <Text style={styles.contentHello}>Let’s Create Account Together</Text>
+
+    <View style={styles.viewInput}>
+      <Text style={styles.title}>Your Name</Text>
+      <View style={styles.viewTextInput}>
+        <TextInput
+          value={Username}
+          onChangeText={val => setUsername(val)}
+          placeholder='Nguyễn Văn A'
+          style={styles.textInput}
         />
-      </TouchableOpacity>
-
-      <Text style={styles.textHello}>Create Account</Text>
-      <Text style={styles.contentHello}>Let’s Create Account Together</Text>
-
-      <View style={styles.viewInput}>
-        <Text style={styles.title}>Your Name</Text>
-        <View style={styles.viewTextInput}>
-          <TextInput
-            value={Username}
-            onChangeText={val => setUsername(val)}
-            placeholder='Nguyễn Văn A'
-            style={styles.textInput}
-          />
-        </View>
       </View>
-
-      <View style={styles.viewInput}>
-        <Text style={styles.title}>Email Address</Text>
-        <View style={styles.viewTextInput}>
-          <TextInput
-            value={Email}
-            onChangeText={val => setEmail(val)}
-            placeholder='aaaaa@gmail.com'
-            style={styles.textInput}
-            keyboardType='email-address'
-            autoCapitalize='none'
-          />
-        </View>
-      </View>
-
-      <View style={styles.viewInput}>
-        <Text style={styles.title}>Password</Text>
-        <View style={styles.viewTextInput}>
-          <TextInput
-            value={Password}
-            onChangeText={val => setPassword(val)}
-            style={styles.textInput}
-            autoCapitalize='none'
-            secureTextEntry={SecureTextEntry}
-          />
-          <TouchableOpacity onPress={hidePassword}>
-            <Image
-              source={require('../../images/icon_close_eye.png')}
-              style={styles.iconTextInput}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <TouchableOpacity
-        style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
-        onPress={() => handleRegister()}
-      >
-        <Text style={[styles.textButton, { color: colors.white }]}>Sign Up</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.viewButtonSignIn}
-        onPress={() => onGoogleButtonPress()}
-      >
-        <Image
-          source={require('../../images/logo_gg.png')}
-          style={styles.iconTextInput}
-        />
-        <Text style={styles.textButton}>Sign in with google</Text>
-      </TouchableOpacity>
-      <View style={{ flex: 1 }} />
-      <Text style={styles.textBottom}>
-        Already have an account? {' '}
-        <Text style={styles.color} onPress={() => navigation.navigate(mainstack.login)}>Sign In</Text>
-      </Text>
     </View>
-  )
+
+    <View style={styles.viewInput}>
+      <Text style={styles.title}>Email Address</Text>
+      <View style={styles.viewTextInput}>
+        <TextInput
+          value={Email}
+          onChangeText={val => setEmail(val)}
+          placeholder='aaaaa@gmail.com'
+          style={styles.textInput}
+          keyboardType='email-address'
+          autoCapitalize='none'
+        />
+      </View>
+    </View>
+
+    <View style={styles.viewInput}>
+      <Text style={styles.title}>Password</Text>
+      <View style={styles.viewTextInput}>
+        <TextInput
+          value={Password}
+          onChangeText={val => setPassword(val)}
+          style={styles.textInput}
+          autoCapitalize='none'
+          secureTextEntry={SecureTextEntry}
+        />
+        <TouchableOpacity onPress={hidePassword}>
+          <Image
+            source={require('../../images/icon_close_eye.png')}
+            style={styles.iconTextInput}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+
+    <TouchableOpacity
+      style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
+      onPress={() => handleRegister()}
+    >
+      <Text style={[styles.textButton, { color: colors.white }]}>Sign Up</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+      style={styles.viewButtonSignIn}
+      onPress={() => onGoogleButtonPress()}
+    >
+      <Image
+        source={require('../../images/logo_gg.png')}
+        style={styles.iconTextInput}
+      />
+      <Text style={styles.textButton}>Sign in with google</Text>
+    </TouchableOpacity>
+    <View style={{ flex: 1 }} />
+    <Text style={styles.textBottom}>
+      Already have an account? {' '}
+      <Text style={styles.color} onPress={() => navigation.navigate(mainstack.login)}>Sign In</Text>
+    </Text>
+  </View>
+)
 }
 
 export default Register

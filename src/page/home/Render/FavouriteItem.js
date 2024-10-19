@@ -4,27 +4,63 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { t } from '../../../styles/font';
+import { useNavigation } from '@react-navigation/native';
+import { mainstack } from '../../../navigation/mainstack';
+import AxiosInstance from '../../../helper/AxiosInstance';
+import { removeProductFavorite, updateProductFavorite } from '../../../redux/Reducer';
+import { useDispatch, useSelector } from 'react-redux';
 
-const FavouriteItem = ({ item }) => (
-  <View style={[styles.shoeCard, { position: 'relative' }]}>
-    <Image source={item.image} style={styles.shoeImage} />
+const useAppDispatcher = () => useDispatch()
+const useAppSelector = useSelector
+
+
+const FavouriteItem = (props) => {
+  const {item} = props
+  const navigation = useNavigation()
+  console.log("favorite",item?._id)
+
+  const dispatch = useDispatch()
+  const appState = useAppSelector((state) => state.lavu)
+
+  const fetchRemovefavorite = async () => {
+    try {
+      const response = await AxiosInstance().delete(`/favorites/delete/${item?._id}`);
+      if(response.status){
+        dispatch(removeProductFavorite(item?._id))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  
+  return(
+  <TouchableOpacity 
+    style={[styles.shoeCard, { position: 'relative' }]}
+    onPress={() => navigation.navigate(mainstack.productDetai, { product: item?.product[0] })}
+  >
+    <Image source={{uri: item?.product[0].image[0]}} style={styles.shoeImage} />
+    {/* <Image source={require('../../../images/logo.png')} style={styles.shoeImage} /> */}
+
     <View style={{ textAlign: 'left', width: '100%' }}>
       <Text style={styles.TextBestSeller}>BEST SELLER</Text>
-      <Text style={styles.shoeName}>{item.name}</Text>
-      <Text style={styles.shoePrice}>{item.price}</Text>
+      <Text style={styles.shoeName}>{item?.product.map(p => p.name)}</Text>
+      <Text style={styles.shoePrice}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.product.map(p => p.price))}</Text>
     </View>
     <TouchableOpacity
       style={[
         styles.addButton,
         { position: 'absolute', bottom: 0,left:119},
       ]}
+      onPress={() => fetchRemovefavorite()}
     >
       <Image source={require('../../../images/add.png')}
       style={styles.addButton}
       />
     </TouchableOpacity>
-  </View>
-);
+  </TouchableOpacity>
+)};
 
 const styles = StyleSheet.create({
   shoeCard: {

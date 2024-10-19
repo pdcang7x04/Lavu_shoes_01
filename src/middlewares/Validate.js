@@ -1,19 +1,27 @@
-import { ToastAndroid } from "react-native";
+import Toast from "react-native-toast-message";
 
 export const validateUsername = (username) => {
     if (!username.trim()) {
-        showToast('Username is required');
+        showToast('Tên người dùng là bắt buộc', 'error');
+        return false;
+    }
+    return true;
+}
+
+export const validateAddress = (username) => {
+    if (!username.trim() || username == " ") {
+        showToast('Địa chỉ là bắt buộ', 'error');
         return false;
     }
     return true;
 }
 
 export const validate_phone = (phone) => {
-    if (!phone.trim()) {
-        showToast('Phone number is required');
+    if (!phone.trim() || phone == " ") {
+        showToast('Số điện thoại là bắt buộc', 'error');
         return false;
     } else if (phone.length !== 10) {
-        showToast('Phone number must be 10 digits');
+        showToast('Số điện thoại phải có 10 chữ số', 'error');
         return false;
     }
     return true;
@@ -27,13 +35,13 @@ const isPassword = (password) => {
 
 export const validatePassword = (password) => {
     if (!password.trim()) {
-        showToast('Password is required');
+        showToast('Mật khẩu là bắt buộc', 'error');
         return false;
     } else if (password.length < 8) {
-        showToast('Password must be at least 8 characters');
+        showToast('Mật khẩu phải có ít nhất 8 ký tự', 'error');
         return false;
     } else if (!isPassword(password)) {
-        showToast('Password must be at least 8 characters, including uppercase, lowercase, numbers and special characters');
+        showToast('Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt', 'error');
         return false;
     }
     return true;
@@ -46,15 +54,19 @@ const isEmail = (email) => {
 
 export const validateEmail = (email) => {
     if (!email.trim()) {
-        showToast('Email is required');
+        showToast('Email là bắt buộc', 'error');
         return false;
     } else if (!isEmail(email)) {
-        showToast('Email is not valid');
+        showToast('Email không hợp lệ', 'error');
         return false;
     }
     return true;
 }
 
-function showToast(message) {
-    ToastAndroid.show(message, ToastAndroid.SHORT);
+function showToast(message, info) {
+    Toast.show({
+        text1: message,
+        position: 'top',
+        type: info, // Hoặc 'success', 'error', tùy theo loại thông báo
+    });
 }
