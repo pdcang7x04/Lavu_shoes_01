@@ -16,7 +16,7 @@ const FavouriteItem = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.addButton,
-        { position: 'absolute', bottom: 1,left:120},
+        { position: 'absolute', bottom: 0,left:119},
       ]}
     >
       <Image source={require('../../../images/add.png')}
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   shoeImage: {
-    width: 200,
+    width: 157,
     height: 100,
     borderRadius: 10,
     marginBottom: 5,
