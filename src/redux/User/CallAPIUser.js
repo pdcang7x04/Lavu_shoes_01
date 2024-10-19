@@ -7,16 +7,11 @@ export const register = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const res = await AxiosInstance().post("/users/register", data)
-            if (result.status) {
+            if (res.status) {
+                console.log(res)
                 const result = res.data
                 return result
-            } else {
-                Toast.show({
-                    text1: "Email hoặc mật khẩu không đúng",
-                    position: 'top',
-                    type: 'error',
-                })
-            }
+            } 
         } catch (error) {
             return rejectWithValue(error.res.data)
         }
