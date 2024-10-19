@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 350,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 20,
   },
   TextBestSeller: {
     fontSize: 16,

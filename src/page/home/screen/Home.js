@@ -136,7 +136,7 @@ const Home = (props) => {
           data={DataProduct.slice(0, 2)}
           renderItem={({ item }) => <ShoeItem item={item} />}
           keyExtractor={(item) => item._id}
-          horizontal
+          numColumns={2}
           showsHorizontalScrollIndicator={false}
         // contentContainerStyle={styles.shoeList}
         />
