@@ -40,7 +40,7 @@ export default NotiNP
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f8f9fb',
+        backgroundColor: colors.white,
         padding: 30,
       },
       header: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
       clearText: {
         fontFamily: t.Roboto_Bold,
         fontSize: 18,
-        color: '#FF5722',
+        color: colors.orange1,
       },
       dayTest: {
         fontSize: 18,
