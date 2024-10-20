@@ -2,6 +2,7 @@ import {Card, Image, Text, TouchableOpacity, View} from 'react-native-ui-lib';
 import {FlatList, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../components/Header';
+import { t } from '../../styles/font';
 import Button from '../../components/Button';
 import { mainstack } from '../../navigation/mainstack';
 import { useDispatch, useSelector } from 'react-redux';

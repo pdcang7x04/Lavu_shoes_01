@@ -16,7 +16,7 @@ const ShoeItem2 = (props) => {
   
   return(
   <View style={styles.container}>
-    <View style={{ flex: 1 }}>
+    <View>
       <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
       <Text style={styles.shoeName}>{item.name}</Text>
       <Text style={styles.shoePrice}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</Text>
@@ -31,30 +31,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: 350,
+    width: '100%',
+    height: '100%',
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 60,
   },
   TextBestSeller: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFA500', // Thay màu theo nhu cầu
+    color: '#FFA500', 
     marginBottom: 5,
   },
   shoeName: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#000000', // Thay màu theo nhu cầu
+    color: '#000000', 
     marginBottom: 5,
   },
   shoePrice: {
     fontSize: 12,
-    color: '#000000', // Thay màu theo nhu cầu
+    marginTop:10,
+    color: '#000000',
   },
   shoeImage: {
-    width: 100, // Thay đổi kích thước theo nhu cầu
-    height: 100, // Thay đổi kích thước theo nhu cầu
-    borderRadius: 10,
+    width: 100,
+    height: 100, 
+    borderRadius: 20,
   },
 });
 

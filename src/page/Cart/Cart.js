@@ -60,6 +60,7 @@ const Cart = (props) => {
         </TouchableOpacity>
       </View>
       <FlatList
+      style={{marginTop:24}}
         data={appState.cart}
         renderItem={({ item }) => <ItemCart data={item} />}
         keyExtractor={item => item._id}
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginTop:15,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   Favourite: {
+    alignItems:'center',
     fontFamily: t.Roboto_Bold,
     fontSize: 20,
     color: colors.black1,

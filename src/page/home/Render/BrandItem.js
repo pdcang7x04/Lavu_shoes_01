@@ -1,8 +1,5 @@
-// src/components/BrandItem.js
-
 import React from 'react';
 import { TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { View } from 'react-native-ui-lib';
 
 const BrandItem = (props) => {
   const { item, handleBrand } = props;
@@ -17,14 +14,18 @@ const BrandItem = (props) => {
 const styles = StyleSheet.create({
   brandContainer: {
     alignItems: 'center',
-    marginRight: 44,
+    marginRight: 20,
+    width: 60, 
+    height: 60,
+    borderRadius: 30, 
+    backgroundColor: '#EEEEEE', 
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   brandImage: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    borderWidth: 1,
-    borderColor: '#EEEEEE',
+    width: 30,
+    height: 30,
+    borderRadius: 25, 
   },
 });
 

@@ -59,7 +59,7 @@ const ShoeItem = (props) => {
       <TouchableOpacity
       style={[
         styles.addButton,
-        { position: 'absolute', bottom: 0, left:119 },
+        { position: 'absolute', bottom: 0, left:116 },
       ]}
       onPress={() => fetchInsertfavorite()}
     >
@@ -77,7 +77,7 @@ const ShoeItem = (props) => {
 const styles = StyleSheet.create({
   shoeCard: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    borderRadius: 18,
     padding: 10,
     marginRight: 15,
     alignItems: 'center',

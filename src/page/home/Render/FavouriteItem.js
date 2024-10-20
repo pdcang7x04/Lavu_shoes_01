@@ -51,7 +51,7 @@ const FavouriteItem = (props) => {
     <TouchableOpacity
       style={[
         styles.addButton,
-        { position: 'absolute', bottom: 0,left:119},
+        { position: 'absolute', bottom: 0,left:117},
       ]}
       onPress={() => fetchRemovefavorite()}
     >
@@ -65,7 +65,7 @@ const FavouriteItem = (props) => {
 const styles = StyleSheet.create({
   shoeCard: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: 18,
     padding: 10,
     marginRight: 15,
     alignItems: 'center',
@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
     width: 157,
     height: 100,
     borderRadius: 10,
-    marginBottom: 5,
+    marginBottom: 0
   },
   TextBestSeller: {
     fontSize: 12,
     fontWeight: 'bold',
     color: colors.orange1,
-    marginBottom: 5,
+    marginTop:10
   },
   shoeName: {
     fontSize: 14,
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     fontFamily: t.Roboto_Bold,
   },
   shoePrice: {
+    marginTop:12,
     fontSize: 12,
     color: colors.black1,
     marginBottom: 5,
