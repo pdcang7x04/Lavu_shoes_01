@@ -36,7 +36,8 @@ const FavouriteItem = (props) => {
 
   
   return(
-  <TouchableOpacity 
+    <View>
+  <TouchableOpacity
     style={[styles.shoeCard, { position: 'relative' }]}
     onPress={() => navigation.navigate(mainstack.productDetai, { product: item?.product[0] })}
   >
@@ -60,9 +61,16 @@ const FavouriteItem = (props) => {
       />
     </TouchableOpacity>
   </TouchableOpacity>
+  </View>
 )};
 
 const styles = StyleSheet.create({
+  container:{
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    padding:10
+  },
   shoeCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 18,

@@ -104,15 +104,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#000000', // Thay màu theo nhu cầu
+    color: '#000000', 
   },
   shoePrice: {
     marginTop:12,
     fontSize: 12,
-    color: '#1A2530', // Thay màu theo nhu cầu
+    color: '#1A2530', 
   },
   addButton: {
-    width: 40,
+    width: 41,
     height: 40,
   
   },
