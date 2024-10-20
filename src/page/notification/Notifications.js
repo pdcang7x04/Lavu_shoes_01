@@ -50,6 +50,7 @@ const Notifications = (props) => {
         </View>
       </View>
       <FlatList
+      style={{marginTop:15}}
         data={DataHistory}
         renderItem={({item})=> <Itemnoti data={item}/>}
         keyExtractor={item => item._id}
@@ -67,10 +68,11 @@ const styles = StyleSheet.create({
         padding: 30,
       },
       header: { 
+
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 20,
+        marginTop:15
       },
       iconContainer: {
         flexDirection: 'row',
@@ -85,6 +87,9 @@ const styles = StyleSheet.create({
       Favourite: {
         fontFamily: t.Roboto_Bold,
         fontSize: 20,
+        alignItems: 'center',
+        alignContent: 'center',
+        marginLeft: 10,
         color: colors.black1,
       },
 })

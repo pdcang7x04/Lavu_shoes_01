@@ -14,7 +14,7 @@ import AxiosInstance from '../../helper/AxiosInstance';
 import { mainstack } from '../../navigation/mainstack';
 import { clearCart } from '../../redux/Reducer';
 import Toast from 'react-native-toast-message';
-
+import { t } from '../../styles/font';
 const useAppDispatcher = () => useDispatch()
 const useAppSelector = useSelector
 
@@ -245,13 +245,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#FFFFFF',
+    justifyContent: 'space-between'
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 10
+    marginTop: 15
   },
   headerTextContainer: {
     width: 24,
@@ -262,25 +262,27 @@ const styles = StyleSheet.create({
     height: 24,
   },
   headerText: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontFamily: t.Roboto_Bold
   },
   section: {
-    marginBottom: 20,
+    flex: 1, 
+    marginVertical: 10,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontFamily: t.Roboto_Bold,
+    marginTop:10
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginTop:20
   },
   paymentDetailsContainer: {
     flex: 1,
     marginLeft: 10,
+    marginTop: 10,
     justifyContent: 'center', 
   },
   cardInfoRow: {
@@ -346,10 +348,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   paymentButton: {
+    marginTop: 20,
     height: 50,
     borderRadius: 25,
   },
   paymentIcon: {
     left: 20,
   },
+  
+  
 });

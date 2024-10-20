@@ -12,7 +12,7 @@ const NotiNP = () => {
             source={{}}
             style={styles.icon_menu}
           />
-          <View style={{alignItems: 'center', marginLeft: 80}}>
+          <View style={{alignItems: 'center', marginLeft: 65}}>
             <Text style={styles.Favourite}>Notifications</Text>
           </View>
         </View>
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
       },
       Favourite: {
+        alignItems: 'center',
         fontFamily: t.Roboto_Bold,
         fontSize: 20,
         color: colors.black1,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
       dayTest: {
         fontSize: 18,
         color: 'black',
-        marginTop: 24,
+        marginTop: 26,
         fontFamily: t.Roboto_Bold,
       },
 })

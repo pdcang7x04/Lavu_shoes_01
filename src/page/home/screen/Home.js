@@ -72,28 +72,19 @@ const Home = (props) => {
     fetchGetProduct(brandId)
     console.log(selectedBrandId)
   }
-
-
-
-
-
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.iconContainer}>
-          
           <TouchableOpacity onPress={() => navigation.navigate(mainstack.accountAndSetting)}>
             <Image
-              source={require('../../../images/icon_menu.png')}
+              source={require('../../../images/image_copy.png')}
               style={styles.icon_menu}
             />
           </TouchableOpacity>
-         
-          <View style={{ alignItems: 'center', marginLeft: 80 }}>
+          <View style={styles.viewheadertext}>
             <Text style={styles.storeLabel}>Store location</Text>
             <Text style={styles.storeLocation}>Mondolibug, Sylhet</Text>
           </View>
-        </View>
         <TouchableOpacity onPress={() => navigation.navigate(mainstack.cart)}>
         <Image
           source={require('../../../images/icon_cart.png')}
@@ -103,8 +94,7 @@ const Home = (props) => {
       </View>
 
       <View style={styles.searchContainer} onPress={() => navigation.navigate(mainstack.search)}>
-        <Image
-          source={require('../../../images/icon_search.png')}
+        <Image source={require('../../../images/icon_search.png')}
           style={styles.searchIcon}
         />
         <TextInput
@@ -133,6 +123,7 @@ const Home = (props) => {
           </Text>
         </View>
         <FlatList
+        style={{alignContent: 'center',marginLeft:20}}
           data={DataProduct.slice(0, 2)}
           renderItem={({ item }) => <ShoeItem item={item} />}
           keyExtractor={(item) => item._id}
@@ -148,36 +139,35 @@ const Home = (props) => {
           <Text style={styles.sectionTitle}>New Arrivals</Text>
           {/* <Text style={styles.seeAllText}>See all</Text> */}
         </View>
-        <FlatList
-          style={{ width: '100%', backgroundColor: '#FFFFFF' }}
+        
+      </View>
+      <FlatList
+          style={styles.newArrivalsList}
           data={DataProduct.filter(item => item.status === 4).slice(0, 1)}
           renderItem={ShoeItem2}
           keyExtractor={(item) => item._id}
         />
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
 export default Home;
 
 const styles = StyleSheet.create({
-  // Styles remain the same as before
+  // Styles remain theh same as before
   container: {
+    width:'100%',
+    height:'100%',
     flex: 1,
     backgroundColor: '#f8f9fb',
-    padding: 30,
-    marginTop:10,
-
+    padding: 20,
   },
   header: {
-
+    height: 60,
+    width:"100%",
     marginTop: 10,
-  },
-  header: {
-
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
     alignItems: 'center',
     marginBottom: 20,
   },
@@ -191,9 +181,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   icon_menu: {
-    width: 28.5,
-    height: 24,
-    marginRight: 10,
+    width: 70,
+    height: 70,
+    marginRight: 'auto'
   },
   storeLabel: {
     fontSize: 12,
@@ -219,9 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginTop: 10,
   },
-  searchIcon: {
-
-    backgroundColor: '#FFFFFF'
+  searchIcon: {backgroundColor: '#FFFFFF'
   },
   searchIcon: {
 
@@ -243,18 +231,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
+    marginTop:30
 
   },
   flatlistProduct: {
-    marginTop: 30,
+    marginTop:15
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#1A2530',
     fontFamily: t.Roboto_Bold,
-    marginTop: 10,
+    marginTop: 20,
   },
   seeAllText: {
     fontSize: 16,
@@ -267,7 +255,7 @@ const styles = StyleSheet.create({
 
 
   sectionContainer: {
-    marginBottom: 20,
+    marginTop:20
 
   },
   titleContainer: {
@@ -294,5 +282,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingRight: 30,
   },
-
+  viewheadertext:{
+    alignItems: "center",
+  },
+  newArrivalsList: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    marginTop: 10,
+    paddingVertical: 10,
+    borderRadius: 30,
+    elevation: 2, 
+  },
 });
