@@ -16,7 +16,7 @@ const notificationIcon = require('../../images/notifications.png');
 const shippingIcon = require('../../images/shopping.png');
 const paymentIcon = require('../../images/payment.png');
 const passwordIcon = require('../../images/icon.png');
-const logoutIcon = require('../../images/logout.webp');
+const logoutIcon = require('../../images/icon_logout2.png');
 const ArrowIcon = require('../../images/Arrow.png');
 
 const useAppDispatcher = () => useDispatch();

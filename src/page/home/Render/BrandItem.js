@@ -1,20 +1,22 @@
 import React from 'react';
-import { TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet, View } from 'react-native';
 
 const BrandItem = (props) => {
   const { item, handleBrand } = props;
 
   return (
+    <View style={styles.circle}>
     <TouchableOpacity style={styles.brandContainer} onPress={() => handleBrand(item._id)}>
-      <Image source={{ uri: item.image }} style={styles.brandImage} />
+        <Image source={{ uri: item.image }} style={styles.brandImage} />
     </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  brandContainer: {
-    alignItems: 'center',
-    marginRight: 20,
+  
+  circle: {
+    margin: 10,
     width: 60, 
     height: 60,
     borderRadius: 30, 
@@ -23,9 +25,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   brandImage: {
-    width: 30,
-    height: 30,
-    borderRadius: 25, 
+    width: 10, 
+    height: 10,
+   
   },
 });
 

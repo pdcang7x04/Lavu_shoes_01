@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
-import { StyleSheet, Text, View, Image, Animated, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, Animated, FlatList,ScrollView } from 'react-native';
 import { colors } from '../../styles/colors';
 import { t } from '../../styles/font';
 import ItemnotiNP from './ItemnotiNP';
+
 
 const NotiNP = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -10,7 +11,7 @@ const NotiNP = () => {
   const renderItem = ({ item, index }) => {
     const scale = scrollY.interpolate({
       inputRange: [-100, 0, 100 * index, 100 * (index + 2)],
-      outputRange: [2, 1, 1, 2],
+      outputRange: [1.2, 1, 1, 1.2],
       extrapolate: 'clamp',
     });
 
@@ -22,11 +23,12 @@ const NotiNP = () => {
   };
 
   return (
+  
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconContainer}>
           <Image
-            source={{}} // Bạn có thể thay thế bằng hình ảnh của bạn
+            source={{}} 
             style={styles.icon_menu}
           />
           <View style={{ alignItems: 'center', marginLeft: 65 }}>
@@ -36,26 +38,21 @@ const NotiNP = () => {
         <Text style={styles.clearText}>Clear All</Text>
       </View>
       <Text style={styles.dayTest}>Today</Text>
-      <Animated.FlatList
+      <FlatList
         data={notifications}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: true }
-        )}
       />
       <Text style={styles.dayTest}>Yesterday</Text>
-      <Animated.FlatList
+    
+      <FlatList
         data={yesterdayNotifications}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: true }
-        )}
       />
+  
     </View>
+  
   );
 };
 
@@ -65,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    padding: 30,
+    padding: 20,
   },
   header: {
     flexDirection: 'row',

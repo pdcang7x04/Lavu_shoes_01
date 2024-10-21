@@ -109,7 +109,7 @@ const Home = (props) => {
           renderItem={({ item }) => <ShoeItem item={item} />}
           keyExtractor={(item) => item._id}
           numColumns={2}
-          style={{ margin: 20 }}
+          style={styles.shosesitem}
           showsHorizontalScrollIndicator={false}
         />
       </View>
@@ -138,6 +138,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#F7F7F7',
+  },
+  shosesitem:{
+    marginLeft:9,
+    alignContent: 'center',
   },
   header: {
     flexDirection: 'row',
@@ -204,6 +208,7 @@ const styles = StyleSheet.create({
     color: colors.orange1,
   },
   brandList: {
+    
     paddingVertical: 10,
     paddingRight: 30,
   },
