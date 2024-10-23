@@ -7,101 +7,95 @@ import { t } from '../../../styles/font';
 import { useNavigation } from '@react-navigation/native';
 import { mainstack } from '../../../navigation/mainstack';
 import AxiosInstance from '../../../helper/AxiosInstance';
-import { removeProductFavorite, updateProductFavorite } from '../../../redux/Reducer';
+import { removeProductFavorite } from '../../../redux/Reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
-const useAppDispatcher = () => useDispatch()
-const useAppSelector = useSelector
+const FavouriteItem = ({ item }) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
+  const fetchRemoveFavorite = async () => {
+    if (!item?._id) return;
 
-const FavouriteItem = (props) => {
-  const {item} = props
-  const navigation = useNavigation()
-  console.log("favorite",item?._id)
-
-  const dispatch = useDispatch()
-  const appState = useAppSelector((state) => state.lavu)
-
-  const fetchRemovefavorite = async () => {
     try {
-      const response = await AxiosInstance().delete(`/favorites/delete/${item?._id}`);
-      if(response.status){
-        dispatch(removeProductFavorite(item?._id))
+      const response = await AxiosInstance().delete(`/favorites/delete/${item._id}`);
+      if (response.status) {
+        dispatch(removeProductFavorite(item._id));
       }
     } catch (error) {
-      console.log(error)
+      console.error("Error removing favorite:", error);
     }
-  }
+  };
 
-
-  
-  return(
-  <TouchableOpacity 
-    style={[styles.shoeCard, { position: 'relative' }]}
-    onPress={() => navigation.navigate(mainstack.productDetai, { product: item?.product[0] })}
-  >
-    <Image source={{uri: item?.product[0].image[0]}} style={styles.shoeImage} />
-    {/* <Image source={require('../../../images/logo.png')} style={styles.shoeImage} /> */}
-
-    <View style={{ textAlign: 'left', width: '100%' }}>
-      <Text style={styles.TextBestSeller}>BEST SELLER</Text>
-      <Text style={styles.shoeName}>{item?.product.map(p => p.name)}</Text>
-      <Text style={styles.shoePrice}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.product.map(p => p.price))}</Text>
+  return (
+    <View style={styles.shoeCard}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(mainstack.productDetail, { product: item?.product[0] })}
+      >
+        <Image source={{ uri: item?.product[0]?.image[0] }} style={styles.shoeImage} />
+        <View style={styles.textContainer}>
+          <Text style={styles.textBestSeller}>BEST SELLER</Text>
+          <Text style={styles.shoeName}>{item?.product[0]?.name}</Text>
+          <Text style={styles.shoePrice}>
+            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.product[0]?.price)}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.addButton} onPress={fetchRemoveFavorite}>
+        <Image source={require('../../../images/add.png')} style={styles.addButtonImage} />
+      </TouchableOpacity>
     </View>
-    <TouchableOpacity
-      style={[
-        styles.addButton,
-        { position: 'absolute', bottom: 0,left:119},
-      ]}
-      onPress={() => fetchRemovefavorite()}
-    >
-      <Image source={require('../../../images/add.png')}
-      style={styles.addButton}
-      />
-    </TouchableOpacity>
-  </TouchableOpacity>
-)};
+  );
+};
 
 const styles = StyleSheet.create({
   shoeCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    padding: 10,
-    marginRight: 15,
-    alignItems: 'center',
     width: 157,
-    height: 201,
+    height: 190,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    margin: 10,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     elevation: 2,
-    margin: 10,
+    padding: 10,
+    position: 'relative', 
   },
   shoeImage: {
-    width: 157,
+
+    width: '100%',
     height: 100,
     borderRadius: 10,
-    marginBottom: 5,
   },
-  TextBestSeller: {
-    fontSize: 12,
+  textContainer: {
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  textBestSeller: {
+    fontSize: 10,
     fontWeight: 'bold',
     color: colors.orange1,
-    marginBottom: 5,
+    marginTop: 5,
   },
   shoeName: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 'bold',
-    marginBottom: 5,
     color: colors.black1,
     fontFamily: t.Roboto_Bold,
+    marginTop: 5,
   },
   shoePrice: {
+    marginTop:10,
     fontSize: 12,
     color: colors.black1,
-    marginBottom: 5,
     fontFamily: t.Roboto_Bold,
   },
   addButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0, 
+  },
+  addButtonImage: {
     width: 40,
     height: 40,
   },

@@ -1,6 +1,6 @@
 // src/screens/Favourite.js
 
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList,TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import { colors } from '../../../styles/colors';
 import { t } from '../../../styles/font';
@@ -38,10 +38,12 @@ const Favourite = (props) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconContainer}>
-          <Image
-            source={{}} // Đảm bảo đường dẫn chính xác cho icon menu
-            style={styles.icon_menu}
-          />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={require('../../../images/icon_back.png')}
+              style={styles.icon_menu}
+            />
+          </TouchableOpacity>
           <View style={{ alignItems: 'center', marginLeft: 80 }}>
             <Text style={styles.Favourite}>Favourite</Text>
           </View>
@@ -70,13 +72,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fb',
-    padding: 30,
+    padding: 20,
+    marginTop:15,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginTop:20
   },
   iconContainer: {
     flexDirection: 'row',
@@ -95,6 +98,7 @@ const styles = StyleSheet.create({
   Favourite: {
     fontFamily: t.Roboto_Bold,
     fontSize: 20,
+    alignItems: 'center',
     color: colors.black1,
   },
   sectionContainer: {
