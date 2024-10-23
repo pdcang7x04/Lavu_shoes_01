@@ -24,7 +24,7 @@ const Stack = createNativeStackNavigator();
 const UserNavigation = () => {
   return (
     <Stack.Navigator
-      initialRouteName={mainstack.bestSellerSreen}
+      initialRouteName={mainstack.welcome}
       screenOptions={{headerShown: false}}>
 
       <Stack.Screen name={mainstack.detail} component={Detail} />

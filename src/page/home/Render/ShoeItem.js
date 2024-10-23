@@ -29,7 +29,7 @@ const ShoeItem = (props) => {
   return (
     <View style={styles.shoeCard}>
       <TouchableOpacity
-        onPress={() => navigation.navigate(mainstack.productDetail, { product: item })}
+        onPress={() => navigation.navigate(mainstack.productDetai, { product: item })}
       >
         <Image source={{ uri: item.image[0] }} style={styles.shoeImage} />
         <View style={styles.textContainer}>
