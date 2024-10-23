@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, FlatList } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { colors } from '../../styles/colors';
 import { t } from '../../styles/font';
@@ -33,16 +33,18 @@ const Search = (props) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../images/icon_back.png')}
             style={styles.icon_menu}
           />
+          </TouchableOpacity>
           <View style={{ alignItems: 'center', marginLeft: 80 }}>
 
             <Text style={styles.storeLocation}>Search</Text>
           </View>
         </View>
-        <Text style={styles.text_cancel} onPress={() => navigation.goBack()}>Cancel</Text>
+        <Text style={styles.text_cancel} onPress={() => setSearch("")}>Cancel</Text>
       </View>
       <View style={styles.searchContainer}>
         <Image

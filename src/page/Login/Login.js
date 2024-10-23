@@ -7,6 +7,8 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, signInWithGoogle } from '../../redux/User/CallAPIUser';
 import { validateEmail, validatePassword } from '../../middlewares/Validate';
+import AxiosInstance from '../../helper/AxiosInstance';
+import { updateProductFavorite } from '../../redux/Reducer';
 
 const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
@@ -21,14 +23,14 @@ const Login = (props) => {
   const [Password, setPassword] = useState('Cang@123456789')
   const [SecureTextEntry, setSecureTextEntry] = useState(true)
 
-// SIGN IN WITH GOOGLE
+  // SIGN IN WITH GOOGLE
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: '422139788573-cj47q1k6gvqk03r6h0qgd9cvea0264gd.apps.googleusercontent.com',
     });
   }, []);
 
-  
+
   async function onGoogleButtonPress() {
     try {
       // Check if your device supports Google Play
@@ -48,17 +50,22 @@ const Login = (props) => {
     }
   }
 
+  
   // ĐĂNG NHẬP
   const handleLogin = async () => {
-    validateEmail(Email)
-    validatePassword(Password)
+
 
     try {
-      const body = {
-        email: Email,
-        password: Password
+      if (validateEmail(Email) && validatePassword(Password)) {
+        const body = {
+          email: Email,
+          password: Password
+        }
+        
+        dispatch(login(body))
+      } else {
+        return
       }
-      dispatch(login(body))
 
     } catch (error) {
       console.log(error)
@@ -66,9 +73,9 @@ const Login = (props) => {
   }
 
   const hidePassword = () => {
-    if(SecureTextEntry == true){
+    if (SecureTextEntry == true) {
       setSecureTextEntry(false)
-    }else{
+    } else {
       setSecureTextEntry(true)
     }
   }
@@ -221,6 +228,7 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     alignSelf: 'flex-end',
     marginTop: 12,
+    color: colors.black1
   },
   viewButtonSignIn: {
     flexDirection: 'row',

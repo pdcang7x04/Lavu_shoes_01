@@ -1,31 +1,33 @@
-// src/components/BrandItem.js
-
 import React from 'react';
-import { TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet, View } from 'react-native';
 
 const BrandItem = (props) => {
-  const {item, handleBrand} = props
+  const { item, handleBrand } = props;
 
-  
   return (
-    <TouchableOpacity style={styles.brandButton} onPress={() => handleBrand(item._id)}>
-      <Image source={{uri: item.image}} style={styles.brandImage} />
+    <View style={styles.circle}>
+    <TouchableOpacity style={styles.brandContainer} onPress={() => handleBrand(item._id)}>
+        <Image source={{ uri: item.image }} style={styles.brandImage} />
     </TouchableOpacity>
-  )
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-  brandButton: {
+  
+  circle: {
+    margin: 10,
+    width: 60, 
+    height: 60,
+    borderRadius: 30, 
+    backgroundColor: '#EEEEEE', 
+    justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 15,
   },
   brandImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: '#E0E0E0', // Thay màu theo nhu cầu
-    marginBottom: 5,
+    width: 10, 
+    height: 10,
+   
   },
 });
 

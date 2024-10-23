@@ -4,8 +4,10 @@ import { mainstack } from '../../navigation/mainstack'
 import { colors } from '../../styles/colors'
 import { t } from '../../styles/font'
 import { useDispatch, useSelector } from 'react-redux'
-import { validate_phone, validateUsername } from '../../middlewares/Validate'
+import { validate_phone, validateAddress, validateUsername } from '../../middlewares/Validate'
 import AxiosInstance from '../../helper/AxiosInstance'
+import { login } from '../../redux/User/CallAPIUser'
+import { updateUser } from '../../redux/Reducer'
 
 const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
@@ -26,14 +28,19 @@ const Shipping_Address = (props) => {
 
 
     try {
-      const data = {
-        address: Address,
-        phone: Phone
-      }
-      const response = await AxiosInstance().put(`/users/updateShippingAddress/${appState.user._id}`, data);
-      console.log('res: ', response.data);
-      if (response.status) {
-        navigation.goBack()
+      if (!validateAddress(Address) || !validate_phone(Phone)) {
+        return
+      } else {
+        const data = {
+          address: Address,
+          phone: Phone
+        }
+        const response = await AxiosInstance().put(`/users/updateShippingAddress/${appState.user._id}`, data);
+        console.log('res: ', response.data);
+        if (response.status) {
+          dispatch(updateUser(response.data))
+          navigation.goBack()
+        }
       }
     } catch (error) {
       console.log(error)
@@ -42,7 +49,7 @@ const Shipping_Address = (props) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={{alignSelf: 'flex-start'}} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => navigation.goBack()}>
         <Image
           source={require('../../images/icon_back.png')}
           style={styles.iconBack}
