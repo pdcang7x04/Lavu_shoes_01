@@ -31,7 +31,7 @@ export const register = createAsyncThunk(
         }
 
     }
-  },
+
 );
 
 export const signInWithGoogle = createAsyncThunk(

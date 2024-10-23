@@ -7,12 +7,15 @@ import { t } from '../../../styles/font';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProductFavorite } from '../../../redux/Reducer';
 import AxiosInstance from '../../../helper/AxiosInstance';
+import { useNavigation } from '@react-navigation/native';
+import { mainstack } from '../../../navigation/mainstack';
 
 const useAppDispatcher = () => useDispatch()
 const useAppSelector = useSelector
 
 const BestSellerItem = (props) => {
   const {item} = props
+  const navigation = useNavigation()
 
   const dispatch = useDispatch()
   const appState = useAppSelector((state) => state.lavu)
@@ -54,7 +57,7 @@ const BestSellerItem = (props) => {
   }
 
   return(
-  <View style={[styles.shoeCard, { position: 'relative' }]}>
+  <TouchableOpacity style={[styles.shoeCard, { position: 'relative' }]} onPress={() => navigation.navigate(mainstack.productDetai, { product: item })}>
     <Image source={{uri: item.image[0]}} style={styles.shoeImage} />
     <View style={{ textAlign: 'left', width: '100%' }}>
       <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
@@ -73,7 +76,7 @@ const BestSellerItem = (props) => {
       style = {styles.addButton}
       />
     </TouchableOpacity>
-  </View>
+  </TouchableOpacity>
 )};
 
 const styles = StyleSheet.create({

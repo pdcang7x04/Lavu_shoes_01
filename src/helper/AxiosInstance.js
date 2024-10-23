@@ -4,11 +4,15 @@ import axios from 'axios';
 const AxiosInstance = (contentType = 'application/json') => {
     const axiosInstance = axios.create({
 
+
         baseURL: 'http://192.168.1.66:3000/'
 
 
         baseURL: 'http://192.168.100.6:3000/'
 
+
+
+        baseURL: 'http://192.168.228.120:3000/'
 
     });
     // cmd ----> ipconfig ---> ipv4 (192.168.1.1)
