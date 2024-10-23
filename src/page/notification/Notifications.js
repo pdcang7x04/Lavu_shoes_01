@@ -1,26 +1,59 @@
-import { StyleSheet, Text, View , Image,FlatList } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View , Image,FlatList, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import {colors} from '../../styles/colors';
 import {t} from '../../styles/font';
 import Itemnoti from './Itemnoti';
-const Notifications = () => {
+import AxiosInstance from '../../helper/AxiosInstance';
+import { useDispatch, useSelector } from 'react-redux';
+
+const useAppDispatcher = () => useDispatch()
+const useAppSelector = useSelector
+
+const Notifications = (props) => {
+  const {navigation} = props
+
+  const dispatch = useDispatch()
+  const appState = useAppSelector((state) => state.lavu)
+
+  const [DataHistory, setDataHistory] = useState([])
+
+  const fetchGetHistory = async () => {
+    try {
+      const response = await AxiosInstance().get(`/orders/getHistoryShopping/${appState.user.email}`);
+      if (response.status) {
+        setDataHistory(response.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchGetHistory()
+  }, [])
+  
+  console.log("HISTORY: ", DataHistory)
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../images/icon_back.png')}
             style={styles.icon_menu}
           />
+          </TouchableOpacity>
           <View style={{alignItems: 'center', marginLeft: 80}}>
             <Text style={styles.Favourite}>History</Text>
           </View>
         </View>
       </View>
       <FlatList
-        data={orderData}
+      style={{marginTop:15}}
+        data={DataHistory}
         renderItem={({item})=> <Itemnoti data={item}/>}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
       />
     </View>
   )
@@ -35,10 +68,11 @@ const styles = StyleSheet.create({
         padding: 30,
       },
       header: { 
+
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 20,
+        marginTop:15
       },
       iconContainer: {
         flexDirection: 'row',
@@ -53,6 +87,9 @@ const styles = StyleSheet.create({
       Favourite: {
         fontFamily: t.Roboto_Bold,
         fontSize: 20,
+        alignItems: 'center',
+        alignContent: 'center',
+        marginLeft: 10,
         color: colors.black1,
       },
 })

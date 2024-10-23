@@ -1,64 +1,80 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import { mainstack } from '../../navigation/mainstack'
 import { colors } from '../../styles/colors'
 import { t } from '../../styles/font'
 import AxiosInstance from '../../helper/AxiosInstance'
 import { useDispatch, useSelector } from 'react-redux'
+import Toast from 'react-native-toast-message'
 
 const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
 
 const Password_authentication = (props) => {
-    const { navigation, route } = props;
-    const {params} = route
+  const { navigation, route } = props;
+  const { params } = route
 
-    const dispatch = useDispatch();
-    const appState = useAppSelector((state) => state.lavu);  
+  const dispatch = useDispatch();
+  const appState = useAppSelector((state) => state.lavu);
 
-    const [Password, setPassword] = useState('')
-    const [SecureTextEntry, setSecureTextEntry] = useState(true)
+  const [Password, setPassword] = useState('')
+  const [SecureTextEntry, setSecureTextEntry] = useState(true)
 
-    console.log(params.email)
+  console.log(params.email)
 
 
-    const data = {
-      _id: appState.otp._id.toString(),
-      otp: Password
-    }
+  const data = {
+    _id: appState.otp._id.toString(),
+    otp: Password
+  }
 
-    const verifyOTP = async () => {
+  const verifyOTP = async () => {
+    if (!Password.trim()) {
+      return Toast.show({
+        text1: "OTP là bắt buộc",
+        position: "top",
+        type: "error"
+      })
+    } else {
       const response = await AxiosInstance().post(`/users/verifyOTP`, data);
       console.log('res: ', response.data);
       if (response.status) {
-        navigation.navigate(mainstack.setupnewpassword, {email: params.email})
+        navigation.navigate(mainstack.setupnewpassword, { email: params.email })
+      }else{
+        return Toast.show({
+          text1: "OTP không đúng",
+          position: "top",
+          type: "error"
+        })
       }
     }
 
-    const hidePassword = () => {
-      if(SecureTextEntry == true){
-        setSecureTextEntry(false)
-      }else{
-        setSecureTextEntry(true)
-      }
+  }
+
+  const hidePassword = () => {
+    if (SecureTextEntry == true) {
+      setSecureTextEntry(false)
+    } else {
+      setSecureTextEntry(true)
     }
-   
+  }
+
   return (
-    <View style ={styles.container}>
+    <View style={styles.container}>
       <TouchableOpacity style={styles.iconBack} onPress={() => navigation.goBack()}>
-      <Image
-        source={require('../../images/icon_back.png')}
-        style={styles.iconBack}
-      />
+        <Image
+          source={require('../../images/icon_back.png')}
+          style={styles.iconBack}
+        />
       </TouchableOpacity>
 
 
-       <Text style={styles.textHello}>Password authentication</Text>
-       <Text style={styles.contentHello}>Enter 4-digits code we sent you on your phone number</Text>
+      <Text style={styles.textHello}>Password authentication</Text>
+      <Text style={styles.contentHello}>Enter 4-digits code we sent you on your phone number</Text>
 
 
-       <View style={styles.viewInput}>
-        
+      <View style={styles.viewInput}>
+
         <View style={styles.viewTextInput}>
           <TextInput
             value={Password}
@@ -66,7 +82,7 @@ const Password_authentication = (props) => {
             placeholder='8888'
             style={styles.textInput}
             keyboardType='number-pad'
-            
+
             secureTextEntry={SecureTextEntry}
           />
           <TouchableOpacity onPress={hidePassword}>
@@ -189,5 +205,5 @@ const styles = StyleSheet.create({
   color: {
     color: colors.orange1,
   }
-    
+
 })

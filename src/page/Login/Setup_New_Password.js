@@ -31,16 +31,21 @@ const Setup_New_Password = (props) => {
   }
 
   const setUpNewPassword = async () => {
-    validatePassword(NewPassword)
-    if (NewPassword !== RepeatPassword) {
-      ToastAndroid.show("Passwords do not match", ToastAndroid.SHORT)
+    if(!validatePassword(NewPassword)){
       return
     }
-
+    if (NewPassword !== RepeatPassword) {
+      return Toast.show({
+        text1: "Mật khẩu không tr khớp",
+        position: "top",
+        type: "error"
+      })
+    }
+    console.log(params.email)
     const response = await AxiosInstance().put(`/users/forgotPassword/${params.email}`, { password: NewPassword });
     console.log('res: ', response.data);
     if (response.status) {
-      // navigation.navigate(mainstack.setupnewpassword)
+      navigation.navigate(mainstack.login)
     }
   }
   return (

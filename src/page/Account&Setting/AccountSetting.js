@@ -10,12 +10,13 @@ import {Card, View, Text, Switch} from 'react-native-ui-lib';
 import Header from '../../components/Header';
 import {mainstack} from '../../navigation/mainstack';
 import {useDispatch, useSelector} from 'react-redux';
+import { logout } from '../../redux/Reducer';
 
 const notificationIcon = require('../../images/notifications.png');
 const shippingIcon = require('../../images/shopping.png');
 const paymentIcon = require('../../images/payment.png');
 const passwordIcon = require('../../images/icon.png');
-const logoutIcon = require('../../images/logout.webp');
+const logoutIcon = require('../../images/icon_logout2.png');
 const ArrowIcon = require('../../images/Arrow.png');
 
 const useAppDispatcher = () => useDispatch();
@@ -95,7 +96,7 @@ const AccountSetting = props => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} onPress={() => dispatch(logout())}>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={logoutIcon} style={styles.icon} />

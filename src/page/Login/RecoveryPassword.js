@@ -21,9 +21,10 @@ const RecoveryPassword = (props) => {
 
   const sendOTP = async () => {
     try {
-      validateEmail(Email)
-      await dispatch(sendOTPVerificationEmail({email: Email}))
-      navigation.navigate(mainstack.passwordauthentication, {email: Email})
+      if (validateEmail(Email)) {
+        await dispatch(sendOTPVerificationEmail({ email: Email }))
+        navigation.navigate(mainstack.passwordauthentication, { email: Email })
+      } else { return }
     } catch (error) {
       console.log('error:', error.message);
     }
@@ -31,10 +32,10 @@ const RecoveryPassword = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.iconBack} onPress={() => navigation.goBack()}>
-      <Image
-        source={require('../../images/icon_back.png')}
-        style={styles.iconBack}
-      />
+        <Image
+          source={require('../../images/icon_back.png')}
+          style={styles.iconBack}
+        />
       </TouchableOpacity>
 
       <Text style={styles.textHello}>Recovery Password</Text>

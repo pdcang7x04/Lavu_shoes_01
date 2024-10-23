@@ -4,9 +4,18 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { t } from '../../../styles/font';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProductFavorite } from '../../../redux/Reducer';
+import AxiosInstance from '../../../helper/AxiosInstance';
+
+const useAppDispatcher = () => useDispatch()
+const useAppSelector = useSelector
 
 const BestSellerItem = (props) => {
   const {item} = props
+
+  const dispatch = useDispatch()
+  const appState = useAppSelector((state) => state.lavu)
 
   const statusProduct = () => {
     if(item.status == 1){
@@ -32,6 +41,18 @@ const BestSellerItem = (props) => {
     }
   
   }
+
+  const fetchInsertfavorite = async () => {
+    try {
+      const response = await AxiosInstance().post(`/favorites/insert/${appState.user.email}`, {product_id: item._id});
+      if(response.status){
+        dispatch(updateProductFavorite(response.data))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return(
   <View style={[styles.shoeCard, { position: 'relative' }]}>
     <Image source={{uri: item.image[0]}} style={styles.shoeImage} />
@@ -44,8 +65,9 @@ const BestSellerItem = (props) => {
     <TouchableOpacity
       style={[
         styles.addButton,
-        { position: 'absolute', bottom:1, left:120 },
+        { position: 'absolute', bottom:0, left:110 },
       ]}
+      onPress={() => fetchInsertfavorite()}
     >
       <Image source={require('../../../images/add.png')} 
       style = {styles.addButton}
@@ -57,7 +79,7 @@ const BestSellerItem = (props) => {
 const styles = StyleSheet.create({
   shoeCard: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: 15,
     padding: 10,
     marginRight: 15,
     alignItems: 'center',
@@ -70,7 +92,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   shoeImage: {
-    width: 200,
+    width: 157,
     height: 100,
     borderRadius: 10,
     marginBottom: 5,

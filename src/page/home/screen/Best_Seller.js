@@ -33,6 +33,7 @@ const Best_Seller = (props) => {
   }, [brandId])
   console.log("product: ", DataProduct)
 
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>

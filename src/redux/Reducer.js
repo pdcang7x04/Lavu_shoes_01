@@ -10,6 +10,7 @@ const appSlice = createSlice({
         user: null,
         otp: null,
         cart: [],
+        productFavorite: [],
 
     },
     reducers: {
@@ -63,7 +64,23 @@ const appSlice = createSlice({
         },
         clearCart: (state, action) => {
             state.cart = [];
-        }
+        },
+        logout: (state, action) => {
+            state.user = null;
+
+        },
+        updateUser: (state, action) => {
+            state.user = action.payload
+        },
+        updateProductFavorite: (state, action) => {
+            state.productFavorite = action.payload
+        },
+        removeProductFavorite: (state, action) => {
+            // Giả định rằng action.payload là ID của sản phẩm cần xóa
+            state.productFavorite = state.productFavorite.filter(
+                (item) => item._id !== action.payload
+            );
+        },
     },
     extraReducers: (builder) => {
         builderRegister(builder);
@@ -75,5 +92,15 @@ const appSlice = createSlice({
 
 })
 
-export const { addItemToCart, removeItemFromCart, ascendingQuantity, decreaseQuantity, clearCart } = appSlice.actions;
+export const { 
+    addItemToCart, 
+    removeItemFromCart, 
+    ascendingQuantity, 
+    decreaseQuantity, 
+    clearCart,
+    logout,
+    updateUser,
+    updateProductFavorite,
+    removeProductFavorite,
+ } = appSlice.actions;
 export default appSlice.reducer;

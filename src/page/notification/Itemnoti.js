@@ -4,15 +4,32 @@ import {colors} from '../../styles/colors';
 import {t} from '../../styles/font';
 const Itemnoti = (props) => {
     const {data} = props;
+
+    console.log("hiôtrry: ", data)
+    
+    const orderStatus = () => {
+      if(data.paymentStatus == 1){
+        return "Chưa thanh toán"
+      }
+      if(data.paymentStatus == 2){
+        return "Đã thanh toán"
+      }
+      if(data.paymentStatus == 3){
+        return "Đang giao"
+      }
+      if(data.paymentStatus == 2){
+        return "Đã hủy"
+      }
+    }
   return (
     <View style={styles.orderItem}>
-    <Image source={data.image} style={styles.image} />
+    <Image source={require('../../images/logo.png')} style={styles.image} />
     <View style={styles.orderDetails}>
-      <Text style={styles.orderText}>Order #{data.id}</Text>
+      <Text style={styles.orderText}>Order #</Text>
       <Text style={styles.orderText1}>Standard Delivery</Text>
-      <Text style={styles.statusText}>{data.status}</Text>
+      <Text style={styles.statusText}>{orderStatus()}</Text>
     </View>
-    <Text style={styles.itemsText}>{data.items} items</Text>
+    <Text style={styles.itemsText}>{data.orderDetail.length} items</Text>
   </View>
 
   )
