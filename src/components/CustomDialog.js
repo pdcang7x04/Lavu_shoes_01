@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {View, Dialog, Colors, Text} from 'react-native-ui-lib';
+import {View, Dialog, Colors, Text, Card} from 'react-native-ui-lib';
 const CustomDialog = ({
   visible,
   onDismiss,
   height,
-  panDirection,
+  panDirection = Dialog.directions.DOWN,
   containerStyle,
   renderPannableHeader,
   pannableHeaderProps,
@@ -13,9 +13,13 @@ const CustomDialog = ({
   ignoreBackgroundPress,
   customHeader,
   children,
-  isDisable,
-  title = null,
-  titleStyle = {},
+  isDisable = false,
+  title,
+  titleStyle = {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.black,
+  },
   ...props
 }) => {
   return (
@@ -33,10 +37,10 @@ const CustomDialog = ({
       {customHeader ? (
         customHeader
       ) : (
-        <View
+        <Card
           center
-          style={{borderTopLeftRadius: 16, borderTopRightRadius: 16}}
-          backgroundColor={Colors.basewhite}>
+          borderRadius={16}
+          backgroundColor={Colors.white}>
           <View
             backgroundColor="#d9d9d9"
             width={42}
@@ -49,7 +53,7 @@ const CustomDialog = ({
               {title}
             </Text>
           )}
-        </View>
+        </Card>
       )}
       {children}
     </Dialog>
@@ -58,7 +62,7 @@ const CustomDialog = ({
 
 const styles = StyleSheet.create({
   dialog: {
-    backgroundColor: Colors.basewhite,
+    backgroundColor: Colors.white,
   },
 });
 
