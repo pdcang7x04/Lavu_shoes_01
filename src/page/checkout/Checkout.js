@@ -220,7 +220,7 @@ const Checkout = (props) => {
           </View>
           <TouchableOpacity marginT-30 onPress={() => {
             setVisibleDialog(false)
-            navigation.navigate(mainstack.home)
+            navigation.navigate(mainstack.bottomnavigation)
           }}>
             <Card
               backgroundColor="#F15E2B"
