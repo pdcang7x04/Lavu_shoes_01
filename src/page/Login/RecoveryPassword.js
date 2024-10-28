@@ -38,11 +38,11 @@ const RecoveryPassword = (props) => {
         />
       </TouchableOpacity>
 
-      <Text style={styles.textHello}>Recovery Password</Text>
-      <Text style={styles.contentHello}>Please Enter Your Email Address To Recieve a Verification Code</Text>
+      <Text style={styles.textHello}>Khôi Phục Mật Khẩu</Text>
+      <Text style={styles.contentHello}>Vui Lòng Nhập Địa Chỉ Email Của Bạn Để Nhận Mã Xác Minh</Text>
 
       <View style={styles.viewInput}>
-        <Text style={styles.title}>Email Address</Text>
+        <Text style={styles.title}>Email</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={Email}
@@ -59,7 +59,7 @@ const RecoveryPassword = (props) => {
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
         onPress={() => sendOTP()}
       >
-        <Text style={[styles.textButton, { color: colors.white }]}>Continue</Text>
+        <Text style={[styles.textButton, { color: colors.white }]}>Tiếp tục</Text>
       </TouchableOpacity>
 
     </View>

@@ -16,6 +16,7 @@ import NotiNP from '../page/notificationNP/NotiNP';
 import Best_Seller from '../page/home/screen/Best_Seller';
 import Detail from '../page/detail/Detail';
 import Checkout from '../page/checkout/Checkout';
+import Comment from '../page/Comment/Comment';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ const MainNavigation = () => {
       <Stack.Screen name ={mainstack.notification} component={NotiNP}/>
       <Stack.Screen name ={mainstack.productDetai} component={Detail}/>
       <Stack.Screen name ={mainstack.checkout} component={Checkout}/>
+      <Stack.Screen name ={mainstack.Comment} component={Comment}/>
 
     </Stack.Navigator>
   )

@@ -45,7 +45,7 @@ const Favourite = (props) => {
             />
           </TouchableOpacity>
           <View style={{ alignItems: 'center', marginLeft: 80 }}>
-            <Text style={styles.Favourite}>Favourite</Text>
+            <Text style={styles.Favourite}>Yêu Thích</Text>
           </View>
         </View>
         <Image

@@ -1,161 +1,207 @@
 import {Card, Image, Text, TouchableOpacity, View} from 'react-native-ui-lib';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, ScrollView, Alert} from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../components/Header';
-import { t } from '../../styles/font';
+import {t} from '../../styles/font';
 import Button from '../../components/Button';
-import { mainstack } from '../../navigation/mainstack';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItemToCart } from '../../redux/Reducer';
+import {mainstack} from '../../navigation/mainstack';
+import {useDispatch, useSelector} from 'react-redux';
+import {addItemToCart} from '../../redux/Reducer';
+import {useNavigation} from '@react-navigation/native';
+import CommentItem from '../Comment/CommentItem';
 
-const useAppDispatcher = () => useDispatch()
-const useAppSelector = useSelector
+// const useAppDispatcher = useDispatch();
+// const useAppSelector = useSelector;
 
-const Detail = (props) => {
-  const {navigation, route} = props
-  const {product} = route.params
+const Detail = props => {
+  const navigation = useNavigation();
+  const {route} = props;
+  const {product} = route.params;
+  // console.log(product);
 
-  const dispatch = useDispatch()
-  const appState = useAppSelector((state) => state.lavu)
+  const dispatch = useDispatch();
+  // const appState = useAppSelector(state => state.lavu);
 
   const [select_color, setselect_color] = useState(product?.color[0]);
 
   const [select_size, setselect_size] = useState(product?.size[0]);
 
   const statusProduct = () => {
-    if(product?.status == 1){
-      return "NEW"
-    }else
-    if(product?.status == 2){
-      return "BEST SELLER"
-    }else
-    if(product?.status == 3){
-      return "POPULAR"
-    }else
-    if(product?.status == 4){
-      return "LIMITED"
+    if (product?.status === 1) {
+      return 'NEW';
+    } else if (product?.status === 2) {
+      return 'BEST SELLER';
+    } else if (product?.status === 3) {
+      return 'POPULAR';
+    } else if (product?.status === 4) {
+      return 'GIỚI HẠN';
     }
-  }
-  
+  };
+
   const handleAddToCart = () => {
     const data = {
-      ...product, ...{
+      ...product,
+      ...{
         color: select_color,
         size: select_size,
-        quantity: 1
-      }
-    }
-    dispatch(addItemToCart(data))
-
-  }
+        quantity: 1,
+      },
+    };
+    dispatch(addItemToCart(data));
+    Alert.alert('Thêm vào giỏ hàng thành công');
+  };
 
   return (
     <View height={'100%'} paddingT-30 paddingH-20 spread>
-      <View>
-        <Header
-          title={ "Giày " + product?.category?.name|| "Men's Shoes"}
-          render_ic_right={
-            <TouchableOpacity onPress={() => navigation.navigate(mainstack.cart)}>
-              <Image source={require('../../images/icon_shopping_cart.png')} />
-            </TouchableOpacity>
-          }
-          ic_left={require('../../images/icon_back.png')}
-          action_ic_left={() => navigation.goBack()}
-        />
-        <View paddingV-32 paddingH-32>
-          <Image
-            source={{uri: select_color !== null ? select_color.image : product?.image[0]}}
-            width={'100%'}
-            height={234}
-          />
+      <Header
+        title={'Giày ' + product?.category?.name || "Men's Shoes"}
+        render_ic_right={
+          <TouchableOpacity onPress={() => navigation.navigate(mainstack.cart)}>
+            <Image source={require('../../images/icon_shopping_cart.png')} />
+          </TouchableOpacity>
+        }
+        ic_left={require('../../images/icon_back.png')}
+        action_ic_left={() => navigation.goBack()}
+      />
+      <ScrollView>
+        <View>
+          <View paddingV-32 paddingH-32>
+            <Image
+              source={{
+                uri:
+                  select_color !== null
+                    ? select_color.image
+                    : product?.image[0],
+              }}
+              width={'100%'}
+              height={234}
+            />
+          </View>
+          <View>
+            <View>
+              <Text style={styles.text_best_sale}>{statusProduct()}</Text>
+
+              <Text marginT-6 style={styles.text_name_product}>
+                {product?.name}
+              </Text>
+              <Text marginT-12 style={styles.text_price}>
+                {new Intl.NumberFormat('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND',
+                }).format(product?.price)}
+              </Text>
+              <Text marginT-8 style={styles.text_decription}>
+                {product?.description}
+              </Text>
+            </View>
+            <View marginT-16>
+              <Text style={styles.text_option}>Gallery</Text>
+              <FlatList
+                data={product.color}
+                horizontal
+                style={styles.flatlist}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item, index}) => {
+                  return (
+                    <TouchableOpacity
+                      marginR-16
+                      onPress={() => {
+                        setselect_color(item);
+                      }}>
+                      {/* <Card borderRadius={16}> */}
+                      <Image
+                        source={{uri: item?.image}}
+                        style={{width: 50, height: 50}}
+                      />
+                      {/* </Card> */}
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            </View>
+            <View>
+              <Text style={styles.text_option}>Size</Text>
+              <FlatList
+                data={product?.size}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.flatlist}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item, index}) => {
+                  return (
+                    <TouchableOpacity
+                      marginR-13
+                      onPress={() => {
+                        setselect_size(item);
+                      }}>
+                      <Card
+                        borderRadius={999}
+                        padding-13
+                        backgroundColor={
+                          select_size === item ? '#F15E2B' : '#F8F9FA'
+                        }>
+                        <Text
+                          color={select_size === item ? '#fff' : '#707B81'}
+                          style={styles.text_size}>
+                          {item}
+                        </Text>
+                      </Card>
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            </View>
+            <View marginT-16>
+              <View row spread>
+                <Text style={styles.text_option}>
+                  Đánh Giá <Text>(200)</Text>
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate(mainstack.Comment);
+                  }}>
+                  <Text color={'#F15E2B'}>Xem tất cả</Text>
+                </TouchableOpacity>
+              </View>
+              <FlatList
+                data={product.reviews || demoProductReview}
+                horizontal={false}
+                showsVerticalScrollIndicator={false}
+                initialNumToRender={2}
+                style={{padding: 8}}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item, index}) => {
+                  return <CommentItem item={item} />;
+                }}
+              />
+            </View>
+          </View>
         </View>
 
-        <View>
+        <View
+          centerV
+          row
+          spread
+          width={'100%'}
+          paddingT-16
+          paddingB-24
+          paddingH-20>
           <View>
-            
-              <Text style={styles.text_best_sale}>{statusProduct()}</Text>
-            
-            <Text marginT-6 style={styles.text_name_product}>
-              {product?.name}
-            </Text>
-            <Text marginT-12 style={styles.text_price}>
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product?.price)}
-            </Text>
-            <Text marginT-8 style={styles.text_decription}>
-              {product?.description}
+            <Text style={styles.text_title_price}>Giá</Text>
+            <Text style={styles.text_price}>
+              {new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              }).format(product?.price)}
             </Text>
           </View>
-          <View marginT-16>
-            <Text style={styles.text_option}>Gallery</Text>
-            <FlatList
-              data={product.color}
-              horizontal
-              style={styles.flatlist}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({item, index}) => {
-                return (
-                  <TouchableOpacity
-                    marginR-16
-                    onPress={() => {
-                      setselect_color(item);
-                    }}>
-                    {/* <Card borderRadius={16}> */}
-                      <Image source={{uri: item?.image}} 
-                      style={{width: 50, height: 50}}/>
-                    {/* </Card> */}
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
-          <View>
-            <Text style={styles.text_option}>Size</Text>
-            <FlatList
-              data={product?.size}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.flatlist}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({item, index}) => {
-                return (
-                  <TouchableOpacity
-                    marginR-13
-                    onPress={() => {
-                      setselect_size(item);
-                    }}>
-                    <Card
-                      borderRadius={999}
-                      padding-13
-                      backgroundColor={
-                        select_size === item ? '#F15E2B' : '#F8F9FA'
-                      }>
-                      <Text
-                        color={select_size === item ? '#fff' : '#707B81'}
-                        style={styles.text_size}>
-                        {item}
-                      </Text>
-                    </Card>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
+          <Button
+            title="Thêm vào giỏ hàng"
+            onPress={handleAddToCart}
+            textColor={'white'}
+          />
         </View>
-      </View>
-      <View
-        centerV
-        row
-        spread
-        width={'100%'}
-        paddingT-16
-        paddingB-24
-        paddingH-20>
-        <View>
-          <Text style={styles.text_title_price}>Price</Text>
-          <Text style={styles.text_price}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product?.price)}</Text>
-        </View>
-        <Button title="Add to cart" onPress={handleAddToCart} />
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -224,4 +270,41 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     wordWrap: 'break-word',
   },
+  text_reviewer_name: {
+    fontSize: 16,
+    fontFamily: 'Roboto',
+    fontWeight: '700',
+    color: '#1A2530',
+  },
+  text_reviewer_rating: {
+    fontSize: 14,
+    fontFamily: 'Roboto',
+    fontWeight: '500',
+    color: '#F15E2B',
+  },
+  text_reviewer_comment: {
+    fontSize: 14,
+    fontFamily: 'Roboto',
+    color: '#707B81',
+    marginTop: 4,
+  },
 });
+
+const demoProductReview = [
+  {
+    id: 1,
+    name: 'Nam Ốc',
+    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+    rating: 5,
+    review:
+      'Đây là lần thứ 2 mình mua giày vẫn vừa ý như lần đầu hàng chất lượng vừa chân giao nhanh shop đóng gói kỹ. Chym Ứng quá shop ơi',
+  },
+  {
+    id: 2,
+    name: 'Nam Ốc',
+    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+    rating: 5,
+    review:
+      'Đây là lần thứ 2 mình mua giày vẫn vừa ý như lần đầu hàng chất lượng vừa chân giao nhanh shop đóng gói kỹ. Chym Ứng quá shop ơi',
+  },
+];

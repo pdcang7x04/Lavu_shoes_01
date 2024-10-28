@@ -43,18 +43,18 @@ const AccountSetting = props => {
               action_ic_left={() => navigation.goBack()}
               customStyle={{marginTop: 8}}
               paddingH-20
-              title={'Account & Settings'}
+              title={'Tài Khoản & Cài Đặt'}
             />
 
             <View paddingH-15 marginT-20>
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Account</Text>
+                <Text style={styles.sectionTitle}>Tài Khoản</Text>
 
                 <TouchableOpacity style={styles.item}>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={notificationIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Notification Setting</Text>
+                      <Text style={styles.itemText}>Cài Đặt Thông Báo</Text>
                     </View>
                     <Image source={ArrowIcon} style={styles.arrowIcon} />
                   </View>
@@ -68,7 +68,7 @@ const AccountSetting = props => {
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={shippingIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Shipping Address</Text>
+                      <Text style={styles.itemText}>Địa Chỉ Giao Hàng</Text>
                     </View>
                     <Image source={ArrowIcon} style={styles.arrowIcon} />
                   </View>
@@ -78,7 +78,7 @@ const AccountSetting = props => {
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={paymentIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Payment Info</Text>
+                      <Text style={styles.itemText}>Thông Tin Thanh Toán</Text>
                     </View>
                     <Image source={ArrowIcon} style={styles.arrowIcon} />
                   </View>
@@ -90,7 +90,7 @@ const AccountSetting = props => {
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={passwordIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Change password</Text>
+                      <Text style={styles.itemText}>Thay Đổi Mật Khẩu</Text>
                     </View>
                     <Image source={ArrowIcon} style={styles.arrowIcon} />
                   </View>
@@ -100,7 +100,7 @@ const AccountSetting = props => {
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={logoutIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Log out</Text>
+                      <Text style={styles.itemText}>Đăng Xuất</Text>
                     </View>
                     <Image source={ArrowIcon} style={styles.arrowIcon} />
                   </View>
@@ -108,10 +108,10 @@ const AccountSetting = props => {
               </View>
 
               <View style={styles.section} marginT-32>
-                <Text style={styles.sectionTitle}>App Settings</Text>
+                <Text style={styles.sectionTitle}>Cài Đặt Ứng Dụng</Text>
 
                 <View style={styles.item}>
-                  <Text style={styles.itemText}>Enable Face ID For Log In</Text>
+                  <Text style={styles.itemText}>Kích Hoạt Face ID Để Đăng Nhập</Text>
                   <Switch
                     value={faceIdEnabled}
                     onValueChange={setFaceIdEnabled}
@@ -119,7 +119,7 @@ const AccountSetting = props => {
                 </View>
 
                 <View style={styles.item}>
-                  <Text style={styles.itemText}>Enable Push Notifications</Text>
+                  <Text style={styles.itemText}>Kích Hoạt Thông Báo</Text>
                   <Switch
                     value={pushNotificationsEnabled}
                     onValueChange={setPushNotificationsEnabled}
@@ -127,7 +127,7 @@ const AccountSetting = props => {
                 </View>
 
                 <View style={styles.item}>
-                  <Text style={styles.itemText}>Enable Location Services</Text>
+                  <Text style={styles.itemText}>Cho Phép Ứng Dụng Định Vị</Text>
                   <Switch
                     value={locationServicesEnabled}
                     onValueChange={setLocationServicesEnabled}
@@ -135,7 +135,7 @@ const AccountSetting = props => {
                 </View>
 
                 <View style={styles.item}>
-                  <Text style={styles.itemText}>Dark Mode</Text>
+                  <Text style={styles.itemText}>Chế Độ Tối</Text>
                   <Switch
                     value={darkModeEnabled}
                     onValueChange={setDarkModeEnabled}

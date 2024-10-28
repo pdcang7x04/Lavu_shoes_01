@@ -34,7 +34,7 @@ const FavouriteItem = ({ item }) => {
       >
         <Image source={{ uri: item?.product[0]?.image[0] }} style={styles.shoeImage} />
         <View style={styles.textContainer}>
-          <Text style={styles.textBestSeller}>BEST SELLER</Text>
+          <Text style={styles.textBestSeller}>BÁN CHẠY</Text>
           <Text style={styles.shoeName}>{item?.product[0]?.name}</Text>
           <Text style={styles.shoePrice}>
             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.product[0]?.price)}

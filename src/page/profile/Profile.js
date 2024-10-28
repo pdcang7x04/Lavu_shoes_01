@@ -67,14 +67,14 @@ const Profile = (props) => {
             </View>
             <View paddingH-20 marginT-32>
               <View marginT-16 gap-12>
-                <Text style={styles.textDecription}>Full Name</Text>
+                <Text style={styles.textDecription}>Họ & Tên</Text>
                 <InputView 
                   value={Username}
                   onChangeText={value => setUsername(value)}
                 />
               </View>
               <View marginT-16 gap-12>
-                <Text style={styles.textDecription}>Email Address</Text>
+                <Text style={styles.textDecription}>Email</Text>
                 <InputView 
                   value={Email}
                   onChangeText={value => setEmail(value)}
@@ -96,7 +96,7 @@ const Profile = (props) => {
                 lineHeight: 22,
                 wordWrap: 'break-word',
               }}>
-              Save
+              Lưu
             </Text>
           </Card>
         </TouchableOpacity>

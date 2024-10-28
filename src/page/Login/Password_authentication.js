@@ -24,7 +24,7 @@ const Password_authentication = (props) => {
 
 
   const data = {
-    _id: appState.otp._id.toString(),
+    _id: appState.otp._id,
     otp: Password
   }
 
@@ -69,8 +69,8 @@ const Password_authentication = (props) => {
       </TouchableOpacity>
 
 
-      <Text style={styles.textHello}>Password authentication</Text>
-      <Text style={styles.contentHello}>Enter 4-digits code we sent you on your phone number</Text>
+      <Text style={styles.textHello}>Mã Xác Nhận</Text>
+      <Text style={styles.contentHello}>Nhập Mã Gồm 4 Chữ Số Mà Chúng Tôi Đã Gửi Qua Email Của Bạn</Text>
 
 
       <View style={styles.viewInput}>
@@ -97,7 +97,7 @@ const Password_authentication = (props) => {
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
         onPress={() => verifyOTP()}
       >
-        <Text style={[styles.textButton, { color: colors.white }]}>Continue</Text>
+        <Text style={[styles.textButton, { color: colors.white }]}>Tiếp tục</Text>
       </TouchableOpacity>
     </View>
   )

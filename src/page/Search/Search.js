@@ -41,10 +41,10 @@ const Search = (props) => {
           </TouchableOpacity>
           <View style={{ alignItems: 'center', marginLeft: 80 }}>
 
-            <Text style={styles.storeLocation}>Search</Text>
+            <Text style={styles.storeLocation}>Tìm Kiếm</Text>
           </View>
         </View>
-        <Text style={styles.text_cancel} onPress={() => setSearch("")}>Cancel</Text>
+        <Text style={styles.text_cancel} onPress={() => setSearch("")}>Huỷ</Text>
       </View>
       <View style={styles.searchContainer}>
         <Image
@@ -56,7 +56,7 @@ const Search = (props) => {
           onChangeText={value => setSearch(value)}
           ref={textInputRef}
           style={styles.searchInput}
-          placeholder="Looking for shoes"
+          placeholder="Tìm Kiếm Giày Của Bạn"
           placeholderTextColor="#707B81"
 
         />

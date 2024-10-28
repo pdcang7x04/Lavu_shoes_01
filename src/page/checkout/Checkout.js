@@ -6,234 +6,280 @@ import {
   View,
   Image,
 } from 'react-native-ui-lib';
-import {StyleSheet, Linking} from 'react-native';
+import {
+  StyleSheet,
+  Linking,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomDialog from '../../components/CustomDialog';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AxiosInstance from '../../helper/AxiosInstance';
-import { mainstack } from '../../navigation/mainstack';
-import { clearCart } from '../../redux/Reducer';
+import {mainstack} from '../../navigation/mainstack';
+import {clearCart} from '../../redux/Reducer';
 import Toast from 'react-native-toast-message';
-import { t } from '../../styles/font';
-const useAppDispatcher = () => useDispatch()
-const useAppSelector = useSelector
+import {t} from '../../styles/font';
+import InputView from '../../components/InputView';
+import ItemCheckout from './ItemCheckout';
+import ItemCart from '../Cart/ItemCart';
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
 
-const Checkout = (props) => {
-  const {navigation, route} = props
-  const {total} = route?.params
+const Checkout = props => {
+  const {navigation, route} = props;
+  const {total} = route?.params;
+  const [localTotal, setLocalTotal] = useState(total);
 
-  const dispatch = useDispatch()
-  const appState = useAppSelector((state) => state.lavu)
+  const dispatch = useDispatch();
+  const appState = useAppSelector(state => state.lavu);
 
   const [visibleDialog, setVisibleDialog] = useState(false);
-  const [PaymentMethod, setPaymentMethod] = useState('MoMo')
-  const [Phone, setPhone] = useState(appState.user.phone)
-  const [Address, setAddress] = useState(appState.user.address)
+  const [PaymentMethod, setPaymentMethod] = useState('MoMo');
+  const [Phone, setPhone] = useState(appState.user?.phone);
+  const [Address, setAddress] = useState(appState.user.address);
 
-  
-  const handleAddressClick = (props) => {
-    const {navigation} = props
+  const handleAddressClick = props => {
+    const {navigation} = props;
     const address = appState.user?.address;
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       address,
     )}`;
     Linking.openURL(url);
   };
-  console.log("user: " , appState.user)
+  // console.log('user: ', appState.user);
 
   useEffect(() => {
-    setPhone(appState.user.phone)
-    setAddress(appState.user.address)
-  }, [appState.user])
-  
+    setPhone(appState.user?.phone);
+    setAddress(appState.user.address);
+  }, [appState.user]);
 
   const handleOrder = async () => {
     try {
-      if(appState.user.phone == " "){
+      if (appState.user?.phone === ' ') {
         return Toast.show({
-          text1: "Hãy cập nhật phương thức liên lạc của bạn",
-          position: "top",
-          type: "error"
-        })
+          text1: 'Hãy cập nhật phương thức liên lạc của bạn',
+          position: 'top',
+          type: 'error',
+        });
       }
-      if(appState.user.address == " "){
+      if (appState.user.address === ' ') {
         return Toast.show({
-          text1: "Hãy cập nhật vị trí của bạn của bạn",
-          position: "top",
-          type: "error"
-        })
+          text1: 'Hãy cập nhật vị trí của bạn của bạn',
+          position: 'top',
+          type: 'error',
+        });
       }
-      if(appState.cart.length == 0){
+      if (appState.cart.length === 0) {
         return Toast.show({
-          text1: "Hãy chọn sản phẩm mà bạn mong muốn",
-          position: "top",
-          type: "error"
-        })
+          text1: 'Hãy chọn sản phẩm mà bạn mong muốn',
+          position: 'top',
+          type: 'error',
+        });
       }
       const orders = {
         user: appState.user.email,
         paymentmethod: PaymentMethod,
         totalAmount: total.totalCost,
         paymentStatus: paymentStatus(),
-        product: appState.cart.map((item) => {
-          return{
+        product: appState.cart.map(item => {
+          return {
             product_id: item._id,
             quantity: item.quantity,
             color: item.color.name,
-            size: item.size
-          }
-        })
-      }
+            size: item.size,
+          };
+        }),
+      };
       const response = await AxiosInstance().post('/orders/createOder', orders);
       if (response.status) {
-        dispatch(clearCart())
-        setVisibleDialog(true)
-
+        dispatch(clearCart());
+        setVisibleDialog(true);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  console.log(appState.cart.map(item => item._id))
+  };
+  // console.log(appState.cart.map(item => item._id));
 
   const paymentStatus = () => {
-    if(PaymentMethod == "Thanh toán khi nhận hàng"){
-      return 1
+    if (PaymentMethod === 'Thanh toán khi nhận hàng') {
+      return 1;
     }
-    if(PaymentMethod == "MoMo"){
-      return 2
+    if (PaymentMethod === 'MoMo') {
+      return 2;
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../images/icon_back.png')}
-            style={styles.iconBack}
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerText}>Checkout</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={{}}
-            style={styles.iconBack}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Contact Information</Text>
-        <View style={styles.infoRow}>
-          <Image source={require('../../images/icon_mail.png')} />
-          <View style={styles.textContainer}>
-            <Text style={styles.textField}>{appState.user.email}</Text>
-            <Text style={styles.label}>Email</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <KeyboardAvoidingView>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                source={require('../../images/icon_back.png')}
+                style={styles.iconBack}
+              />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>Thanh Toán</Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={{}} style={styles.iconBack} />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity>
-            <Image
-              source={require('../../images/icon_edit.png')}
-              style={styles.editIcon}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.infoRow}>
-          <Image source={require('../../images/icon_phone.png')} />
-          <View style={styles.textContainer}>
-            <Text style={styles.textField}>{Phone != " " ? Phone : "Hãy cập nhật phương thức liên lạc của bạn"}</Text>
-            <Text style={styles.label}>Phone</Text>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Thông Tin Liên Hệ</Text>
+            <View style={styles.infoRow}>
+              <Image source={require('../../images/icon_mail.png')} />
+              <View style={styles.textContainer}>
+                <Text style={styles.textField}>{appState.user.email}</Text>
+                <Text style={styles.label}>Email</Text>
+              </View>
+              <TouchableOpacity>
+                <Image
+                  source={require('../../images/icon_edit.png')}
+                  style={styles.editIcon}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.infoRow}>
+              <Image source={require('../../images/icon_phone.png')} />
+              <View style={styles.textContainer}>
+                <Text style={styles.textField}>
+                  {Phone !== ' '
+                    ? Phone
+                    : 'Hãy cập nhật phương thức liên lạc của bạn'}
+                </Text>
+                <Text style={styles.label}>Số điện thoại</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(mainstack.shippingaddress)}>
+                <Image
+                  source={require('../../images/icon_edit.png')}
+                  style={styles.editIcon}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate(mainstack.shippingaddress)}>
-            <Image
-              source={require('../../images/icon_edit.png')}
-              style={styles.editIcon}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Address</Text>
-        <TouchableOpacity onPress={handleAddressClick}>
-          <View style={styles.infoRow}>
-            <Text style={styles.addressText}>
-            {Address != " " ? Address : "Hãy cập nhật vị trí của bạn"}
-            </Text>
-            <Image source={require('../../images/icon_down.png')} />
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Địa Chỉ</Text>
+            <TouchableOpacity onPress={handleAddressClick}>
+              <View style={styles.infoRow}>
+                <Text style={styles.addressText}>
+                  {Address !== ' ' ? Address : 'Hãy cập nhật vị trí của bạn'}
+                </Text>
+                <Image source={require('../../images/icon_down.png')} />
+              </View>
+            </TouchableOpacity>
+            <View style={styles.mapContainer}>
+              <Image
+                source={require('../../images/icon_bglocation.png')}
+                style={styles.map}
+              />
+              <Image
+                source={require('../../images/icon_location.png')}
+                style={styles.middleIcon}
+              />
+            </View>
           </View>
-        </TouchableOpacity>
-        <View style={styles.mapContainer}>
-          <Image
-            source={require('../../images/icon_bglocation.png')}
-            style={styles.map}
-          />
-          <Image
-            source={require('../../images/icon_location.png')}
-            style={styles.middleIcon}
-          />
-        </View>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Payment Method</Text>
-        <View style={styles.infoRow}>
-          <Image source={require('../../images/icon_momo.png')} />
-          <View style={styles.paymentDetailsContainer}>
-            <Text style={styles.textField}>Momo payment</Text>
-            <Text style={styles.textCardNumber}>**** **** 0696 4629</Text>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Phương Thức Thanh Toán</Text>
+            <View style={styles.infoRow}>
+              <Image source={require('../../images/icon_momo.png')} />
+              <View style={styles.paymentDetailsContainer}>
+                <Text style={styles.textField}>Ví điện tử Momo</Text>
+                <Text style={styles.textCardNumber}>**** **** 0696 4629</Text>
+              </View>
+              <Image source={require('../../images/icon_down.png')} />
+            </View>
+            <Text>Ghi Chú </Text>
+            <View marginV-12>
+              <InputView
+                backgroundColor="orange"
+                paddingV-0
+                placeholder={'nhập gì đó ở đây'}
+              />
+            </View>
           </View>
-          <Image source={require('../../images/icon_down.png')} />
-        </View>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.rowBetween}>
-          <Text style={styles.textCost}>Subtotal</Text>
-          <Text style={styles.textCost}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total.subtotal)}</Text>
-        </View>
-        <View style={styles.rowBetween}>
-          <Text style={styles.textCost}>Shipping</Text>
-          <Text style={styles.textCost}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total.shipping)}</Text>
-        </View>
-        <View style={styles.rowBetween}>
-          <Text style={styles.textTotal}>Total Cost</Text>
-          <Text style={styles.textTotal}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total.totalCost)}</Text>
-        </View>
-      </View>
-      <Button
-        backgroundColor="#F15E2B"
-        borderRadius={10}
-        onPress={() => handleOrder()}
-        marginT-20
-        label="Payment"
-        style={styles.paymentButton}
-      />
-      <CustomDialog
-        visible={visibleDialog}
-        onDismiss={() => setVisibleDialog(false)}>
-        <Card center paddingV-40 paddingH-40 style={styles.dialogCard}>
-          <View paddingH-25>
-            <Image
-              source={require('../../images/icon_payment_done.png')}
-              style={styles.paymentIcon}
-            />
-            <Text marginT-24 style={styles.successText}>
-              Your Payment Is Successful
-            </Text>
+          <View>
+            {appState.cart.map((item, index) => {
+              return <ItemCart data={item} key={index} />;
+            })}
           </View>
-          <TouchableOpacity marginT-30 onPress={() => {
-            setVisibleDialog(false)
-            navigation.navigate(mainstack.home)
-          }}>
-            <Card
+          <View>
+            <View style={styles.section}>
+              <View style={styles.rowBetween}>
+                <Text style={styles.textCost}>Tổng Chi Phí</Text>
+                <Text style={styles.textCost}>
+                  {new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                  }).format(localTotal.subtotal)}
+                </Text>
+              </View>
+              <View style={styles.rowBetween}>
+                <Text style={styles.textCost}>Phí Giao Hàng</Text>
+                <Text style={styles.textCost}>
+                  {new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                  }).format(localTotal.shipping)}
+                </Text>
+              </View>
+              <View style={styles.rowBetween}>
+                <Text style={styles.textTotal}>Tổng Cộng</Text>
+                <Text style={styles.textTotal}>
+                  {new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                  }).format(localTotal.totalCost)}
+                </Text>
+              </View>
+            </View>
+
+            <Button
               backgroundColor="#F15E2B"
-              borderRadius={999}
-              paddingV-15
-              paddingH-50>
-              <Text text60 center white style={styles.buttonText}>
-                Back To Shopping
-              </Text>
+              borderRadius={10}
+              onPress={() => handleOrder()}
+              marginT-20
+              label="Thanh Toán"
+              style={styles.paymentButton}
+            />
+          </View>
+
+          <CustomDialog
+            visible={visibleDialog}
+            onDismiss={() => setVisibleDialog(false)}>
+            <Card center paddingV-40 paddingH-40 style={styles.dialogCard}>
+              <View paddingH-25>
+                <Image
+                  source={require('../../images/icon_payment_done.png')}
+                  style={styles.paymentIcon}
+                />
+                <Text marginT-24 style={styles.successText}>
+                  Thanh Toán Thành Công
+                </Text>
+              </View>
+              <TouchableOpacity
+                marginT-30
+                onPress={() => {
+                  setVisibleDialog(false);
+                  navigation.navigate(mainstack.home);
+                }}>
+                <Card
+                  backgroundColor="#F15E2B"
+                  borderRadius={999}
+                  paddingV-15
+                  paddingH-50>
+                  <Text text60 center white style={styles.buttonText}>
+                    Tiếp Tục Mua Sắm
+                  </Text>
+                </Card>
+              </TouchableOpacity>
             </Card>
-          </TouchableOpacity>
-        </Card>
-      </CustomDialog>
+          </CustomDialog>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </View>
   );
 };
@@ -245,13 +291,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#FFFFFF',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 15
+    marginTop: 15,
   },
   headerTextContainer: {
     width: 24,
@@ -263,27 +309,27 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 22,
-    fontFamily: t.Roboto_Bold
+    fontFamily: t.Roboto_Bold,
   },
   section: {
-    flex: 1, 
+    // flex: 1,
     marginVertical: 10,
   },
   sectionTitle: {
     fontSize: 18,
     fontFamily: t.Roboto_Bold,
-    marginTop:10
+    marginTop: 10,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop:20
+    marginTop: 20,
   },
   paymentDetailsContainer: {
     flex: 1,
     marginLeft: 10,
-    marginTop: 10,
-    justifyContent: 'center', 
+    marginTop: 20,
+    justifyContent: 'center',
   },
   cardInfoRow: {
     flexDirection: 'row',
@@ -355,6 +401,23 @@ const styles = StyleSheet.create({
   paymentIcon: {
     left: 20,
   },
-  
-  
 });
+
+// const demoListProduct = [
+//   {
+//     name: 'Sp1',
+//     id: 'id1',
+//     size: 'size1',
+//     price: '64.00',
+//     quantity: 1,
+//     image: require('../../images/giay1.png'),
+//   },
+//   {
+//     name: 'Sp2',
+//     id: 'id2',
+//     size: 'size2',
+//     price: '64.00',
+//     quantity: 2,
+//     image: require('../../images/giay2.png'),
+//   },
+// ];

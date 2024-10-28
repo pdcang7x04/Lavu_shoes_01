@@ -9,7 +9,7 @@ const Itemorderhis = (props) => {
       <Image source={data.image} style={styles.image} />
       <View style={styles.orderDetails}>
         <Text style={styles.productText}>{data.name}</Text>
-        <Text style={styles.orderIdText}>Order #{data.id}</Text>
+        <Text style={styles.orderIdText}>Đặt hàng #{data.id}</Text>
         <View style={styles.bottomContainer}>
           <View style={styles.dateContainer}>
             <Text style={styles.dateText}>{data.date}</Text>
