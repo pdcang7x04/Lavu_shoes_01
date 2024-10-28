@@ -1,3 +1,5 @@
+import Comment from "../page/Comment/Comment";
+
 export const mainstack = {
   welcome: 'welcome',
   onboard1: 'onboard_1',
@@ -25,4 +27,5 @@ export const mainstack = {
   detail: 'detail',
   bestSellerSreen: 'bestSellerSreen',
   productDetai: 'product_detail',
+  Comment:'Comment',
 };

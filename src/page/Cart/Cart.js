@@ -1,42 +1,46 @@
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { colors } from '../../styles/colors';
-import { t } from '../../styles/font';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {colors} from '../../styles/colors';
+import {t} from '../../styles/font';
 import ItemCart from './ItemCart';
-import { useDispatch, useSelector } from 'react-redux';
-import { mainstack } from '../../navigation/mainstack';
+import {useDispatch, useSelector} from 'react-redux';
+import {mainstack} from '../../navigation/mainstack';
 import Toast from 'react-native-toast-message';
 
-const useAppDispatcher = () => useDispatch()
-const useAppSelector = useSelector
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
 
-const Cart = (props) => {
-  const { navigation } = props
+const Cart = props => {
+  const {navigation} = props;
 
-  const dispatch = useDispatch()
-  const appState = useAppSelector((state) => state.lavu)
+  const dispatch = useDispatch();
+  const appState = useAppSelector(state => state.lavu);
 
   const [Subtotal, setSubtotal] = useState(0);
-  const [Shipping, setShipping] = useState(0)
-  const [TotalCost, setTotalCost] = useState(0)
-
+  const [Shipping, setShipping] = useState(0);
+  const [TotalCost, setTotalCost] = useState(0);
 
   useEffect(() => {
-
     let tamtinh = 0;
     for (let i = 0; i < appState.cart.length; i++) {
-      tamtinh += (appState.cart[i].price * appState.cart[i].quantity);
+      tamtinh += appState.cart[i].price * appState.cart[i].quantity;
     }
     setSubtotal(tamtinh);
     if (appState.cart.length === 0) {
       setShipping(0);
       setTotalCost(0);
     } else {
-      setShipping(30000)
+      setShipping(30000);
       setTotalCost(tamtinh + 30000);
     }
-  }, [appState.cart])
-
+  }, [appState.cart]);
 
   return (
     <View style={styles.container}>
@@ -48,11 +52,12 @@ const Cart = (props) => {
               style={styles.icon_menu}
             />
           </TouchableOpacity>
-          <View style={{ alignItems: 'center', marginLeft: 80 }}>
-            <Text style={styles.Favourite}>My Cart</Text>
+          <View style={{alignItems: 'center', marginLeft: 80}}>
+            <Text style={styles.Favourite}>Giỏ Hàng</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate(mainstack.orderHistory)}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(mainstack.orderHistory)}>
           <Image
             source={require('../../images/icon_time.png')}
             style={styles.icon}
@@ -60,42 +65,60 @@ const Cart = (props) => {
         </TouchableOpacity>
       </View>
       <FlatList
-      style={{marginTop:24}}
+        style={{marginTop: 24}}
         data={appState.cart}
-        renderItem={({ item }) => <ItemCart data={item} />}
+        renderItem={({item}) => <ItemCart data={item} />}
         keyExtractor={item => item._id}
       />
       <View style={styles.summary}>
-        <Text style={styles.summaryText}>Subtotal: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Subtotal)}</Text>
-        <Text style={styles.summaryText}>Shipping: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Shipping)}</Text>
-        <Text style={styles.totalText}>Total Cost: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(TotalCost)}</Text>
+        <Text style={styles.summaryText}>
+          Tổng Cộng:{' '}
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(Subtotal)}
+        </Text>
+        <Text style={styles.summaryText}>
+          Phí Vận Chuyển:{' '}
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(Shipping)}
+        </Text>
+        <Text style={styles.totalText}>
+          Tổng Chi Phí:{' '}
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(TotalCost)}
+        </Text>
       </View>
-      <TouchableOpacity style={styles.checkoutButton} activeOpacity={0.8}
+      <TouchableOpacity
+        style={styles.checkoutButton}
+        activeOpacity={0.8}
         onPress={() => {
-          if(appState.cart.length == 0){
+          if (appState.cart.length == 0) {
             return Toast.show({
-              text1: "Giỏ hàng của bạn đang trống",
-              position: "top",
-              type: "error"
-            })
+              text1: 'Giỏ hàng của bạn đang trống',
+              position: 'top',
+              type: 'error',
+            });
           }
           navigation.navigate(mainstack.checkout, {
             total: {
               subtotal: Subtotal,
               shipping: Shipping,
               totalCost: TotalCost,
-            }
-          })
-        }}
-      >
-        <Text style={styles.checkoutText}>Checkout</Text>
+            },
+          });
+        }}>
+        <Text style={styles.checkoutText}>Thanh Toán</Text>
       </TouchableOpacity>
-
     </View>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
 
 const styles = StyleSheet.create({
   container: {
@@ -107,7 +130,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop:15,
+    marginTop: 15,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -124,7 +147,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   Favourite: {
-    alignItems:'center',
+    alignItems: 'center',
     fontFamily: t.Roboto_Bold,
     fontSize: 20,
     color: colors.black1,
@@ -162,6 +185,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
-})
-
+});

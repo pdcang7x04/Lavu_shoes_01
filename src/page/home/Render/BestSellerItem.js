@@ -22,16 +22,16 @@ const BestSellerItem = (props) => {
 
   const statusProduct = () => {
     if(item.status == 1){
-      return "NEW"
+      return "MỚI"
     }else
     if(item.status == 2){
-      return "BEST SELLER"
+      return "BÁN CHẠY"
     }else
     if(item.status == 3){
-      return "POPULAR"
+      return "PHỔ BIẾN"
     }else
     if(item.status == 4){
-      return "LIMITED"
+      return "GIỚI HẠN"
     }
   }
 

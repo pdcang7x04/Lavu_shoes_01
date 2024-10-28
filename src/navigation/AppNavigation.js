@@ -15,7 +15,7 @@ const AppNavigation = () => {
       {
         appState.user == null ? <UserNavigation/> : <MainNavigation/>
       }
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+      {/* <Toast ref={(ref) => Toast.setRef(ref)} /> */}
     </NavigationContainer>
   )
 }

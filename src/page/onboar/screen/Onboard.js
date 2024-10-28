@@ -43,7 +43,7 @@ const Onboard = ({ navigation }) => {
                     onPress={() => navigation.navigate(mainstack.login)}
                     style={styles.viewButton}
                 >
-                    <Text style={styles.textButton}>Get Started</Text>
+                    <Text style={styles.textButton}>Bắt Đầu</Text>
                 </TouchableOpacity>
             </View>
         </View>

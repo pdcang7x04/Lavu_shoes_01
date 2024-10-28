@@ -84,8 +84,8 @@ const Login = (props) => {
   return (
     <View style={styles.container}>
 
-      <Text style={styles.textHello}>Hello Again!</Text>
-      <Text style={styles.contentHello}>Welcome Back You’ve Been Missed!</Text>
+      <Text style={styles.textHello}>Xin Chào!</Text>
+      <Text style={styles.contentHello}>Chào Mừng Bạn Đến với LAVU’s!</Text>
 
       <View style={styles.viewInput}>
         <Text style={styles.title}>Email</Text>
@@ -102,7 +102,7 @@ const Login = (props) => {
       </View>
 
       <View style={styles.viewInput}>
-        <Text style={styles.title}>Password</Text>
+        <Text style={styles.title}>Mật khẩu</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={Password}
@@ -124,14 +124,14 @@ const Login = (props) => {
         style={styles.textForgot}
         onPress={() => navigation.navigate(mainstack.recoveryPassword)}
       >
-        Recovery Password
+        Quên Mật Khẩu
       </Text>
 
       <TouchableOpacity
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
         onPress={handleLogin}
       >
-        <Text style={[styles.textButton, { color: colors.white }]}>Sign In</Text>
+        <Text style={[styles.textButton, { color: colors.white }]}>Đăng Nhập</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -142,14 +142,14 @@ const Login = (props) => {
           source={require('../../images/logo_gg.png')}
           style={styles.iconTextInput}
         />
-        <Text style={styles.textButton}>Sign in with Google</Text>
+        <Text style={styles.textButton}>Đăng nhập bằng Google</Text>
       </TouchableOpacity>
 
       <View style={{ flex: 1 }} />
 
       <Text style={styles.textBottom}>
-        Don’t have an account? {' '}
-        <Text style={styles.color} onPress={() => navigation.navigate(mainstack.register)}>Sign Up for free</Text>
+      Bạn Chưa có Tài Khoản? {' '}
+        <Text style={styles.color} onPress={() => navigation.navigate(mainstack.register)}>Đăng Ký</Text>
       </Text>
     </View>
   );

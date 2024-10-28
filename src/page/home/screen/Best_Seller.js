@@ -45,7 +45,7 @@ const Best_Seller = (props) => {
           />
           </TouchableOpacity>
           <View style={{ alignItems: 'center', marginLeft: 80 }}>
-            <Text style={styles.Favourite}>Best Sellers</Text>
+            <Text style={styles.Favourite}>Bán Chạy</Text>
           </View>
         </View>
         <Image source={require('../../../images/setting.png')} style={styles.icon} />

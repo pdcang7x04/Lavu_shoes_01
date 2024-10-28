@@ -57,11 +57,11 @@ const Shipping_Address = (props) => {
       </TouchableOpacity>
 
 
-      <Text style={styles.textHello}>Shipping Address</Text>
-      <Text style={styles.contentHello}>Please set the location you want to send to</Text>
+      <Text style={styles.textHello}>Địa Chỉ Giao Hàng</Text>
+      <Text style={styles.contentHello}>Vui Lòng Đặt Vị Trí Bạn Muốn Gửi Đến</Text>
 
       <View style={styles.viewInput}>
-        <Text style={styles.title}> Address</Text>
+        <Text style={styles.title}> Địa Chỉ</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={Address}
@@ -79,7 +79,7 @@ const Shipping_Address = (props) => {
       </View>
 
       <View style={styles.viewInput}>
-        <Text style={styles.title}> Phone</Text>
+        <Text style={styles.title}> Điện Thoại</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={Phone}
@@ -99,7 +99,7 @@ const Shipping_Address = (props) => {
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
         onPress={updateShippingAddress}
       >
-        <Text style={[styles.textButton, { color: colors.white }]}>Save</Text>
+        <Text style={[styles.textButton, { color: colors.white }]}>Lưu</Text>
       </TouchableOpacity>
     </View>
   )

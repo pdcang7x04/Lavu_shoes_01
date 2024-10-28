@@ -53,11 +53,11 @@ const Chang_Password = (props) => {
       </TouchableOpacity>
 
 
-       <Text style={styles.textHello}>Change Password</Text>
-       <Text style={styles.contentHello}>Let's start setting a new password for your account.</Text>
+       <Text style={styles.textHello}>Đổi Mật Khẩu</Text>
+       <Text style={styles.contentHello}>Hãy Bắt Đầu Đặt Lại Mật Khẩu Mới Cho Tài Khoản Của Bạn</Text>
 
        <View style={styles.viewInput}>
-        <Text style={styles.title}> Old Password</Text>
+        <Text style={styles.title}>Mật Khẩu Cũ</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={OldPassword}
@@ -76,7 +76,7 @@ const Chang_Password = (props) => {
       </View>
 
       <View style={styles.viewInput}>
-        <Text style={styles.title}> New Password</Text>
+        <Text style={styles.title}> Mật Khẩu Mới</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={NewPassword}
@@ -95,7 +95,7 @@ const Chang_Password = (props) => {
       </View>
 
       <View style={styles.viewInput}>
-        <Text style={styles.title}> Repeat New Password</Text>
+        <Text style={styles.title}> Nhập Lại Mật Khẩu Mới</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={Repeat_NewPassword}
@@ -116,7 +116,7 @@ const Chang_Password = (props) => {
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
         onPress={() => changePassword()}
       >
-        <Text style={[styles.textButton, { color: colors.white }]}>Save</Text>
+        <Text style={[styles.textButton, { color: colors.white }]}>Lưu</Text>
       </TouchableOpacity>
 
     </View>

@@ -25,11 +25,11 @@ const Itemnoti = (props) => {
     <View style={styles.orderItem}>
     <Image source={require('../../images/logo.png')} style={styles.image} />
     <View style={styles.orderDetails}>
-      <Text style={styles.orderText}>Order #</Text>
-      <Text style={styles.orderText1}>Standard Delivery</Text>
+      <Text style={styles.orderText}>Đặt hàng #</Text>
+      <Text style={styles.orderText1}>Giao hàng tiêu chuẩn</Text>
       <Text style={styles.statusText}>{orderStatus()}</Text>
     </View>
-    <Text style={styles.itemsText}>{data.orderDetail.length} items</Text>
+    <Text style={styles.itemsText}>{data.orderDetail.length} sản phẩm</Text>
   </View>
 
   )

@@ -98,11 +98,11 @@ return (
       />
     </TouchableOpacity>
 
-    <Text style={styles.textHello}>Create Account</Text>
-    <Text style={styles.contentHello}>Let’s Create Account Together</Text>
+    <Text style={styles.textHello}>Tạo Tài Khoản</Text>
+    <Text style={styles.contentHello}>Hãy Cùng Nhau Tạo Tài Khoản</Text>
 
     <View style={styles.viewInput}>
-      <Text style={styles.title}>Your Name</Text>
+      <Text style={styles.title}>Họ & Tên</Text>
       <View style={styles.viewTextInput}>
         <TextInput
           value={Username}
@@ -114,7 +114,7 @@ return (
     </View>
 
     <View style={styles.viewInput}>
-      <Text style={styles.title}>Email Address</Text>
+      <Text style={styles.title}>Email</Text>
       <View style={styles.viewTextInput}>
         <TextInput
           value={Email}
@@ -128,7 +128,7 @@ return (
     </View>
 
     <View style={styles.viewInput}>
-      <Text style={styles.title}>Password</Text>
+      <Text style={styles.title}>Mật Khẩu</Text>
       <View style={styles.viewTextInput}>
         <TextInput
           value={Password}
@@ -150,7 +150,7 @@ return (
       style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
       onPress={() => handleRegister()}
     >
-      <Text style={[styles.textButton, { color: colors.white }]}>Sign Up</Text>
+      <Text style={[styles.textButton, { color: colors.white }]}>Đăng Ký</Text>
     </TouchableOpacity>
 
     <TouchableOpacity
@@ -161,12 +161,12 @@ return (
         source={require('../../images/logo_gg.png')}
         style={styles.iconTextInput}
       />
-      <Text style={styles.textButton}>Sign in with google</Text>
+      <Text style={styles.textButton}>Đăng nhập bằng Google</Text>
     </TouchableOpacity>
     <View style={{ flex: 1 }} />
     <Text style={styles.textBottom}>
-      Already have an account? {' '}
-      <Text style={styles.color} onPress={() => navigation.navigate(mainstack.login)}>Sign In</Text>
+    Đã có Tài Khoản? {' '}
+      <Text style={styles.color} onPress={() => navigation.navigate(mainstack.login)}>Đăng Nhập</Text>
     </Text>
   </View>
 )

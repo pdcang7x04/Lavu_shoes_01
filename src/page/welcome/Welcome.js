@@ -7,11 +7,9 @@ import { t } from '../../styles/font'
 const Welcome = (props) => {
   const {navigation} = props
 
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate(mainstack.onboard1)
-    }, 3000);
-  }, [])
+  setTimeout(() => {
+    navigation.navigate(mainstack.onboard1)
+  }, 3000);
   
   return (
     <View style={styles.container}>

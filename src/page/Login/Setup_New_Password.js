@@ -57,13 +57,13 @@ const Setup_New_Password = (props) => {
         />
       </TouchableOpacity>
 
-      <Text style={styles.textHello}>Setup New Password</Text>
-      <Text style={styles.contentHello}>Please, setup a new password for your account</Text>
+      <Text style={styles.textHello}>Mật Khẩu Mới</Text>
+      <Text style={styles.contentHello}>Vui Lòng Nhập Lại Mật Khẩu Mới Cho Tài Khoản Của Bạn</Text>
 
 
 
       <View style={styles.viewInput}>
-        <Text style={styles.title}> New Password</Text>
+        <Text style={styles.title}> Mật Khẩu Mới</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={NewPassword}
@@ -81,7 +81,7 @@ const Setup_New_Password = (props) => {
         </View>
       </View>
       <View style={styles.viewInput}>
-        <Text style={styles.title}> Repeat Password</Text>
+        <Text style={styles.title}> Nhập Lại Mật Khẩu</Text>
         <View style={styles.viewTextInput}>
           <TextInput
             value={RepeatPassword}
@@ -102,7 +102,7 @@ const Setup_New_Password = (props) => {
         style={[styles.viewButtonSignIn, { backgroundColor: colors.orange1 }]}
         onPress={() => setUpNewPassword()}
       >
-        <Text style={[styles.textButton, { color: colors.white }]}>Save</Text>
+        <Text style={[styles.textButton, { color: colors.white }]}>Lưu</Text>
       </TouchableOpacity>
 
     </View>
