@@ -206,6 +206,7 @@ const Checkout = props => {
               return <ItemCart data={item} key={index} />;
             })}
           </View>
+
           <View>
             <View style={styles.section}>
               <View style={styles.rowBetween}>
@@ -238,6 +239,13 @@ const Checkout = props => {
             </View>
 
             <Button
+
+          <TouchableOpacity marginT-30 onPress={() => {
+            setVisibleDialog(false)
+            navigation.navigate(mainstack.bottomnavigation)
+          }}>
+            <Card
+
               backgroundColor="#F15E2B"
               borderRadius={10}
               onPress={() => handleOrder()}
