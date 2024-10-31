@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {Card, View, Text, Switch} from 'react-native-ui-lib';
+import { Card, View, Text, Switch } from 'react-native-ui-lib';
 import Header from '../../components/Header';
-import {mainstack} from '../../navigation/mainstack';
-import {useDispatch, useSelector} from 'react-redux';
+import { mainstack } from '../../navigation/mainstack';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/Reducer';
 
 const notificationIcon = require('../../images/notifications.png');
@@ -23,7 +23,7 @@ const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
 
 const AccountSetting = props => {
-  const {navigation} = props;
+  const { navigation } = props;
 
   const dispatch = useDispatch();
   const appState = useAppSelector(state => state.lavu);
@@ -41,7 +41,7 @@ const AccountSetting = props => {
           <KeyboardAvoidingView>
             <Header
               action_ic_left={() => navigation.goBack()}
-              customStyle={{marginTop: 8}}
+              customStyle={{ marginTop: 8 }}
               paddingH-20
               title={'Tài Khoản & Cài Đặt'}
             />
@@ -146,18 +146,7 @@ const AccountSetting = props => {
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
-<TouchableOpacity style={styles.item} onPress={() => {
-                  navigation.navigate('BestSellerScreen');
-                }}>
-                  <Text style={styles.itemText}>PaymentScreen</Text>
-                </TouchableOpacity>
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity>
-          <Card center paddingV-16 backgroundColor="#F15E2B" borderRadius={999}>
-            <Text style={styles.saveText}>Save</Text>
-          </Card>
-        </TouchableOpacity>
-      </View>
+      
     </View>
   );
 };

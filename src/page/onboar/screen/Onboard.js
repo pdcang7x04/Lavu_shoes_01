@@ -1,4 +1,4 @@
-import { Animated, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { colors } from '../../../styles/colors';
 import { t } from '../../../styles/font';
@@ -20,7 +20,7 @@ const Onboard = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            
+
             <FlatList
                 data={slide}
                 keyExtractor={item => item.id}
@@ -28,13 +28,26 @@ const Onboard = ({ navigation }) => {
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled
                 bounces={false}
-                renderItem={({ item }) => <ListOnboard item={item} />}
+                renderItem={({ item }) =>
+                    <View >
+                        <Image
+                            source={item.image}
+                            style={styles.ImageBackground}
+                        />
+
+                        <Text style={styles.title}>{item.title}</Text>
+                        <Text style={styles.content}>{item.content}</Text>
+                    </View>
+                }
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
                     useNativeDriver: false,
                 })}
                 onViewableItemsChanged={viewableItemsChanged}
                 viewabilityConfig={viewConfig}
                 ref={slidesRef}
+
+                // contentContainerStyle={{ paddingHorizontal: 16 }} // Thêm khoảng cách bên trái và phải
+                snapToAlignment="center" // Căn giữa ảnh khi cuộn
             />
 
             <View style={styles.viewBottom}>
@@ -78,4 +91,28 @@ const styles = StyleSheet.create({
         color: colors.white,
         paddingHorizontal: 32,
     },
+
+    ImageBackground: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height * 0.6,
+    },
+    title: {
+        fontFamily: t.Roboto_Bold,
+        fontWeight: 'bold',
+        fontSize: 40,
+        lineHeight: 56,
+        color: colors.black1,
+        width: 292,
+        marginStart: 20,
+    },
+    content: {
+        fontFamily: t.Roboto_Regular,
+        fontSize: 20,
+        lineHeight: 32,
+        color: colors.grey1,
+        width: 292,
+        marginStart: 20,
+        marginTop: 8,
+    },
+
 });

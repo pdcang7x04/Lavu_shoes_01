@@ -1,6 +1,6 @@
 // src/screens/Favourite.js
 
-import { StyleSheet, Text, View, Image, FlatList,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useEffect } from 'react';
 import { colors } from '../../../styles/colors';
 import { t } from '../../../styles/font';
@@ -35,19 +35,15 @@ const Favourite = (props) => {
   }, [appState.user.email, dispatch]); // Chỉ gọi lại khi email thay đổi
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               source={require('../../../images/icon_back.png')}
               style={styles.icon_menu}
             />
           </TouchableOpacity>
-          <View style={{ alignItems: 'center', marginLeft: 80 }}>
             <Text style={styles.Favourite}>Yêu Thích</Text>
-          </View>
-        </View>
         <Image
           source={require('../../../images/icon_tim.png')}
           style={styles.icon}
@@ -60,9 +56,11 @@ const Favourite = (props) => {
           keyExtractor={item => item._id}
           numColumns={2}
           contentContainerStyle={styles.shoeList}
+          showsVerticalScrollIndicator={false}
         />
       </View>
-    </View>
+      <View height={100}/>
+    </ScrollView>
   );
 };
 
@@ -72,14 +70,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fb',
-    padding: 20,
-    marginTop:15,
+    paddingHorizontal: 20,
+    marginTop: 44,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop:20
+    marginTop: 8
   },
   iconContainer: {
     flexDirection: 'row',

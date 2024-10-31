@@ -24,6 +24,7 @@ const Home = props => {
   const [DataBrand, setDataBrand] = useState([]);
   const [DataProduct, setDataProduct] = useState([]);
   const [selectedBrandId, setSelectedBrandId] = useState('');
+  const [selectedNameBrand, setselectedNameBrand] = useState('');
 
   const dispatch = useDispatch();
   const appState = useSelector(state => state.lavu);
@@ -58,16 +59,23 @@ const Home = props => {
     fetchGetBrand();
   }, []);
 
-  const handleBrand = brandId => {
+  const handleBrand = (brandId, name) => {
     setSelectedBrandId(brandId);
+    setselectedNameBrand(name)
     fetchGetProduct(brandId);
   };
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}> 
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 40,
+              backgroundColor: colors.white
+            }}
             onPress={() => navigation.navigate(mainstack.accountAndSetting)}>
             <Image
               source={require('../../../images/image_copy.png')}
@@ -102,15 +110,19 @@ const Home = props => {
         <FlatList
           data={DataBrand}
           renderItem={({item}) => (
-            <BrandItem item={item} handleBrand={handleBrand} />
+            <BrandItem 
+              item={item} 
+              handleBrand={handleBrand} 
+              isSelected={(value) => selectedBrandId == value}  
+            />
           )}
           keyExtractor={item => item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.brandList}
+          // contentContainerStyle={styles.brandList}
         />
 
-        <View style={styles.flatlistProduct}>
+        <View style={{marginTop: 24, alignItems: 'center', width: '100%'}}>
           <View style={styles.titleContainer}>
             <Text style={styles.sectionTitle}>Giày Phổ Biến</Text>
             <Text
@@ -118,24 +130,26 @@ const Home = props => {
               onPress={() =>
                 navigation.navigate(mainstack.bestSeller, {
                   brandId: selectedBrandId,
+                  name: selectedNameBrand
                 })
               }>
               Tất Cả
             </Text>
           </View>
+
           <FlatList
             data={DataProduct.slice(0, 2)}
             renderItem={({item}) => <ShoeItem item={item} />}
             keyExtractor={item => item._id}
             numColumns={2}
-            style={styles.shosesitem}
+            // style={styles.shosesitem}
             showsHorizontalScrollIndicator={false}
           />
         </View>
 
         <View style={styles.titleContainer}>
-          <Text style={styles.sectionTitle}>Giày Mới</Text>
-          <Text
+          <Text style={styles.sectionTitle}>Phiên Bản giới hạn</Text>
+          {/* <Text
             style={styles.seeAllText}
             onPress={() =>
               navigation.navigate(mainstack.bestSeller, {
@@ -143,9 +157,9 @@ const Home = props => {
               })
             }>
             Tất Cả
-          </Text>
+          </Text> */}
         </View>
-        <View style={styles.newArrivalsContainer}>
+        <View style={{}}>
           <FlatList
             data={DataProduct.filter(item => item.status === 4).slice(0, 4)}
             renderItem={ShoeItem2}
@@ -155,6 +169,8 @@ const Home = props => {
             style={styles.newArrivalsList}
           />
         </View>
+
+        <View style={{height: 100}}/>
       </View>
     </ScrollView>
   );
@@ -163,9 +179,12 @@ const Home = props => {
 export default Home;
 
 const styles = StyleSheet.create({
+  viewheadertext: {
+    alignItems:"center",
+  },
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
     backgroundColor: '#F7F7F7',
   },
   shosesitem: {
@@ -176,15 +195,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
+    marginTop: 44,
   },
   icon: {
     width: 44,
     height: 44,
   },
   icon_menu: {
-    width: 70,
-    height: 70,
+    width: 44,
+    height: 44,
   },
   storeLabel: {
     fontSize: 12,
@@ -202,7 +222,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 25,
     paddingHorizontal: 10,
-    marginBottom: 20,
+    marginBottom: 32,
     backgroundColor: '#FFFFFF',
   },
   searchIcon: {
@@ -216,6 +236,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   titleContainer: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

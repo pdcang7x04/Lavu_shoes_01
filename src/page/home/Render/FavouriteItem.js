@@ -50,7 +50,7 @@ const FavouriteItem = ({ item }) => {
 
 const styles = StyleSheet.create({
   shoeCard: {
-    width: 157,
+    width: '45%',
     height: 190,
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     elevation: 2,
-    padding: 10,
     position: 'relative', 
   },
   shoeImage: {
@@ -68,6 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textContainer: {
+    padding: 10,
     alignItems: 'flex-start',
     width: '100%',
   },

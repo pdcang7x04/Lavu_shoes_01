@@ -3,7 +3,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 
 const CommentItem = ({item}) => {
-  const [selectedRating, setSelectedRating] = useState(item.rating);
+  const [selectedRating, setSelectedRating] = useState(item.evaluate);
 
   const RenderStars = () => (
     <View style={styles.rating}>
@@ -19,11 +19,11 @@ const CommentItem = ({item}) => {
 
   return (
     <View style={styles.reviewContainer}>
-      <Image source={{uri: item.avatar}} style={styles.avatar} />
+      <Image source={{uri: item?.user?.image}} style={styles.avatar} />
       <View style={styles.reviewContent}>
-        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.name}>{item?.user?.username}</Text>
         <RenderStars />
-        <Text style={styles.reviewText}>{item.review}</Text>
+        <Text style={styles.reviewText}>{item.content}</Text>
       </View>
     </View>
   );

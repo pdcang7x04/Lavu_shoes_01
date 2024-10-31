@@ -7,10 +7,11 @@ import { t } from '../../../styles/font';
 import { favouriteShoes } from '../component/Item_BestSeller';
 import BestSellerItem from '../Render/BestSellerItem';
 import AxiosInstance from '../../../helper/AxiosInstance';
+import ShoeItem from '../Render/ShoeItem';
 
 const Best_Seller = (props) => {
   const { navigation, route } = props;
-  const { brandId } = route.params;
+  const { brandId, name } = route.params;
 
   console.log('brand ', brandId)
 
@@ -37,24 +38,22 @@ const Best_Seller = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../../images/icon_back.png')}
             style={styles.icon_menu}
           />
           </TouchableOpacity>
-          <View style={{ alignItems: 'center', marginLeft: 80 }}>
-            <Text style={styles.Favourite}>Bán Chạy</Text>
-          </View>
-        </View>
+            <Text style={styles.Favourite}>{name}</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image source={require('../../../images/setting.png')} style={styles.icon} />
         <Image source={require('../../../images/icon_tim.png')} style={styles.icon} />
+        </View>
       </View>
       <View style={styles.sectionContainer}>
         <FlatList
           data={DataProduct}
-          renderItem={({ item }) => <BestSellerItem item={item} />}
+          renderItem={({ item }) => <ShoeItem item={item} />}
           keyExtractor={item => item._id}
           numColumns={2}
           contentContainerStyle={styles.shoeList}
@@ -96,7 +95,6 @@ const styles = StyleSheet.create({
     fontFamily: t.Roboto_Bold,
     fontSize: 20,
     color: colors.black1,
-    marginRight: 50,
   },
   sectionContainer: {
     marginBottom: 20,

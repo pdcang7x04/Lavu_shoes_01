@@ -35,7 +35,7 @@ const Profile = (props) => {
     const response = await AxiosInstance().put(`/users/updateUser/${appState.user._id}`, data);
     console.log('res: ', response.data);
     if (response.status) {
-      
+      dispatch(updateUser(response.data))
       ToastAndroid.show("success", ToastAndroid.SHORT)
     }
   }

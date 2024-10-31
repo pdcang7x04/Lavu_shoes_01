@@ -14,41 +14,41 @@ const useAppDispatcher = () => useDispatch()
 const useAppSelector = useSelector
 
 const BestSellerItem = (props) => {
-  const {item} = props
+  const { item } = props
   const navigation = useNavigation()
 
   const dispatch = useDispatch()
   const appState = useAppSelector((state) => state.lavu)
 
   const statusProduct = () => {
-    if(item.status == 1){
+    if (item.status == 1) {
       return "MỚI"
-    }else
-    if(item.status == 2){
-      return "BÁN CHẠY"
-    }else
-    if(item.status == 3){
-      return "PHỔ BIẾN"
-    }else
-    if(item.status == 4){
-      return "GIỚI HẠN"
-    }
+    } else
+      if (item.status == 2) {
+        return "BÁN CHẠY"
+      } else
+        if (item.status == 3) {
+          return "PHỔ BIẾN"
+        } else
+          if (item.status == 4) {
+            return "GIỚI HẠN"
+          }
   }
 
   const catetory = () => {
-    if(item.category.name === 'Nam'){
+    if (item.category.name === 'Nam') {
       return "Giày Nam"
     }
-    if(item.category.name === 'Nữ'){
+    if (item.category.name === 'Nữ') {
       return "Giày Nữ"
     }
-  
+
   }
 
   const fetchInsertfavorite = async () => {
     try {
-      const response = await AxiosInstance().post(`/favorites/insert/${appState.user.email}`, {product_id: item._id});
-      if(response.status){
+      const response = await AxiosInstance().post(`/favorites/insert/${appState.user.email}`, { product_id: item._id });
+      if (response.status) {
         dispatch(updateProductFavorite(response.data))
       }
     } catch (error) {
@@ -56,28 +56,29 @@ const BestSellerItem = (props) => {
     }
   }
 
-  return(
-  <TouchableOpacity style={[styles.shoeCard, { position: 'relative' }]} onPress={() => navigation.navigate(mainstack.productDetai, { product: item })}>
-    <Image source={{uri: item.image[0]}} style={styles.shoeImage} />
-    <View style={{ textAlign: 'left', width: '100%' }}>
-      <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
-      <Text style={styles.shoeName}>{item.name}</Text>
-      <Text style={styles.textCategory}>{catetory()}</Text>
-      <Text style={styles.shoePrice}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</Text>
-    </View>
-    <TouchableOpacity
-      style={[
-        styles.addButton,
-        { position: 'absolute', bottom:0, left:110 },
-      ]}
-      onPress={() => fetchInsertfavorite()}
-    >
-      <Image source={require('../../../images/add.png')} 
-      style = {styles.addButton}
-      />
+  return (
+    <TouchableOpacity style={[styles.shoeCard, { position: 'relative' }]} onPress={() => navigation.navigate(mainstack.productDetai, { product: item })}>
+      <Image source={{ uri: item.image[0] }} style={styles.shoeImage} />
+      <View style={{ textAlign: 'left', width: '100%' }}>
+        <Text style={styles.TextBestSeller}>{statusProduct()}</Text>
+        <Text style={styles.shoeName}>{item.name}</Text>
+        <Text style={styles.textCategory}>{catetory()}</Text>
+        <Text style={styles.shoePrice}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</Text>
+      </View>
+      <TouchableOpacity
+        style={[
+          styles.addButton,
+          { position: 'absolute', bottom: 0, left: 110 },
+        ]}
+        onPress={() => fetchInsertfavorite()}
+      >
+        <Image source={require('../../../images/add.png')}
+          style={styles.addButton}
+        />
+      </TouchableOpacity>
     </TouchableOpacity>
-  </TouchableOpacity>
-)};
+  )
+};
 
 const styles = StyleSheet.create({
   shoeCard: {
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   addButton: {
     width: 50,
     height: 50,
-   
+
   },
 });
 

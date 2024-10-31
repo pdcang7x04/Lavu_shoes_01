@@ -23,6 +23,7 @@ import {t} from '../../styles/font';
 import InputView from '../../components/InputView';
 import ItemCheckout from './ItemCheckout';
 import ItemCart from '../Cart/ItemCart';
+import { colors } from '../../styles/colors';
 const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
 
@@ -38,6 +39,10 @@ const Checkout = props => {
   const [PaymentMethod, setPaymentMethod] = useState('MoMo');
   const [Phone, setPhone] = useState(appState.user?.phone);
   const [Address, setAddress] = useState(appState.user.address);
+  const [Subtotal, setSubtotal] = useState(localTotal.subtotal);
+  const [Shipping, setShipping] = useState(localTotal.shipping);
+  const [TotalCost, setTotalCost] = useState(localTotal.totalCost);
+
 
   const handleAddressClick = props => {
     const {navigation} = props;
@@ -80,7 +85,7 @@ const Checkout = props => {
       const orders = {
         user: appState.user.email,
         paymentmethod: PaymentMethod,
-        totalAmount: total.totalCost,
+        totalAmount: TotalCost,
         paymentStatus: paymentStatus(),
         product: appState.cart.map(item => {
           return {
@@ -111,19 +116,37 @@ const Checkout = props => {
     }
   };
 
+  useEffect(() => {
+    let tamtinh = 0;
+    for (let i = 0; i < appState.cart.length; i++) {
+      tamtinh += appState.cart[i].price * appState.cart[i].quantity;
+    }
+    setSubtotal(tamtinh);
+    if (appState.cart.length === 0) {
+      setShipping(0);
+      setTotalCost(0);
+    } else {
+      setTotalCost(tamtinh + 30000);
+    }
+  }, [appState.cart]);
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAvoidingView>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity 
+            
+            onPress={() => navigation.goBack()}>
               <Image
                 source={require('../../images/icon_back.png')}
                 style={styles.iconBack}
               />
             </TouchableOpacity>
             <Text style={styles.headerText}>Thanh Toán</Text>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity 
+              
+              onPress={() => navigation.goBack()}>
               <Image source={{}} style={styles.iconBack} />
             </TouchableOpacity>
           </View>
@@ -195,7 +218,7 @@ const Checkout = props => {
             <Text>Ghi Chú </Text>
             <View marginV-12>
               <InputView
-                backgroundColor="orange"
+                backgroundColor='#F8F9FA'
                 paddingV-0
                 placeholder={'nhập gì đó ở đây'}
               />
@@ -215,7 +238,7 @@ const Checkout = props => {
                   {new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND',
-                  }).format(localTotal.subtotal)}
+                  }).format(Subtotal)}
                 </Text>
               </View>
               <View style={styles.rowBetween}>
@@ -224,7 +247,7 @@ const Checkout = props => {
                   {new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND',
-                  }).format(localTotal.shipping)}
+                  }).format(Shipping)}
                 </Text>
               </View>
               <View style={styles.rowBetween}>
@@ -233,26 +256,34 @@ const Checkout = props => {
                   {new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND',
-                  }).format(localTotal.totalCost)}
+                  }).format(TotalCost)}
                 </Text>
               </View>
             </View>
 
-            <Button
+            
 
-          <TouchableOpacity marginT-30 onPress={() => {
+          <TouchableOpacity  
+            style={{
+              width: "100%",
+              height: 54,
+              backgroundColor: colors.orange1,
+              borderRadius: 50,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 24
+            }}
+            onPress={() => {
             setVisibleDialog(false)
             navigation.navigate(mainstack.bottomnavigation)
           }}>
-            <Card
-
-              backgroundColor="#F15E2B"
-              borderRadius={10}
-              onPress={() => handleOrder()}
-              marginT-20
-              label="Thanh Toán"
-              style={styles.paymentButton}
-            />
+            <Text style={{
+              fontFamily: t.Roboto_Bold,
+              fontWeight: '700',
+              fontSize: 18,
+              color: colors.white
+            }}>Xác nhận</Text>
+            </TouchableOpacity>
           </View>
 
           <CustomDialog
@@ -272,7 +303,7 @@ const Checkout = props => {
                 marginT-30
                 onPress={() => {
                   setVisibleDialog(false);
-                  navigation.navigate(mainstack.home);
+                  navigation.navigate(mainstack.bottomnavigation);
                 }}>
                 <Card
                   backgroundColor="#F15E2B"
@@ -297,7 +328,8 @@ export default Checkout;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    marginTop: 44,
     backgroundColor: '#FFFFFF',
     justifyContent: 'space-between',
   },
@@ -305,15 +337,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 15,
+    marginTop: 8,
   },
   headerTextContainer: {
     width: 24,
     height: 24,
   },
   iconBack: {
-    width: 50,
-    height: 24,
+    width: 44,
+    height: 44,
   },
   headerText: {
     fontSize: 22,
