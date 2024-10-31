@@ -1,11 +1,34 @@
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { colors } from '../../styles/colors';
 import { t } from '../../styles/font';
 import Itemorderhis from './Itemorderhis';
+import AxiosInstance from '../../helper/AxiosInstance';
 
 const Orderhistory = (props) => {
   const { navigation } = props
+
+  const [historyOrder, sethistoryOrder] = useState([])
+
+  const fetchGetHistoryOrder = async () => {
+    try {
+      const response = await AxiosInstance().get(
+        `/orders/getHistoryShopping`
+      )
+
+      if(response.status){
+        console.log('history: ', response.data)
+        sethistoryOrder(response.data)
+      }
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(() => {
+    fetchGetHistoryOrder()
+  }, [])
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -22,9 +45,9 @@ const Orderhistory = (props) => {
         </View>
       </View>
       <FlatList
-        data={orderData}
+        data={historyOrder}
         renderItem={({ item }) => <Itemorderhis data={item} />}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
       />
     </View>
   )

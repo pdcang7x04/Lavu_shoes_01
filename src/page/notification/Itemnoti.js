@@ -9,16 +9,22 @@ const Itemnoti = (props) => {
     
     const orderStatus = () => {
       if(data.paymentStatus == 1){
-        return "Chưa thanh toán"
+        return "Chờ xác nhận"
       }
       if(data.paymentStatus == 2){
-        return "Đã thanh toán"
+        return "Chờ xác nhận"
       }
       if(data.paymentStatus == 3){
-        return "Đang giao"
+        return "Đã xác nhận"
       }
-      if(data.paymentStatus == 2){
-        return "Đã hủy"
+      if(data.paymentStatus == 4){
+        return "Đang xủ lý"
+      }
+      if(data.paymentStatus == 5){
+        return "Đã giao"
+      }
+      if(data.paymentStatus == 6){
+        return "Đã Hủy"
       }
     }
   return (
