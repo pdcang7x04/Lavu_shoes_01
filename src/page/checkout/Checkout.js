@@ -214,7 +214,7 @@ const Checkout = props => {
                   {new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND',
-                  }).format(localTotal.subtotal)}
+                  }).format(total.subtotal)}
                 </Text>
               </View>
               <View style={styles.rowBetween}>
@@ -223,7 +223,7 @@ const Checkout = props => {
                   {new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND',
-                  }).format(localTotal.shipping)}
+                  }).format(total.shipping)}
                 </Text>
               </View>
               <View style={styles.rowBetween}>
@@ -232,7 +232,7 @@ const Checkout = props => {
                   {new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND',
-                  }).format(localTotal.totalCost)}
+                  }).format(total.totalCost)}
                 </Text>
               </View>
             </View>
