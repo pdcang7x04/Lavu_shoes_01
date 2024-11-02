@@ -6,6 +6,7 @@ import {
   builderSignInWithGoogle,
 } from './User/ExtraReducerUser';
 import {builderGetBrand} from './brand/ExtraReducerBrand';
+import Toast from 'react-native-toast-message';
 
 const appSlice = createSlice({
   name: 'Lavu',
@@ -28,12 +29,16 @@ const appSlice = createSlice({
       const size = state.cart.findIndex(
         item => item.size === action.payload.size,
       );
-
+      
       if (index >= 0 && color >= 0 && size >= 0) {
+        
         state.cart[index].quantity += action.payload.quantity;
+        
       } else {
         state.cart.push(action.payload);
       }
+
+      
     },
     removeItemFromCart: (state, action) => {
       state.cart = state.cart.filter(

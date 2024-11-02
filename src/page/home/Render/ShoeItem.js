@@ -1,6 +1,4 @@
-// src/components/ShoeItem.js
-
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { mainstack } from '../../../navigation/mainstack';
 import { useNavigation } from '@react-navigation/native';
@@ -8,22 +6,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import AxiosInstance from '../../../helper/AxiosInstance';
 import { colors } from '../../../styles/colors';
 import { t } from '../../../styles/font';
+import { updateProductFavorite } from '../../../redux/Reducer';
+
 const ShoeItem = (props) => {
   const { item } = props;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const appState = useSelector((state) => state.lavu);
+  const [isLoading, setIsLoading] = useState(false); // Theo dõi trạng thái đang tải
 
   const statusProduct = () => {
-    if (item.status === 1) return "NEW";
-    if (item.status === 2) return "BEST SELLER";
-    if (item.status === 3) return "POPULAR";
-    if (item.status === 4) return "LIMITED";
-    return "";
+    switch (item.status) {
+      case 1: return "MỚI";
+      case 2: return "BÁN CHẠY NHẤT";
+      case 3: return "PHỔ BIẾN";
+      case 4: return "HẠN CHẾ";
+      default: return "";
+    }
   };
 
-  const fetchInsertFavorite = async () => {
-    // Logic backend giữ nguyên
+  const fetchInsertfavorite = async () => {
+    if (isLoading) return; // Ngăn chặn các cuộc gọi nhiều lần
+
+    setIsLoading(true); // Đặt trạng thái đang tải
+    try {
+      const response = await AxiosInstance().post(`/favorites/insert/${appState.user.email}`, { product_id: item._id });
+
+      if (response.status) {
+        dispatch(updateProductFavorite(response.data));
+        console.log("Sản phẩm đã được thêm vào danh sách yêu thích thành công!");
+      } else {
+        console.log("Thêm sản phẩm vào danh sách yêu thích không thành công. Trạng thái:", response.status);
+      }
+    } catch (error) {
+      console.error("Lỗi khi thêm sản phẩm vào danh sách yêu thích:", error);
+    } finally {
+      setIsLoading(false); // Đặt lại trạng thái đang tải
+    }
   };
 
   return (
@@ -40,7 +59,11 @@ const ShoeItem = (props) => {
           </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.addButton} onPress={fetchInsertFavorite}>
+      <TouchableOpacity 
+        style={styles.addButton} 
+        onPress={fetchInsertfavorite} 
+        disabled={isLoading} // Vô hiệu hóa nút khi đang tải
+      >
         <Image source={require('../../../images/add.png')} style={styles.addButtonImage} />
       </TouchableOpacity>
     </View>
@@ -49,18 +72,17 @@ const ShoeItem = (props) => {
 
 const styles = StyleSheet.create({
   shoeCard: {
-    width: 157,
+    width: '45%',
     height: 190,
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
-    margin:10,
+    margin: 10,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     elevation: 2,
-    position: 'relative', 
+    position: 'relative',
   },
   shoeImage: {
-
     width: '100%',
     height: 100,
     borderRadius: 10,
@@ -70,7 +92,7 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 10,
   },
-  textBestSeller: {
+  textStatus: {
     fontSize: 10,
     fontWeight: 'bold',
     color: colors.orange1,
@@ -84,7 +106,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   shoePrice: {
-    marginTop:10,
+    marginTop: 10,
     fontSize: 12,
     color: colors.black1,
     fontFamily: t.Roboto_Bold,
@@ -92,7 +114,7 @@ const styles = StyleSheet.create({
   addButton: {
     position: 'absolute',
     bottom: 0,
-    right: 0, 
+    right: 0,
   },
   addButtonImage: {
     width: 40,

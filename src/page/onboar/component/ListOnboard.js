@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { colors } from '../../../styles/colors'
 import { t } from '../../../styles/font'
@@ -23,7 +23,7 @@ export default ListOnboard
 
 const styles = StyleSheet.create({
     ImageBackground: {
-        width: 450,
+        width: Dimensions.get('window').width,
         height: 600,
     },
     title: {

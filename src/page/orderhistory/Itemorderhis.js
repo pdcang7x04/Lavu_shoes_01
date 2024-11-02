@@ -6,10 +6,10 @@ const Itemorderhis = (props) => {
     const {data} = props;
   return (
     <View style={styles.orderItem}>
-      <Image source={data.image} style={styles.image} />
+      <Image source={require('../../images/logo.png')} style={styles.image} />
       <View style={styles.orderDetails}>
         <Text style={styles.productText}>{data.name}</Text>
-        <Text style={styles.orderIdText}>Đặt hàng #{data.id}</Text>
+        <Text style={styles.orderIdText}>Đặt hàng #{data._id}</Text>
         <View style={styles.bottomContainer}>
           <View style={styles.dateContainer}>
             <Text style={styles.dateText}>{data.date}</Text>

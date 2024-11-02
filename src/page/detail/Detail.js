@@ -1,22 +1,24 @@
-import {Card, Image, Text, TouchableOpacity, View} from 'react-native-ui-lib';
-import {FlatList, StyleSheet, ScrollView, Alert} from 'react-native';
-import React, {useState} from 'react';
+import { Card, Image, Text, TouchableOpacity, View } from 'react-native-ui-lib';
+import { FlatList, StyleSheet, ScrollView, Alert, ToastAndroid, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
-import {t} from '../../styles/font';
+import { t } from '../../styles/font';
 import Button from '../../components/Button';
-import {mainstack} from '../../navigation/mainstack';
-import {useDispatch, useSelector} from 'react-redux';
-import {addItemToCart} from '../../redux/Reducer';
-import {useNavigation} from '@react-navigation/native';
+import { mainstack } from '../../navigation/mainstack';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItemToCart } from '../../redux/Reducer';
+import { useNavigation } from '@react-navigation/native';
 import CommentItem from '../Comment/CommentItem';
+import Toast from 'react-native-toast-message';
+import AxiosInstance from '../../helper/AxiosInstance';
 
 // const useAppDispatcher = useDispatch();
 // const useAppSelector = useSelector;
 
 const Detail = props => {
   const navigation = useNavigation();
-  const {route} = props;
-  const {product} = route.params;
+  const { route } = props;
+  const { product } = route.params;
   // console.log(product);
 
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const Detail = props => {
   const [select_color, setselect_color] = useState(product?.color[0]);
 
   const [select_size, setselect_size] = useState(product?.size[0]);
+  const [comment, setcomment] = useState([])
 
   const statusProduct = () => {
     if (product?.status === 1) {
@@ -47,12 +50,32 @@ const Detail = props => {
         quantity: 1,
       },
     };
+
     dispatch(addItemToCart(data));
-    Alert.alert('Thêm vào giỏ hàng thành công');
+    ToastAndroid.show('Thêm vào giỏ hàng thành công', ToastAndroid.BOTTOM);
+
   };
 
+  const fetchGetComment = async () => {
+    try {
+      const response = await AxiosInstance().get(
+        `/comments/getAllComment/${product?._id}`
+      )
+      if (response) {
+        setcomment(response.data)
+      }
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    fetchGetComment()
+  }, [])
+
+
   return (
-    <View height={'100%'} paddingT-30 paddingH-20 spread>
+    <View height={'100%'} paddingT-52 paddingH-20 spread>
       <Header
         title={'Giày ' + product?.category?.name || "Men's Shoes"}
         render_ic_right={
@@ -63,20 +86,32 @@ const Detail = props => {
         ic_left={require('../../images/icon_back.png')}
         action_ic_left={() => navigation.goBack()}
       />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <View paddingV-32 paddingH-32>
-            <Image
-              source={{
-                uri:
-                  select_color !== null
-                    ? select_color.image
-                    : product?.image[0],
-              }}
-              width={'100%'}
-              height={234}
-            />
-          </View>
+
+          <FlatList
+            data={product?.image}
+            keyExtractor={(item) => item.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            bounces={false}
+            renderItem={({ item }) => (
+              <View style={{ paddingVertical: 32, alignItems: 'center' }}>
+                <Image
+                  source={{ uri: item }}
+                  style={{
+                    width: Dimensions.get('window').width-32,
+                    height: 234,
+                    resizeMode: 'cover', // Thay đổi cách hiển thị ảnh
+                    borderRadius: 20, // Thêm bo góc cho hình ảnh
+                  }}
+                />
+              </View>
+            )}
+            contentContainerStyle={{ paddingHorizontal: 16 }} // Thêm khoảng cách bên trái và phải
+            snapToAlignment="center" // Căn giữa ảnh khi cuộn
+          />
           <View>
             <View>
               <Text style={styles.text_best_sale}>{statusProduct()}</Text>
@@ -101,7 +136,7 @@ const Detail = props => {
                 horizontal
                 style={styles.flatlist}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return (
                     <TouchableOpacity
                       marginR-16
@@ -110,8 +145,8 @@ const Detail = props => {
                       }}>
                       {/* <Card borderRadius={16}> */}
                       <Image
-                        source={{uri: item?.image}}
-                        style={{width: 50, height: 50}}
+                        source={{ uri: item?.image }}
+                        style={{ width: 50, height: 50 }}
                       />
                       {/* </Card> */}
                     </TouchableOpacity>
@@ -127,7 +162,7 @@ const Detail = props => {
                 showsHorizontalScrollIndicator={false}
                 style={styles.flatlist}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return (
                     <TouchableOpacity
                       marginR-13
@@ -151,57 +186,64 @@ const Detail = props => {
                 }}
               />
             </View>
-            <View marginT-16>
-              <View row spread>
-                <Text style={styles.text_option}>
-                  Đánh Giá <Text>(200)</Text>
-                </Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate(mainstack.Comment);
-                  }}>
-                  <Text color={'#F15E2B'}>Xem tất cả</Text>
-                </TouchableOpacity>
-              </View>
-              <FlatList
-                data={product.reviews || demoProductReview}
-                horizontal={false}
-                showsVerticalScrollIndicator={false}
-                initialNumToRender={2}
-                style={{padding: 8}}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({item, index}) => {
-                  return <CommentItem item={item} />;
-                }}
-              />
-            </View>
+
+            {
+              comment.length != 0 ? (
+                <View marginT-16>
+                  <View row spread>
+                    <Text style={styles.text_option}>
+                      Đánh Giá <Text>({comment?.length})</Text>
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate(mainstack.Comment, { comment });
+                      }}>
+                      <Text color={'#F15E2B'}>Xem tất cả</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <FlatList
+                    data={comment.slice(0, 2)}
+                    horizontal={false}
+                    showsVerticalScrollIndicator={false}
+                    initialNumToRender={2}
+                    style={{ padding: 8 }}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item, index }) => {
+                      return <CommentItem item={item} />;
+                    }}
+                  />
+                </View>
+
+              ) : null
+            }
           </View>
         </View>
 
-        <View
-          centerV
-          row
-          spread
-          width={'100%'}
-          paddingT-16
-          paddingB-24
-          paddingH-20>
-          <View>
-            <Text style={styles.text_title_price}>Giá</Text>
-            <Text style={styles.text_price}>
-              {new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-              }).format(product?.price)}
-            </Text>
-          </View>
-          <Button
-            title="Thêm vào giỏ hàng"
-            onPress={handleAddToCart}
-            textColor={'white'}
-          />
-        </View>
       </ScrollView>
+      <View
+        centerV
+        row
+        spread
+        width={'100%'}
+        paddingT-16
+        paddingB-24
+        paddingH-20>
+        <View>
+          <Text style={styles.text_title_price}>Giá</Text>
+          <Text style={styles.text_price}>
+            {new Intl.NumberFormat('vi-VN', {
+              style: 'currency',
+              currency: 'VND',
+            }).format(product?.price)}
+          </Text>
+        </View>
+        <Button
+          title="Thêm vào giỏ hàng"
+          onPress={handleAddToCart}
+          textColor={'white'}
+        />
+      </View>
+
     </View>
   );
 };

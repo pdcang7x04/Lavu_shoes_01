@@ -4,6 +4,7 @@ import { colors } from '../../styles/colors';
 import { t } from '../../styles/font';
 import AxiosInstance from '../../helper/AxiosInstance';
 import BestSellerItem from '../home/Render/BestSellerItem';
+import ShoeItem from '../home/Render/ShoeItem';
 
 const Search = (props) => {
   const {navigation} = props
@@ -32,18 +33,15 @@ const Search = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../images/icon_back.png')}
             style={styles.icon_menu}
           />
           </TouchableOpacity>
-          <View style={{ alignItems: 'center', marginLeft: 80 }}>
+          
 
             <Text style={styles.storeLocation}>Tìm Kiếm</Text>
-          </View>
-        </View>
         <Text style={styles.text_cancel} onPress={() => setSearch("")}>Huỷ</Text>
       </View>
       <View style={styles.searchContainer}>
@@ -65,12 +63,15 @@ const Search = (props) => {
       {Search !== '' && (
         <View style={styles.sectionContainer}>
           {DataProduct.length > 0 ? (
+            
             <FlatList
-              data={DataProduct}
-              renderItem={({ item }) => <BestSellerItem item={item} />}
-              keyExtractor={item => item._id}
-              numColumns={2}
-            />
+            data={DataProduct}
+            renderItem={({item}) => <ShoeItem item={item} />}
+            keyExtractor={item => item._id}
+            numColumns={2}
+            // style={styles.shosesitem}
+            showsHorizontalScrollIndicator={false}
+          />
           ) : (
             <Text style={styles.noResultsText}>No results found.</Text>
           )}
@@ -91,14 +92,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fb',
-    padding: 30,
+    paddingHorizontal: 20,
+    marginTop: 44,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 20,
+    marginTop: 8,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -110,16 +111,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   icon_menu: {
-    width: 28.5,
-    height: 24,
-    marginRight: 10,
+    width: 44,
+    height: 44,
   },
   storeLocation: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#1A2530',
     fontFamily: t.Roboto_Bold,
-    marginLeft: 30,
+    flex: 1,
+    textAlign: 'center'
   },
   text_cancel: {
     fontSize: 16,
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 10,
     marginBottom: 20,
-    marginTop: 36,
+    marginTop: 24,
     backgroundColor: '#FFFFFF'
   },
   searchIcon: {
