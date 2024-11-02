@@ -1,101 +1,140 @@
-import { StyleSheet, Text, View , Image,FlatList, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {colors} from '../../styles/colors';
 import {t} from '../../styles/font';
 import Itemnoti from './Itemnoti';
 import AxiosInstance from '../../helper/AxiosInstance';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {mainstack} from '../../navigation/mainstack';
+import DetailOrder from '../checkout/DetailOrder';
 
-const useAppDispatcher = () => useDispatch()
-const useAppSelector = useSelector
+const useAppDispatcher = () => useDispatch();
+const useAppSelector = useSelector;
 
-const Notifications = (props) => {
-  const {navigation} = props
+const Notifications = props => {
+  const {navigation} = props;
 
-  const dispatch = useDispatch()
-  const appState = useAppSelector((state) => state.lavu)
+  const dispatch = useDispatch();
+  const appState = useAppSelector(state => state.lavu);
+  const [visibleDialog, setVisibleDialog] = useState(false);
 
-  const [DataHistory, setDataHistory] = useState([])
+  const [DataHistory, setDataHistory] = useState([]);
 
   const fetchGetHistory = async () => {
     try {
-      const response = await AxiosInstance().get(`/orders/getHistoryShopping/${appState.user.email}`);
+      const response = await AxiosInstance().get(
+        `/orders/getHistoryShopping/${appState.user.email}`,
+      );
       if (response.status) {
-        setDataHistory(response.data)
+        setDataHistory(response.data);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchGetHistory()
-  }, [])
-  
-  console.log("HISTORY: ", DataHistory)
+    fetchGetHistory();
+  }, []);
+
+  console.log('HISTORY: ', DataHistory);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../images/icon_back.png')}
-            style={styles.icon_menu}
-          />
+            <Image
+              source={require('../../images/icon_back.png')}
+              style={styles.icon_menu}
+            />
           </TouchableOpacity>
           <View style={{alignItems: 'center', marginLeft: 80}}>
-            <Text style={styles.Favourite}>History</Text>
+            <Text style={styles.Favourite}>Lịch Sử</Text>
           </View>
         </View>
       </View>
       <FlatList
-      style={{marginTop:15}}
+        style={{marginTop: 15}}
         data={DataHistory}
-        renderItem={({item})=> <Itemnoti data={item}/>}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            onPress={() => {
+              setVisibleDialog(false);
+              navigation.navigate(mainstack.DetailOrder, {DetailOrder: item});
+            }}>
+            <Itemnoti data={item} />
+          </TouchableOpacity>
+        )}
         keyExtractor={item => item._id}
       />
     </View>
-  )
-}
+  );
+};
 
-export default Notifications
+export default Notifications;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#f8f9fb',
-        padding: 30,
-      },
-      header: { 
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f9fb',
+    padding: 30,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop:15
-      },
-      iconContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-      },
-      
-      icon_menu: {
-        width: 44,
-        height: 44,
-        marginRight: 10,
-      },
-      Favourite: {
-        fontFamily: t.Roboto_Bold,
-        fontSize: 20,
-        alignItems: 'center',
-        alignContent: 'center',
-        marginLeft: 10,
-        color: colors.black1,
-      },
-})
+  icon_menu: {
+    width: 44,
+    height: 44,
+    marginRight: 10,
+  },
+  Favourite: {
+    fontFamily: t.Roboto_Bold,
+    fontSize: 20,
+    alignItems: 'center',
+    alignContent: 'center',
+    marginLeft: 10,
+    color: colors.black1,
+  },
+});
 const orderData = [
-    { id: '1', status: 'Packed', items: 3, image: require ('../../images/icon_notification.png') },
-    { id: '2', status: 'Shipped', items: 3, image: require ('../../images/icon_notification.png') },
-    { id: '3', status: 'Delivered', items: 3, image: require ('../../images/icon_notification.png') },
-    { id: '4', status: 'Delivered', items: 3, image: require ('../../images/icon_notification.png') },
-  ];
+  {
+    id: '1',
+    status: 'Packed',
+    items: 3,
+    image: require('../../images/icon_notification.png'),
+  },
+  {
+    id: '2',
+    status: 'Shipped',
+    items: 3,
+    image: require('../../images/icon_notification.png'),
+  },
+  {
+    id: '3',
+    status: 'Delivered',
+    items: 3,
+    image: require('../../images/icon_notification.png'),
+  },
+  {
+    id: '4',
+    status: 'Delivered',
+    items: 3,
+    image: require('../../images/icon_notification.png'),
+  },
+];
