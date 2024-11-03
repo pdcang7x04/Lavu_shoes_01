@@ -33,7 +33,8 @@ const Home = props => {
     try {
       const response = await AxiosInstance().get('/brands/getBrand');
       if (response.status) {
-        fetchGetProduct(response?.data[0]._id);
+        fetchGetProduct(response?.data[0]?._id, response?.data[0].name);
+        // selectedNameBrand(response?.data[0]?.name)
         setDataBrand(response.data);
       }
     } catch (error) {
@@ -41,7 +42,7 @@ const Home = props => {
     }
   };
 
-  const fetchGetProduct = async brandId => {
+  const fetchGetProduct = async (brandId, name) => {
     try {
       const response = await AxiosInstance().get(
         `/products/getProductByBrand/${brandId}`,
@@ -49,6 +50,7 @@ const Home = props => {
       if (response.status) {
         setDataProduct(response.data);
         setSelectedBrandId(brandId);
+        
       }
     } catch (error) {
       console.log(error);

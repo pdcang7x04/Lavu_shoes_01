@@ -45,7 +45,7 @@ const Notifications = (props) => {
           />
           </TouchableOpacity>
           <View style={{alignItems: 'center', marginLeft: 80}}>
-            <Text style={styles.Favourite}>History</Text>
+            <Text style={styles.Favourite}>Lịch sử</Text>
           </View>
         </View>
       </View>
