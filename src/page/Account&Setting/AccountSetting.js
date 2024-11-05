@@ -96,7 +96,11 @@ const AccountSetting = props => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.item} onPress={() => dispatch(logout())}>
+                <TouchableOpacity style={styles.item} onPress={() => {
+                  dispatch(logout())
+                  // navigation.navigate(mainstack.login);
+                }
+                }>
                   <View style={styles.itemRow}>
                     <View style={styles.leftSection}>
                       <Image source={logoutIcon} style={styles.icon} />
@@ -146,7 +150,7 @@ const AccountSetting = props => {
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
-      
+
     </View>
   );
 };

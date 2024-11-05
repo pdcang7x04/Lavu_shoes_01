@@ -20,6 +20,7 @@ export const mainstack = {
   favorite: 'favorite',
   checkout: 'checkout',
   bestSeller: 'best_seller',
+  limited: 'limited',
   bottomnavigation: 'bottom_navigation',
   cart: 'cart',
   orderHistory: 'orderHistory',

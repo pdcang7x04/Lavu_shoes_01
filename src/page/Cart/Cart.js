@@ -97,7 +97,7 @@ const Cart = props => {
         style={styles.checkoutButton}
         activeOpacity={0.8}
         onPress={() => {
-          if (appState.cart.length == 0) {
+          if (appState.cart.length === 0) {
             return Toast.show({
               text1: 'Giỏ hàng của bạn đang trống',
               position: 'top',

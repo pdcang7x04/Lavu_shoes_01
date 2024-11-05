@@ -79,7 +79,8 @@ const appSlice = createSlice({
       state.cart = [];
     },
     logout: (state, action) => {
-      state.user = null;
+      state.user = null
+      
     },
     updateUser: (state, action) => {
       state.user = action.payload;

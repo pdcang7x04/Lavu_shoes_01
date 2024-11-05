@@ -9,30 +9,15 @@ import BestSellerItem from '../Render/BestSellerItem';
 import AxiosInstance from '../../../helper/AxiosInstance';
 import ShoeItem from '../Render/ShoeItem';
 
-const Best_Seller = (props) => {
+const Limited = (props) => {
   const { navigation, route } = props;
-  const { brandId, name } = route.params;
+  const { product } = route.params;
 
-  console.log('brand ', brandId)
 
-  const [DataProduct, setDataProduct] = useState([])
 
-  const fetchGetProduct = async (brandId) => {
-    try {
-      const response = await AxiosInstance().get(`/products/getProductByBrand/${brandId}`);
+  const [DataProduct, setDataProduct] = useState(product)
 
-      if (response.status) {
-        setDataProduct(response.data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    fetchGetProduct(brandId)
-  }, [brandId])
-  console.log("product: ", DataProduct)
+  
 
   
   return (
@@ -44,7 +29,7 @@ const Best_Seller = (props) => {
             style={styles.icon_menu}
           />
           </TouchableOpacity>
-            <Text style={styles.Favourite}>{name}</Text>
+            <Text style={styles.Favourite}>Phiên bản giới hạn</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image source={require('../../../images/setting.png')} style={styles.icon} />
         <Image source={require('../../../images/icon_tim.png')} style={styles.icon} />
@@ -63,7 +48,7 @@ const Best_Seller = (props) => {
   );
 };
 
-export default Best_Seller;
+export default Limited;
 
 const styles = StyleSheet.create({
   container: {

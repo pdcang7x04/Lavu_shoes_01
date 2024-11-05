@@ -23,6 +23,7 @@ const Home = props => {
   const {navigation} = props;
   const [DataBrand, setDataBrand] = useState([]);
   const [DataProduct, setDataProduct] = useState([]);
+  const [DataProduct2, setDataProduct2] = useState([]);
   const [selectedBrandId, setSelectedBrandId] = useState('');
   const [selectedNameBrand, setselectedNameBrand] = useState('');
 
@@ -57,8 +58,24 @@ const Home = props => {
     }
   };
 
+  const fetchGetAllProduct = async () => {
+    try {
+      const response = await AxiosInstance().get(
+        `/products/getall`,
+      );
+      if (response.status) {
+        const products = response.data.filter(item => item.status === 4)
+        setDataProduct2(products);
+        
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchGetBrand();
+    fetchGetAllProduct()
   }, []);
 
   const handleBrand = (brandId, name) => {
@@ -151,20 +168,20 @@ const Home = props => {
 
         <View style={styles.titleContainer}>
           <Text style={styles.sectionTitle}>Phiên Bản giới hạn</Text>
-          {/* <Text
+          <Text
             style={styles.seeAllText}
             onPress={() =>
-              navigation.navigate(mainstack.bestSeller, {
-                brandId: selectedBrandId,
+              navigation.navigate(mainstack.limited, {
+                product: DataProduct2,
               })
             }>
             Tất Cả
-          </Text> */}
+          </Text>
         </View>
         <View style={{}}>
           <FlatList
-            data={DataProduct.filter(item => item.status === 4).slice(0, 4)}
-            renderItem={ShoeItem2}
+            data={DataProduct2.slice(0, 2)}
+            renderItem={({item}) => <ShoeItem2 item={item}/>}
             keyExtractor={item => item._id}
             showsVerticalScrollIndicator={true}
             nestedScrollEnabled={true}

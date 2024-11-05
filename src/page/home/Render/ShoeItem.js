@@ -20,7 +20,7 @@ const ShoeItem = (props) => {
       case 1: return "MỚI";
       case 2: return "BÁN CHẠY NHẤT";
       case 3: return "PHỔ BIẾN";
-      case 4: return "HẠN CHẾ";
+      case 4: return "GIỚI HẠN";
       default: return "";
     }
   };
@@ -64,7 +64,7 @@ const ShoeItem = (props) => {
         onPress={fetchInsertfavorite} 
         disabled={isLoading} // Vô hiệu hóa nút khi đang tải
       >
-        <Image source={require('../../../images/add.png')} style={styles.addButtonImage} />
+        <Image source={require('../../../images/favorite.png')} style={styles.addButtonImage} />
       </TouchableOpacity>
     </View>
   );
@@ -119,6 +119,8 @@ const styles = StyleSheet.create({
   addButtonImage: {
     width: 40,
     height: 40,
+    marginBottom: 5,
+    marginRight: 5
   },
 });
 

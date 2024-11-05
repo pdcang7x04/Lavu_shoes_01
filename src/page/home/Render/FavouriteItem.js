@@ -42,7 +42,7 @@ const FavouriteItem = ({ item }) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.addButton} onPress={fetchRemoveFavorite}>
-        <Image source={require('../../../images/add.png')} style={styles.addButtonImage} />
+        <Image source={require('../../../images/favorite_2.png')} style={styles.addButtonImage} />
       </TouchableOpacity>
     </View>
   );

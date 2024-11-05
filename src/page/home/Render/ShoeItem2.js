@@ -1,12 +1,16 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { mainstack } from '../../../navigation/mainstack';
+import { colors } from '../../../styles/colors';
 
 const ShoeItem2 = (props) => {
   const { item } = props;
+  const navigation = useNavigation()
 
   const statusProduct = () => {
     if (item.status === 4) {
-      return 'LIMITED';
+      return 'GIỚI HẠN';
     }
     return '';
   };
@@ -14,7 +18,9 @@ const ShoeItem2 = (props) => {
   return (
     <View style={styles.container}>
 
-      <View style={styles.infoContainer}>
+      <TouchableOpacity 
+        onPress={() => navigation.navigate(mainstack.productDetai, {product: item})} 
+        style={styles.infoContainer}>
         <Text style={styles.textBestSeller}>{statusProduct()}</Text>
         <Text style={styles.shoeName}>{item.name}</Text>
         <Text style={styles.shoePrice}>
@@ -22,7 +28,7 @@ const ShoeItem2 = (props) => {
             item.price
           )}
         </Text>
-      </View>
+      </TouchableOpacity>
       <Image source={{ uri: item.image[0] }} style={styles.shoeImage} />
     </View>
   );
@@ -53,7 +59,7 @@ const styles = StyleSheet.create({
     textBestSeller: {
       fontSize: 16,
       fontWeight: 'bold',
-      color: '#FFA500',
+      color: colors.orange1,
       marginBottom: 5,
     },
     shoeName: {
