@@ -17,6 +17,7 @@ import Password_authentication from '../page/Login/Password_authentication';
 import Setup_New_Password from '../page/Login/Setup_New_Password';
 import BestSellerScreen from '../page/payment/BestSellerScreen';
 import Comment from '../page/Comment/Comment';
+import DetailOrder from '../page/checkout/DetailOrder';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,7 +42,7 @@ const UserNavigation = () => {
         name={mainstack.bestSellerSreen}
         component={BestSellerScreen}
       />
-
+<Stack.Screen name={mainstack.DetailOrder} component={DetailOrder}/>
       <Stack.Screen name={mainstack.checkout} component={Checkout} />
 
       <Stack.Screen

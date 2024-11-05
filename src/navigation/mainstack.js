@@ -1,3 +1,4 @@
+import DetailOrder from "../page/checkout/DetailOrder";
 import Comment from "../page/Comment/Comment";
 
 export const mainstack = {
@@ -28,4 +29,5 @@ export const mainstack = {
   bestSellerSreen: 'bestSellerSreen',
   productDetai: 'product_detail',
   Comment:'Comment',
+  DetailOrder:'DetailOrder',
 };
