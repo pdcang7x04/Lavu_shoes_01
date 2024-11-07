@@ -280,8 +280,7 @@ const Checkout = props => {
               marginBottom: 24
             }}
             onPress={() => {
-            setVisibleDialog(false)
-            navigation.navigate(mainstack.bottomnavigation)
+            handleOrder()
           }}>
             <Text style={{
               fontFamily: t.Roboto_Bold,
