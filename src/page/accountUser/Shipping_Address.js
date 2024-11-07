@@ -69,12 +69,7 @@ const Shipping_Address = (props) => {
             style={styles.textInput}
             autoCapitalize='none'
           />
-          <TouchableOpacity>
-            <Image
-              source={require('../../images/icon_close_eye.png')}
-              style={styles.iconTextInput}
-            />
-          </TouchableOpacity>
+          
         </View>
       </View>
 
@@ -87,12 +82,7 @@ const Shipping_Address = (props) => {
             style={styles.textInput}
             autoCapitalize='none'
           />
-          <TouchableOpacity>
-            <Image
-              source={require('../../images/icon_close_eye.png')}
-              style={styles.iconTextInput}
-            />
-          </TouchableOpacity>
+          
         </View>
       </View>
       <TouchableOpacity
