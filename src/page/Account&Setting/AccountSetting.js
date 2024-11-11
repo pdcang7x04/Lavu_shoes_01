@@ -11,6 +11,7 @@ import Header from '../../components/Header';
 import { mainstack } from '../../navigation/mainstack';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/Reducer';
+import { colors } from '../../styles/colors';
 
 const notificationIcon = require('../../images/notifications.png');
 const shippingIcon = require('../../images/shopping.png');
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: 'center',
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.orange1,
     borderRadius: 5,
     marginHorizontal: 5,
   },
