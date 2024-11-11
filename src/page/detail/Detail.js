@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import CommentItem from '../Comment/CommentItem';
 import Toast from 'react-native-toast-message';
 import AxiosInstance from '../../helper/AxiosInstance';
+import { colors } from '../../styles/colors';
 
 // const useAppDispatcher = useDispatch();
 // const useAppSelector = useSelector;
@@ -64,6 +65,7 @@ const Detail = props => {
       if (response) {
         setcomment(response.data)
       }
+      
     } catch (error) {
 
     }
@@ -142,7 +144,12 @@ const Detail = props => {
                       marginR-16
                       onPress={() => {
                         setselect_color(item);
-                      }}>
+                      }}
+                        style={{
+                          borderWidth: 2,
+                          borderColor: select_color == item ? colors.orange1 : colors.grey2
+                        }}
+                      >
                       {/* <Card borderRadius={16}> */}
                       <Image
                         source={{ uri: item?.image }}

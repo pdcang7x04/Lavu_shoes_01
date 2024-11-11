@@ -45,6 +45,8 @@ const Register = (props) => {
         image: userInfo.data.user.photo
       }
       dispatch(signInWithGoogle(body))
+      navigation.navigate(mainstack.bottomnavigation)
+
     } catch (error) {
       console.log('error:', error.message);
     }
@@ -71,6 +73,7 @@ const Register = (props) => {
           password: Password
         }
       dispatch(register(body))
+      navigation.navigate(mainstack.bottomnavigation)
     }
 
     } catch (error) {

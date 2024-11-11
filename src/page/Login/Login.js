@@ -45,6 +45,7 @@ const Login = (props) => {
         image: userInfo.data.user.photo
       }
       dispatch(signInWithGoogle(body))
+      navigation.navigate(mainstack.bottomnavigation)
     } catch (error) {
       console.log('error:', error.message);
     }
