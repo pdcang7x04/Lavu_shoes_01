@@ -63,6 +63,7 @@ const Login = (props) => {
         }
         
         dispatch(login(body))
+        navigation.navigate(mainstack.bottomnavigation)
       } else {
         return
       }

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { Card, View, Text, Switch } from 'react-native-ui-lib';
+import { View, Text, Switch, Modal } from 'react-native-ui-lib';
 import Header from '../../components/Header';
 import { mainstack } from '../../navigation/mainstack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,20 +19,21 @@ const passwordIcon = require('../../images/icon.png');
 const logoutIcon = require('../../images/icon_logout2.png');
 const ArrowIcon = require('../../images/Arrow.png');
 
-const useAppDispatcher = () => useDispatch();
-const useAppSelector = useSelector;
-
 const AccountSetting = props => {
   const { navigation } = props;
-
   const dispatch = useDispatch();
-  const appState = useAppSelector(state => state.lavu);
+  const appState = useSelector(state => state.lavu);
 
   const [faceIdEnabled, setFaceIdEnabled] = useState(false);
-  const [pushNotificationsEnabled, setPushNotificationsEnabled] =
-    useState(true);
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(true);
   const [locationServicesEnabled, setLocationServicesEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+  const [confirmLogout, setConfirmLogout] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigation.navigate(mainstack.login);
+  };
 
   return (
     <View style={styles.container}>
@@ -50,112 +51,153 @@ const AccountSetting = props => {
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Tài Khoản</Text>
 
-                <TouchableOpacity style={styles.item}>
-                  <View style={styles.itemRow}>
-                    <View style={styles.leftSection}>
-                      <Image source={notificationIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Cài Đặt Thông Báo</Text>
-                    </View>
-                    <Image source={ArrowIcon} style={styles.arrowIcon} />
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.item}
-                  onPress={() =>
-                    navigation.navigate(mainstack.shippingaddress)
-                  }>
-                  <View style={styles.itemRow}>
-                    <View style={styles.leftSection}>
-                      <Image source={shippingIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Địa Chỉ Giao Hàng</Text>
-                    </View>
-                    <Image source={ArrowIcon} style={styles.arrowIcon} />
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.item}>
-                  <View style={styles.itemRow}>
-                    <View style={styles.leftSection}>
-                      <Image source={paymentIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Thông Tin Thanh Toán</Text>
-                    </View>
-                    <Image source={ArrowIcon} style={styles.arrowIcon} />
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.item}
-                  onPress={() => navigation.navigate(mainstack.changpassword)}>
-                  <View style={styles.itemRow}>
-                    <View style={styles.leftSection}>
-                      <Image source={passwordIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Thay Đổi Mật Khẩu</Text>
-                    </View>
-                    <Image source={ArrowIcon} style={styles.arrowIcon} />
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.item} onPress={() => {
-                  dispatch(logout())
-                  // navigation.navigate(mainstack.login);
-                }
-                }>
-                  <View style={styles.itemRow}>
-                    <View style={styles.leftSection}>
-                      <Image source={logoutIcon} style={styles.icon} />
-                      <Text style={styles.itemText}>Đăng Xuất</Text>
-                    </View>
-                    <Image source={ArrowIcon} style={styles.arrowIcon} />
-                  </View>
-                </TouchableOpacity>
+                <SettingItem
+                  icon={notificationIcon}
+                  title="Cài Đặt Thông Báo"
+                  onPress={() => {}}
+                />
+                <SettingItem
+                  icon={shippingIcon}
+                  title="Địa Chỉ Giao Hàng"
+                  onPress={() => navigation.navigate(mainstack.shippingaddress)}
+                />
+                <SettingItem
+                  icon={paymentIcon}
+                  title="Thông Tin Thanh Toán"
+                  onPress={() => {}}
+                />
+                <SettingItem
+                  icon={passwordIcon}
+                  title="Thay Đổi Mật Khẩu"
+                  onPress={() => navigation.navigate(mainstack.changpassword)}
+                />
+                <SettingItem
+                  icon={logoutIcon}
+                  title="Đăng Xuất"
+                  onPress={() => setConfirmLogout(true)}
+                />
               </View>
 
               <View style={styles.section} marginT-32>
                 <Text style={styles.sectionTitle}>Cài Đặt Ứng Dụng</Text>
-
-                <View style={styles.item}>
-                  <Text style={styles.itemText}>Kích Hoạt Face ID Để Đăng Nhập</Text>
-                  <Switch
-                    value={faceIdEnabled}
-                    onValueChange={setFaceIdEnabled}
-                  />
-                </View>
-
-                <View style={styles.item}>
-                  <Text style={styles.itemText}>Kích Hoạt Thông Báo</Text>
-                  <Switch
-                    value={pushNotificationsEnabled}
-                    onValueChange={setPushNotificationsEnabled}
-                  />
-                </View>
-
-                <View style={styles.item}>
-                  <Text style={styles.itemText}>Cho Phép Ứng Dụng Định Vị</Text>
-                  <Switch
-                    value={locationServicesEnabled}
-                    onValueChange={setLocationServicesEnabled}
-                  />
-                </View>
-
-                <View style={styles.item}>
-                  <Text style={styles.itemText}>Chế Độ Tối</Text>
-                  <Switch
-                    value={darkModeEnabled}
-                    onValueChange={setDarkModeEnabled}
-                  />
-                </View>
+                <SwitchSetting
+                  title="Kích Hoạt Face ID Để Đăng Nhập"
+                  value={faceIdEnabled}
+                  onValueChange={setFaceIdEnabled}
+                />
+                <SwitchSetting
+                  title="Kích Hoạt Thông Báo"
+                  value={pushNotificationsEnabled}
+                  onValueChange={setPushNotificationsEnabled}
+                />
+                <SwitchSetting
+                  title="Cho Phép Ứng Dụng Định Vị"
+                  value={locationServicesEnabled}
+                  onValueChange={setLocationServicesEnabled}
+                />
+                <SwitchSetting
+                  title="Chế Độ Tối"
+                  value={darkModeEnabled}
+                  onValueChange={setDarkModeEnabled}
+                />
               </View>
             </View>
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
 
+      <LogoutModal
+        visible={confirmLogout}
+        onConfirm={handleLogout}
+        onCancel={() => setConfirmLogout(false)}
+      />
     </View>
   );
 };
 
+const SettingItem = ({ icon, title, onPress }) => (
+  <TouchableOpacity style={styles.item} onPress={onPress}>
+    <View style={styles.itemRow}>
+      <View style={styles.leftSection}>
+        <Image source={icon} style={styles.icon} />
+        <Text style={styles.itemText}>{title}</Text>
+      </View>
+      <Image source={ArrowIcon} style={styles.arrowIcon} />
+    </View>
+  </TouchableOpacity>
+);
+
+const SwitchSetting = ({ title, value, onValueChange }) => (
+  <View style={styles.item}>
+    <Text style={styles.itemText}>{title}</Text>
+    <Switch value={value} onValueChange={onValueChange} />
+  </View>
+);
+
+const LogoutModal = ({ visible, onConfirm, onCancel }) => (
+  <Modal
+    transparent={true}
+    animationType="slide"
+    visible={visible}
+    onRequestClose={onCancel}
+  >
+    <View style={styles.overlay}>
+      <View style={styles.modalContainer}>
+        <Text style={styles.modalTitle}>Xác nhận đăng xuất</Text>
+        <Text style={styles.modalMessage}>Bạn có chắc chắn muốn đăng xuất không?</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={onConfirm}>
+            <Text style={styles.buttonText}>Có</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={onCancel}>
+            <Text style={styles.buttonText}>Không</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  </Modal>
+);
+
 const styles = StyleSheet.create({
+  button: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center',
+    backgroundColor: '#2196F3',
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    width: 300,
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalMessage: {
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
@@ -164,7 +206,7 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   section: {
-    backgroundColor: 'white', // Consistent background for sections
+    backgroundColor: 'white',
     borderRadius: 10,
     padding: 15,
     marginBottom: 15,
@@ -182,7 +224,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
-    backgroundColor: 'white', // Consistent background for list items
+    backgroundColor: 'white',
   },
   itemRow: {
     flexDirection: 'row',
@@ -207,21 +249,6 @@ const styles = StyleSheet.create({
   arrowIcon: {
     width: 20,
     height: 20,
-  },
-  saveText: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: 'Roboto',
-    fontWeight: '500',
-    lineHeight: 22,
-  },
-  bottomContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 20,
-    backgroundColor: '#F5F5F5', // Background matches the overall background
   },
 });
 
