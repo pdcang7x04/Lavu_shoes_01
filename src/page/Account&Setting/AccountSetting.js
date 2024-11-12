@@ -26,8 +26,8 @@ const AccountSetting = props => {
   const appState = useSelector(state => state.lavu);
 
   const [faceIdEnabled, setFaceIdEnabled] = useState(false);
-  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(true);
-  const [locationServicesEnabled, setLocationServicesEnabled] = useState(true);
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(false);
+  const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
 
@@ -35,6 +35,8 @@ const AccountSetting = props => {
     dispatch(logout());
     navigation.navigate(mainstack.login);
   };
+
+  
 
   return (
     <View style={styles.container}>

@@ -42,6 +42,7 @@ const Checkout = props => {
   const [Subtotal, setSubtotal] = useState(localTotal.subtotal);
   const [Shipping, setShipping] = useState(localTotal.shipping);
   const [TotalCost, setTotalCost] = useState(localTotal.totalCost);
+  const [notes, setnotes] = useState('')
 
 
   const handleAddressClick = props => {
@@ -87,6 +88,7 @@ const Checkout = props => {
         paymentmethod: PaymentMethod,
         totalAmount: TotalCost,
         paymentStatus: paymentStatus(),
+        note: notes,
         product: appState.cart.map(item => {
           return {
             product_id: item._id,
@@ -218,6 +220,8 @@ const Checkout = props => {
             <Text>Ghi Chú </Text>
             <View marginV-12>
               <InputView
+                value={notes}
+                onChangeText={(value) => setnotes(value)}
                 backgroundColor='#F8F9FA'
                 paddingV-0
                 placeholder={'nhập gì đó ở đây'}

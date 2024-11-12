@@ -70,13 +70,14 @@ const AppNavigation = () => {
         <Stack.Screen name={mainstack.accountAndSetting} component={AccountSetting} />
         <Stack.Screen name={mainstack.profile} component={Profile} />
         <Stack.Screen name={mainstack.cart} component={Cart} />
-        <Stack.Screen name={mainstack.orderHistory} component={OrderHistory} />
+        <Stack.Screen name={mainstack.orderHistory} component={Notifications} />
         <Stack.Screen name={mainstack.search} component={Search} />
         <Stack.Screen name={mainstack.notification} component={NotiNP} />
         <Stack.Screen name={mainstack.productDetai} component={Detail} />
         <Stack.Screen name={mainstack.limited} component={Limited} />
       </Stack.Navigator>
-      {/* <Toast ref={(ref) => Toast.setRef(ref)} /> */}
+      {/* dòng này không được tắt  */}
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </NavigationContainer>
   );
 };
