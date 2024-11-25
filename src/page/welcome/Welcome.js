@@ -16,7 +16,7 @@ const Welcome = (props) => {
       <Image
         source={require('../../images/logo.png')}
       />
-      <Text style={styles.text}>Lavu’s shoesshop</Text>
+      <Text style={styles.text}>Lavu’s shop</Text>
     </View>
 
   )
