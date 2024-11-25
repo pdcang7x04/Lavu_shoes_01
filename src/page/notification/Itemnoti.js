@@ -5,7 +5,6 @@ import {t} from '../../styles/font';
 const Itemnoti = (props) => {
     const {data} = props;
 
-    console.log("hiôtrry: ", data)
     
     const orderStatus = () => {
       if(data.paymentStatus == 1){

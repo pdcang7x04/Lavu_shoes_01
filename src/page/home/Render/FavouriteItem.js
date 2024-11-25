@@ -36,14 +36,28 @@ const FavouriteItem = ({ item }) => {
         <View style={styles.textContainer}>
           <Text style={styles.textBestSeller}>BÁN CHẠY</Text>
           <Text style={styles.shoeName}>{item?.product[0]?.name}</Text>
-          <Text style={styles.shoePrice}>
-            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.product[0]?.price)}
-          </Text>
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            marginTop: 10
+          }}>
+            <Text style={styles.shoePrice}>
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.product[0]?.price)}
+            </Text>
+            
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={fetchRemoveFavorite}
+            >
+              <Image source={require('../../../images/favorite_2.png')} style={styles.addButtonImage} />
+            </TouchableOpacity>
+            
+          </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.addButton} onPress={fetchRemoveFavorite}>
-        <Image source={require('../../../images/favorite_2.png')} style={styles.addButtonImage} />
-      </TouchableOpacity>
+      
     </View>
   );
 };
@@ -51,7 +65,7 @@ const FavouriteItem = ({ item }) => {
 const styles = StyleSheet.create({
   shoeCard: {
     width: '45%',
-    height: 190,
+    height: 210,
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
     margin: 10,
@@ -78,6 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   shoeName: {
+    height: 18,
     fontSize: 15,
     fontWeight: 'bold',
     color: colors.black1,
@@ -85,15 +100,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   shoePrice: {
-    marginTop:10,
-    fontSize: 12,
+    fontSize: 18,
     color: colors.black1,
     fontFamily: t.Roboto_Bold,
   },
   addButton: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0, 
+    
   },
   addButtonImage: {
     width: 40,

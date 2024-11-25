@@ -54,18 +54,29 @@ const ShoeItem = (props) => {
         <View style={styles.textContainer}>
           <Text style={styles.textStatus}>{statusProduct()}</Text>
           <Text style={styles.shoeName}>{item.name}</Text>
-          <Text style={styles.shoePrice}>
-            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
-          </Text>
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            marginTop: 10
+          }}>
+            <Text style={styles.shoePrice}>
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
+            </Text>
+            
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={fetchInsertfavorite}
+              disabled={isLoading} // Vô hiệu hóa nút khi đang tải
+            >
+              <Image source={require('../../../images/favorite.png')} style={styles.addButtonImage} />
+            </TouchableOpacity>
+            
+          </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.addButton} 
-        onPress={fetchInsertfavorite} 
-        disabled={isLoading} // Vô hiệu hóa nút khi đang tải
-      >
-        <Image source={require('../../../images/favorite.png')} style={styles.addButtonImage} />
-      </TouchableOpacity>
+
     </View>
   );
 };
@@ -73,7 +84,7 @@ const ShoeItem = (props) => {
 const styles = StyleSheet.create({
   shoeCard: {
     width: '45%',
-    height: 190,
+    height: 210,
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
     margin: 10,
@@ -99,6 +110,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   shoeName: {
+    height: 18,
     fontSize: 15,
     fontWeight: 'bold',
     color: colors.black1,
@@ -106,15 +118,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   shoePrice: {
-    marginTop: 10,
-    fontSize: 12,
+    fontSize: 18,
     color: colors.black1,
     fontFamily: t.Roboto_Bold,
   },
   addButton: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
+    
   },
   addButtonImage: {
     width: 40,

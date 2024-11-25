@@ -63,7 +63,7 @@ export const validateEmail = (email) => {
     return true;
 }
 
-function showToast(message, info) {
+export function showToast(message, info) {
     Toast.show({
         text1: message,
         position: 'top',

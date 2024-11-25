@@ -6,9 +6,11 @@ import { mainstack } from '../../navigation/mainstack';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, signInWithGoogle } from '../../redux/User/CallAPIUser';
-import { validateEmail, validatePassword } from '../../middlewares/Validate';
+import { showToast, validateEmail, validatePassword } from '../../middlewares/Validate';
 import AxiosInstance from '../../helper/AxiosInstance';
 import { updateProductFavorite } from '../../redux/Reducer';
+import ReactNativeBiometrics from 'react-native-biometrics';
+const rnBiometrics = new ReactNativeBiometrics({ allowDeviceCredentials: true })
 
 const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
@@ -51,7 +53,7 @@ const Login = (props) => {
     }
   }
 
-  
+
   // ĐĂNG NHẬP
   const handleLogin = async () => {
 
@@ -62,7 +64,7 @@ const Login = (props) => {
           email: Email,
           password: Password
         }
-        
+
         dispatch(login(body))
         navigation.navigate(mainstack.bottomnavigation)
       } else {
@@ -82,7 +84,28 @@ const Login = (props) => {
     }
   }
 
+//   const handleBiometricLogin = async () => {
+//     try {
+//         const result = await rnBiometrics.isSensorAvailable();
+//         const { available } = result;
 
+//         if (available) {
+//             const promptResult = await rnBiometrics.simplePrompt({ promptMessage: 'Đăng nhập bằng sinh trắc học' });
+//             const { success } = promptResult;
+
+//             if (success) {
+//                 showToast('Đăng nhập thành công!', 'success');
+//             } else {
+//                 showToast('Đăng nhập thất bại!', 'error');
+//             }
+//         } else {
+//             showToast('Sinh trắc học không khả dụng!', 'error');
+//         }
+//     } catch (error) {
+//         console.error('Lỗi khi kiểm tra sinh trắc học:', error);
+//         showToast('Lỗi khi kiểm tra sinh trắc học!', 'error');
+//     }
+// };
   return (
     <View style={styles.container}>
 
@@ -147,10 +170,18 @@ const Login = (props) => {
         <Text style={styles.textButton}>Đăng nhập bằng Google</Text>
       </TouchableOpacity>
 
+      {/* <TouchableOpacity
+        style={styles.viewButtonSignIn}
+        onPress={handleBiometricLogin}
+      >
+        
+        <Text style={styles.textButton}>Đăng nhập bằng biomentric</Text>
+      </TouchableOpacity> */}
+
       <View style={{ flex: 1 }} />
 
       <Text style={styles.textBottom}>
-      Bạn Chưa có Tài Khoản? {' '}
+        Bạn Chưa có Tài Khoản? {' '}
         <Text style={styles.color} onPress={() => navigation.navigate(mainstack.register)}>Đăng Ký</Text>
       </Text>
     </View>

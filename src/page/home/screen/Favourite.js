@@ -34,6 +34,7 @@ const Favourite = (props) => {
     }
   }, [appState.user.email, dispatch]); // Chỉ gọi lại khi email thay đổi
 
+  console.log(appState.user.email)
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>

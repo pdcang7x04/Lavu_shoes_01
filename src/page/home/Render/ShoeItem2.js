@@ -63,13 +63,14 @@ const styles = StyleSheet.create({
       marginBottom: 5,
     },
     shoeName: {
+      height: 36,
       fontSize: 14,
       fontWeight: 'bold',
       color: '#000000',
       marginBottom: 5,
     },
     shoePrice: {
-      fontSize: 12,
+      fontSize: 18,
       color: '#000000',
     },
     shoeImage: {
