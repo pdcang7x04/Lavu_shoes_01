@@ -35,6 +35,7 @@ import NotiNP from '../page/notificationNP/NotiNP';
 import BestSeller from '../page/home/screen/Best_Seller';
 import Limited from '../page/home/screen/LImited';
 import Detail from '../page/detail/Detail';
+import Testpayment from '../page/checkout/Testpayment';
 
 const useAppSelector = useSelector;
 const Stack = createNativeStackNavigator();
@@ -75,6 +76,7 @@ const AppNavigation = () => {
         <Stack.Screen name={mainstack.notification} component={NotiNP} />
         <Stack.Screen name={mainstack.productDetai} component={Detail} />
         <Stack.Screen name={mainstack.limited} component={Limited} />
+        <Stack.Screen name={mainstack.payment} component={Testpayment} />
       </Stack.Navigator>
       {/* dòng này không được tắt  */}
       <Toast ref={(ref) => Toast.setRef(ref)} />

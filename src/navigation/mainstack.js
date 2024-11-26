@@ -2,6 +2,7 @@ import DetailOrder from "../page/checkout/DetailOrder";
 import Comment from "../page/Comment/Comment";
 
 export const mainstack = {
+  payment: 'payment',
   welcome: 'welcome',
   onboard1: 'onboard_1',
   onboard2: 'onboard_2',

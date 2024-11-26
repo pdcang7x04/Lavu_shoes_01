@@ -21,6 +21,7 @@ import DetailOrder from '../page/checkout/DetailOrder';
 import Limited from '../page/home/screen/LImited';
 import UserNavigation from './UserNavigation';
 import Login from '../page/Login/Login';
+import Testpayment from '../page/checkout/Testpayment';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +47,7 @@ const MainNavigation = () => {
       <Stack.Screen name ={mainstack.Comment} component={Comment}/>
       <Stack.Screen name={mainstack.DetailOrder} component={DetailOrder}/>
       <Stack.Screen name={mainstack.limited} component={Limited}/>
-
+      <Stack.Screen name={mainstack.payment} component={Testpayment} />
     </Stack.Navigator>
   )
 }

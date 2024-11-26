@@ -217,6 +217,18 @@ const Checkout = props => {
               </View>
               <Image source={require('../../images/icon_down.png')} />
             </View>
+            <TouchableOpacity onPress={() => {
+                  setVisibleDialog(false);
+                  navigation.navigate(mainstack.payment);
+                }}>
+            <View style={styles.infoRow}>
+              <Image source={require('../../images/icon_momo.png')} />
+              <View style={styles.paymentDetailsContainer}>
+                <Text style={styles.textField}>Thanh Toan QR Ngan Hang</Text>
+              </View>
+              <Image source={require('../../images/icon_down.png')} />
+            </View>
+            </TouchableOpacity>
             <Text>Ghi Chú </Text>
             <View marginV-12>
               <InputView
@@ -377,7 +389,6 @@ const styles = StyleSheet.create({
   paymentDetailsContainer: {
     flex: 1,
     marginLeft: 10,
-    marginTop: 20,
     justifyContent: 'center',
   },
   cardInfoRow: {
