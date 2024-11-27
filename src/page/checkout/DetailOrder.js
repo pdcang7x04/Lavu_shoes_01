@@ -186,10 +186,10 @@ const DetailOrder = props => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Phương Thức Thanh Toán</Text>
             <View style={styles.infoRow}>
-              <Image
+              {/* <Image
                 source={require('../../images/icon_momo.png')}
                 style={styles.iconMomo}
-              />
+              /> */}
               <View style={styles.paymentDetailsContainer}>
                 <Text style={styles.textField}>{DetailOrder?.paymentmethod}</Text>
               </View>

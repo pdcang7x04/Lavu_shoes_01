@@ -103,7 +103,8 @@ const Checkout = props => {
       if (response.status) {
         dispatch(clearCart());
         if (PaymentMethod.method === "Thanh toán QR ngân hàng") {
-          navigation.navigate(mainstack.payment, { totalCost: TotalCost });
+          console.log(response.data)
+          navigation.navigate(mainstack.payment, { totalCost: TotalCost, id: response?.data?._id });
         }else {
           Alert.alert('Thành công', 'Thanh toán thành công');
           navigation.navigate(mainstack.home)
@@ -229,7 +230,7 @@ const Checkout = props => {
               // navigation.navigate(mainstack.payment, {totalCost: TotalCost});
             }}>
               <View style={styles.infoRow}>
-                <Image source={PaymentMethod !== null ? PaymentMethod.icon : {}}
+                <Image source={PaymentMethod && PaymentMethod.icon  ? PaymentMethod.icon : {}}
                   style={{
                     width: 24,
                     height: 24
@@ -237,7 +238,7 @@ const Checkout = props => {
                   }}
                 />
                 <View style={styles.paymentDetailsContainer}>
-                  <Text style={styles.textField}>{PaymentMethod.length > 0 ? PaymentMethod.method : "Hãy chọn phương thức thanh toán"}</Text>
+                  <Text style={styles.textField}>{PaymentMethod && PaymentMethod.method  ? PaymentMethod.method : "Hãy chọn phương thức thanh toán"}</Text>
                 </View>
                 <Image source={require('../../images/icon_down.png')} />
               </View>

@@ -4,13 +4,14 @@ import { WebView } from 'react-native-webview';
 import axios from 'axios';
 import { hmacSHA256 } from 'react-native-hmac';
 import { mainstack } from '../../navigation/mainstack';
+import AxiosInstance from '../../helper/AxiosInstance';
 
 const clientID = '77ac1b37-49f3-4179-91b3-fe8340fb462e';
 const apiKey = 'f9348068-0359-4548-b6ab-d590ec9083e3';
 const checkSum = '3245da7579424aa57a21a9dce55ebde055e8caddaf42feb3f90f4e79526486a5';
 const Testpayment = (props) => {
     const {route, navigation} = props
-    const {totalCost} = route.params
+    const {totalCost, id} = route.params
     const [paymentLink, setPaymentLink] = useState('');
     const [loading, setLoading] = useState(false);
   
@@ -63,8 +64,8 @@ const Testpayment = (props) => {
       initiatePayment()
     }, [])
     
-  
-    const handleNavigationChange = (navState) => {
+  console.log('id: ', id)
+    const handleNavigationChange = async (navState) => {
       const { url } = navState;
       console.log('Current URL:', url);
       if (url.includes('/success')) {
@@ -72,9 +73,20 @@ const Testpayment = (props) => {
         setPaymentLink('');
         navigation.navigate(mainstack.home)
       } else if (url.includes('/cancel')) {
+        try {
+          const response = await AxiosInstance().put(
+            `/orders/updateStatusOrder/${id}`, {paymentStatus: 1}
+          )
+          if(response.status){
+            console.log(response.data)
+            navigation.navigate(mainstack.home)
+          }
+        } catch (error) {
+          console.log(error)
+        }
         Alert.alert('Thất bại', 'Đã hủy thanh toán.');
         setPaymentLink('');
-        navigation.navigate(mainstack.home)
+        
       }
     };
   
