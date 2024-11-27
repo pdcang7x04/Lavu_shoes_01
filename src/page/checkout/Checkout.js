@@ -11,15 +11,16 @@ import {
   Linking,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomDialog from '../../components/CustomDialog';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AxiosInstance from '../../helper/AxiosInstance';
-import {mainstack} from '../../navigation/mainstack';
-import {clearCart} from '../../redux/Reducer';
+import { mainstack } from '../../navigation/mainstack';
+import { clearCart } from '../../redux/Reducer';
 import Toast from 'react-native-toast-message';
-import {t} from '../../styles/font';
+import { t } from '../../styles/font';
 import InputView from '../../components/InputView';
 import ItemCheckout from './ItemCheckout';
 import ItemCart from '../Cart/ItemCart';
@@ -28,15 +29,15 @@ const useAppDispatcher = () => useDispatch();
 const useAppSelector = useSelector;
 
 const Checkout = props => {
-  const {navigation, route} = props;
-  const {total} = route?.params;
+  const { navigation, route } = props;
+  const { total } = route?.params;
   const [localTotal, setLocalTotal] = useState(total);
 
   const dispatch = useDispatch();
   const appState = useAppSelector(state => state.lavu);
 
   const [visibleDialog, setVisibleDialog] = useState(false);
-  const [PaymentMethod, setPaymentMethod] = useState('MoMo');
+  const [PaymentMethod, setPaymentMethod] = useState({});
   const [Phone, setPhone] = useState(appState.user?.phone);
   const [Address, setAddress] = useState(appState.user.address);
   const [Subtotal, setSubtotal] = useState(localTotal.subtotal);
@@ -46,7 +47,7 @@ const Checkout = props => {
 
 
   const handleAddressClick = props => {
-    const {navigation} = props;
+    const { navigation } = props;
     const address = appState.user?.address;
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       address,
@@ -85,7 +86,7 @@ const Checkout = props => {
       }
       const orders = {
         user: appState.user.email,
-        paymentmethod: PaymentMethod,
+        paymentmethod: PaymentMethod.method,
         totalAmount: TotalCost,
         paymentStatus: paymentStatus(),
         note: notes,
@@ -101,7 +102,13 @@ const Checkout = props => {
       const response = await AxiosInstance().post('/orders/createOder', orders);
       if (response.status) {
         dispatch(clearCart());
-        setVisibleDialog(true);
+        if (PaymentMethod.method === "Thanh toán QR ngân hàng") {
+          navigation.navigate(mainstack.payment, { totalCost: TotalCost });
+        }else {
+          Alert.alert('Thành công', 'Thanh toán thành công');
+          navigation.navigate(mainstack.home)
+        }
+        
       }
     } catch (error) {
       console.log(error);
@@ -110,10 +117,10 @@ const Checkout = props => {
   // console.log(appState.cart.map(item => item._id));
 
   const paymentStatus = () => {
-    if (PaymentMethod === 'Thanh toán khi nhận hàng') {
+    if (PaymentMethod.method === 'Thanh toán khi nhận hàng') {
       return 1;
     }
-    if (PaymentMethod === 'MoMo') {
+    if (PaymentMethod.method === 'Thanh toán QR ngân hàng') {
       return 2;
     }
   };
@@ -137,17 +144,17 @@ const Checkout = props => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAvoidingView>
           <View style={styles.header}>
-            <TouchableOpacity 
-            
-            onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+
+              onPress={() => navigation.goBack()}>
               <Image
                 source={require('../../images/icon_back.png')}
                 style={styles.iconBack}
               />
             </TouchableOpacity>
             <Text style={styles.headerText}>Thanh Toán</Text>
-            <TouchableOpacity 
-              
+            <TouchableOpacity
+
               onPress={() => navigation.goBack()}>
               <Image source={{}} style={styles.iconBack} />
             </TouchableOpacity>
@@ -209,25 +216,31 @@ const Checkout = props => {
           </View>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Phương Thức Thanh Toán</Text>
-            <View style={styles.infoRow}>
+            {/* <View style={styles.infoRow}>
               <Image source={require('../../images/icon_momo.png')} />
               <View style={styles.paymentDetailsContainer}>
                 <Text style={styles.textField}>Ví điện tử Momo</Text>
                 <Text style={styles.textCardNumber}>**** **** 0696 4629</Text>
               </View>
               <Image source={require('../../images/icon_down.png')} />
-            </View>
+            </View> */}
             <TouchableOpacity onPress={() => {
-                  setVisibleDialog(false);
-                  navigation.navigate(mainstack.payment);
-                }}>
-            <View style={styles.infoRow}>
-              <Image source={require('../../images/icon_momo.png')} />
-              <View style={styles.paymentDetailsContainer}>
-                <Text style={styles.textField}>Thanh Toan QR Ngan Hang</Text>
+              setVisibleDialog(true);
+              // navigation.navigate(mainstack.payment, {totalCost: TotalCost});
+            }}>
+              <View style={styles.infoRow}>
+                <Image source={PaymentMethod !== null ? PaymentMethod.icon : {}}
+                  style={{
+                    width: 24,
+                    height: 24
+
+                  }}
+                />
+                <View style={styles.paymentDetailsContainer}>
+                  <Text style={styles.textField}>{PaymentMethod.length > 0 ? PaymentMethod.method : "Hãy chọn phương thức thanh toán"}</Text>
+                </View>
+                <Image source={require('../../images/icon_down.png')} />
               </View>
-              <Image source={require('../../images/icon_down.png')} />
-            </View>
             </TouchableOpacity>
             <Text>Ghi Chú </Text>
             <View marginV-12>
@@ -283,27 +296,27 @@ const Checkout = props => {
               </View>
             </View>
 
-            
 
-          <TouchableOpacity  
-            style={{
-              width: "100%",
-              height: 54,
-              backgroundColor: colors.orange1,
-              borderRadius: 50,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 24
-            }}
-            onPress={() => {
-            handleOrder()
-          }}>
-            <Text style={{
-              fontFamily: t.Roboto_Bold,
-              fontWeight: '700',
-              fontSize: 18,
-              color: colors.white
-            }}>Xác nhận</Text>
+
+            <TouchableOpacity
+              style={{
+                width: "100%",
+                height: 54,
+                backgroundColor: colors.orange1,
+                borderRadius: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 24
+              }}
+              onPress={() => {
+                handleOrder()
+              }}>
+              <Text style={{
+                fontFamily: t.Roboto_Bold,
+                fontWeight: '700',
+                fontSize: 18,
+                color: colors.white
+              }}>Xác nhận</Text>
             </TouchableOpacity>
           </View>
 
@@ -311,7 +324,7 @@ const Checkout = props => {
             visible={visibleDialog}
             onDismiss={() => setVisibleDialog(false)}>
             <Card center paddingV-40 paddingH-40 style={styles.dialogCard}>
-              <View paddingH-25>
+              {/* <View paddingH-25>
                 <Image
                   source={require('../../images/icon_payment_done.png')}
                   style={styles.paymentIcon}
@@ -335,6 +348,46 @@ const Checkout = props => {
                     Tiếp Tục Mua Sắm
                   </Text>
                 </Card>
+              </TouchableOpacity> */}
+
+              <Text style={styles.sectionTitle}>Phương Thức Thanh Toán</Text>
+              <TouchableOpacity style={styles.infoRow}
+                onPress={() => {
+                  setPaymentMethod({
+                    icon: require('../../images/icon_qr.png'),
+                    method: "Thanh toán QR ngân hàng"
+                  })
+                  setVisibleDialog(false)
+                }}>
+                <Image source={require('../../images/icon_qr.png')}
+                  style={{
+                    width: 24,
+                    height: 24
+                  }}
+                />
+                <View style={styles.paymentDetailsContainer}>
+                  <Text style={styles.textField}>Thanh toán QR ngân hàng</Text>
+                </View>
+
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.infoRow}
+                onPress={() => {
+                  setPaymentMethod({
+                    icon: require('../../images/icon_cash.png'),
+                    method: "Thanh toán khi nhận hàng"
+                  })
+                  setVisibleDialog(false)
+                }}>
+                <Image source={require('../../images/icon_cash.png')}
+                  style={{
+                    width: 24,
+                    height: 24
+                  }}
+                />
+                <View style={styles.paymentDetailsContainer}>
+                  <Text style={styles.textField}>Thanh toán khi nhận hàng</Text>
+                </View>
+
               </TouchableOpacity>
             </Card>
           </CustomDialog>
@@ -385,6 +438,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 20,
+    marginBottom: 20
   },
   paymentDetailsContainer: {
     flex: 1,

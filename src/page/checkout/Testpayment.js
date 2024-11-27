@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView, Button, Alert, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 import axios from 'axios';
 import { hmacSHA256 } from 'react-native-hmac';
+import { mainstack } from '../../navigation/mainstack';
 
 const clientID = '77ac1b37-49f3-4179-91b3-fe8340fb462e';
 const apiKey = 'f9348068-0359-4548-b6ab-d590ec9083e3';
 const checkSum = '3245da7579424aa57a21a9dce55ebde055e8caddaf42feb3f90f4e79526486a5';
-const Testpayment = () => {
+const Testpayment = (props) => {
+    const {route, navigation} = props
+    const {totalCost} = route.params
     const [paymentLink, setPaymentLink] = useState('');
     const [loading, setLoading] = useState(false);
   
@@ -20,13 +23,13 @@ const Testpayment = () => {
       const returnUrl = 'https://localhost:3000/success';
   
       const signature = await hmacSHA256(
-        `amount=${amount}&cancelUrl=${cancelUrl}&description=${description}&orderCode=${orderCode}&returnUrl=${returnUrl}`,
+        `amount=${totalCost}&cancelUrl=${cancelUrl}&description=${description}&orderCode=${orderCode}&returnUrl=${returnUrl}`,
         checkSum
       );
   
       const body = {
         orderCode,
-        amount,
+        amount: totalCost,
         description,
         cancelUrl,
         returnUrl,
@@ -55,6 +58,11 @@ const Testpayment = () => {
         setLoading(false);
       }
     };
+
+    useEffect(() => {
+      initiatePayment()
+    }, [])
+    
   
     const handleNavigationChange = (navState) => {
       const { url } = navState;
@@ -62,15 +70,17 @@ const Testpayment = () => {
       if (url.includes('/success')) {
         Alert.alert('Thành công', 'Thanh toán thành công');
         setPaymentLink('');
+        navigation.navigate(mainstack.home)
       } else if (url.includes('/cancel')) {
         Alert.alert('Thất bại', 'Đã hủy thanh toán.');
         setPaymentLink('');
+        navigation.goBack()
       }
     };
   
     return (
       <View style={styles.container}>
-        <Button title="Lay QR Thanh Toan Nha" onPress={initiatePayment} disabled={loading} />
+        {/* <Button title="Lay QR Thanh Toan Nha" onPress={initiatePayment} disabled={loading} /> */}
         {loading && <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />}
         {paymentLink ? (
           <ScrollView contentContainerStyle={styles.scrollView}>
