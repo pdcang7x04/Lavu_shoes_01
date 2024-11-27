@@ -74,7 +74,7 @@ const Testpayment = (props) => {
       } else if (url.includes('/cancel')) {
         Alert.alert('Thất bại', 'Đã hủy thanh toán.');
         setPaymentLink('');
-        navigation.goBack()
+        navigation.navigate(mainstack.home)
       }
     };
   
