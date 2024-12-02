@@ -30,7 +30,7 @@ const FavouriteItem = ({ item }) => {
   return (
     <View style={styles.shoeCard}>
       <TouchableOpacity
-        onPress={() => navigation.navigate(mainstack.productDetail, { product: item?.product[0] })}
+        onPress={() => navigation.navigate(mainstack.productDetai, { product: item?.product[0] })}
       >
         <Image source={{ uri: item?.product[0]?.image[0] }} style={styles.shoeImage} />
         <View style={styles.textContainer}>

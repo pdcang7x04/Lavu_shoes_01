@@ -10,6 +10,7 @@ import { showToast, validateEmail, validatePassword } from '../../middlewares/Va
 import AxiosInstance from '../../helper/AxiosInstance';
 import { updateProductFavorite } from '../../redux/Reducer';
 import ReactNativeBiometrics from 'react-native-biometrics';
+import Toast from 'react-native-toast-message';
 const rnBiometrics = new ReactNativeBiometrics({ allowDeviceCredentials: true })
 
 const useAppDispatcher = () => useDispatch();
@@ -65,8 +66,17 @@ const Login = (props) => {
           password: Password
         }
 
-        dispatch(login(body))
-        navigation.navigate(mainstack.bottomnavigation)
+        const data = await dispatch(login(body))
+        
+        if (data?.meta?.requestStatus === "fulfilled") {
+          navigation.navigate(mainstack.bottomnavigation)
+        } else {
+          return Toast.show({
+            text1: "Email hoặc mặt khẩu không đúng",
+            position: "top",
+            type: "error"
+          })
+        }
       } else {
         return
       }
@@ -84,28 +94,28 @@ const Login = (props) => {
     }
   }
 
-//   const handleBiometricLogin = async () => {
-//     try {
-//         const result = await rnBiometrics.isSensorAvailable();
-//         const { available } = result;
+  //   const handleBiometricLogin = async () => {
+  //     try {
+  //         const result = await rnBiometrics.isSensorAvailable();
+  //         const { available } = result;
 
-//         if (available) {
-//             const promptResult = await rnBiometrics.simplePrompt({ promptMessage: 'Đăng nhập bằng sinh trắc học' });
-//             const { success } = promptResult;
+  //         if (available) {
+  //             const promptResult = await rnBiometrics.simplePrompt({ promptMessage: 'Đăng nhập bằng sinh trắc học' });
+  //             const { success } = promptResult;
 
-//             if (success) {
-//                 showToast('Đăng nhập thành công!', 'success');
-//             } else {
-//                 showToast('Đăng nhập thất bại!', 'error');
-//             }
-//         } else {
-//             showToast('Sinh trắc học không khả dụng!', 'error');
-//         }
-//     } catch (error) {
-//         console.error('Lỗi khi kiểm tra sinh trắc học:', error);
-//         showToast('Lỗi khi kiểm tra sinh trắc học!', 'error');
-//     }
-// };
+  //             if (success) {
+  //                 showToast('Đăng nhập thành công!', 'success');
+  //             } else {
+  //                 showToast('Đăng nhập thất bại!', 'error');
+  //             }
+  //         } else {
+  //             showToast('Sinh trắc học không khả dụng!', 'error');
+  //         }
+  //     } catch (error) {
+  //         console.error('Lỗi khi kiểm tra sinh trắc học:', error);
+  //         showToast('Lỗi khi kiểm tra sinh trắc học!', 'error');
+  //     }
+  // };
   return (
     <View style={styles.container}>
 

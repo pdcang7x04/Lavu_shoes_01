@@ -24,17 +24,24 @@ const Profile = (props) => {
 
   const [Username, setUsername] = useState(appState.user.username)
   const [Email, setEmail] = useState(appState.user.email)
-
+  const [DisplayedUsername, setDisplayedUsername] = useState(appState.user.username);
+  
+  
+  
   const data = {
     username: Username,
     email: Email,
     image: appState.user.image
   }
 
+
   const handleSave = async () => {
     const response = await AxiosInstance().put(`/users/updateUser/${appState.user._id}`, data);
     console.log('res: ', response.data);
     if (response.status) {
+      setDisplayedUsername(response?.data?.username)
+      setUsername(response?.data?.username)
+      setEmail(response?.data?.email)
       dispatch(updateUser(response.data))
       ToastAndroid.show("success", ToastAndroid.SHORT)
     }
@@ -63,7 +70,7 @@ const Profile = (props) => {
                   <Image source={require('../../images/camera.png')} />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.textUserName}>{appState.user.username}</Text>
+              <Text style={styles.textUserName}>{DisplayedUsername}</Text>
             </View>
             <View paddingH-20 marginT-32>
               <View marginT-16 gap-12>

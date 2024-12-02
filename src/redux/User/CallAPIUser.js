@@ -54,12 +54,7 @@ export const login = createAsyncThunk(
       const res = await AxiosInstance().post('/users/login', data);
       const result = res.data;
       console.log(result)
-      // const account = { 
-      //   email: result.email,
-      //   username: result.username,
-      //   image: result.image
-      // }; // Lấy email từ trạng thái hoặc một nguồn khác
-      // await AsyncStorage.setItem('account', JSON.stringify(account));
+      
       return result;
     } catch (error) {
       return rejectWithValue(error.res.data);
